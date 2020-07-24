@@ -1,7 +1,5 @@
 package com.thunderfat.springboot.backend.model.service;
 
-import static org.assertj.core.api.Assertions.assertThatIllegalStateException;
-
 import java.util.List;
 import java.util.Optional;
 
