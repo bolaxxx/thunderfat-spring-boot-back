@@ -1,28 +1,29 @@
 package com.thunderfat.springboot.backend.model.entity;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
+import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "comidas")
+@Data
+@NoArgsConstructor
 public class Comida implements Serializable{
 	/**
 	 * 
@@ -40,79 +41,19 @@ public class Comida implements Serializable{
 	private int  valoracion;
 	
 	//private double cantidad;
-	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn
 	@JsonIgnoreProperties({"hibernateLazyInitializer","hanlder"})
 	private List<PlatoPlanDieta> platos;
-	
-	public Comida() {
+
+	public Comida(int id, LocalTime hora, int valoracion, List<PlatoPlanDieta> platos) {
 		super();
-		this.platos=new ArrayList<PlatoPlanDieta>();
-	}
-
-
-
-
-
-
-
-//	public LocalDate getFecha() {
-//		return fecha;
-//	}
-//
-//
-//
-//
-//
-//	public void setFecha(LocalDate fecha) {
-//		this.fecha = fecha;
-//	}
-
-
-
-
-
-
-
-
-
-	
-
-
-
-
-	public int getId() {
-		return id;
-	}
-
-
-
-
-
-
-
-	public void setId(int id) {
 		this.id = id;
-	}
-
-
-
-
-
-
-
-	public int getValoracion() {
-		return valoracion;
-	}
-
-
-
-
-
-	public void setValoracion(int valoracion) {
+		this.hora = hora;
 		this.valoracion = valoracion;
+		this.platos = platos;
 	}
-
+	
 
 
 

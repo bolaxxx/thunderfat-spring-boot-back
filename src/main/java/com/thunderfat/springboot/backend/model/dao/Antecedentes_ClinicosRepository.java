@@ -7,9 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.entity.AntecedentesClinicos;
+
 @Repository
 public interface Antecedentes_ClinicosRepository extends JpaRepository<AntecedentesClinicos, Integer> {
-//List<Antecedentes_Clinicos> findByPaciente(Paciente paciente);
-	@Query("select p from AntecedentesClinicos p where id_paciente=?1")
-	List<AntecedentesClinicos> buscarporPaciente(int id_paciente);
+
+    @Query("SELECT p FROM AntecedentesClinicos p WHERE id_paciente = ?1")
+    List<AntecedentesClinicos> buscarPorPaciente(int id_paciente);
+
+    // Agrega aquí más consultas personalizadas según tus necesidades
+
 }

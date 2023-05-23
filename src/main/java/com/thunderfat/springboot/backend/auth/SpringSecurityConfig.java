@@ -1,45 +1,70 @@
 package com.thunderfat.springboot.backend.auth;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import lombok.RequiredArgsConstructor;
+
+
+@EnableWebSecurity
+@RequiredArgsConstructor
 @Configuration
-public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
-	@Autowired
-	private UserDetailsService userService;
+public class SpringSecurityConfig  {
+	private final UserDetailsService userDetailsService;
+	private final JwtAuthenticationFilter jwtAutheFilter;
+	private final AuthenticationProvider autenticationProvider;
 
+ 
 	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
+	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-
-	@Override
-	@Autowired
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-
-		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-	}
-
-	@Override
+ 
 	@Bean
-	protected AuthenticationManager authenticationManager() throws Exception {
-		// TODO Auto-generated method stub
-		return super.authenticationManager();
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
 	}
-
-	@Override
-	public void configure(HttpSecurity http) throws Exception {
-		// TODO Auto-generated method stub
-		http.authorizeRequests().anyRequest().authenticated()
-				.and().csrf().disable().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+ 
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf()
+		.disable()
+		.authorizeHttpRequests()
+		.requestMatchers()
+		.permitAll()
+		.anyRequest()
+		.authenticated()
+		.and()
+		.sessionManagement()
+		.SessionCreationPolicy( SessionCreationPolicy.STATELESS)
+		.and()
+		.authenticationProvider(autenticationProvider)
+		.addFilterBefore(jwtAutheFilter, UsernamePasswordAuthenticationFilter.class)
+		return http.build();
 	}
-
+ 
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**")
+						.allowedMethods("*");
+			}
+		};
+	}
 }

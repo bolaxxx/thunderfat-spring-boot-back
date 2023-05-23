@@ -14,40 +14,39 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.thunderfat.springboot.backend.model.entity.AntecedentesClinicos;
-import com.thunderfat.springboot.backend.model.entity.MedicionSegmental;
 import com.thunderfat.springboot.backend.model.service.IAntecedente_ClinicoService;
 
-@CrossOrigin(origins={"http://localhost:4200"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping(value="/antecedente_clinico")
+@RequestMapping(value = "/antecedente_clinico")
 public class AntecedentesClinicosRestController {
 	@Autowired
-	private IAntecedente_ClinicoService medicionService;
+	private IAntecedente_ClinicoService antecedenteClinicoService;
 	
-	@GetMapping(value="/{id}/")
-	public List<AntecedentesClinicos> listarPorPaciente(@PathVariable("id")int id){
-		
-		return this.medicionService.listarAntecedenteporPaciente(id);
-	}
-	@GetMapping(value="/detalle/{id}")
-	public AntecedentesClinicos buscarporId(@PathVariable(name="id")int id ) {
-		return this.medicionService.buscarPorID(id);
-	}
-	@PostMapping(value="/save/{id}")
-	public AntecedentesClinicos anadirMedicion(@PathVariable("id") int id_paciente,@RequestBody AntecedentesClinicos medicion){
-		
-	this.medicionService.insertar(medicion, id_paciente);
-		return null;
-	}
-	@PutMapping(value="actualizar/{id}")
-	public AntecedentesClinicos actulizar(@PathVariable("id")int id_paciente,@RequestBody AntecedentesClinicos medicion) {
-		
-		return null;
+	@GetMapping(value = "/{id}/")
+	public List<AntecedentesClinicos> listarPorPaciente(@PathVariable int id) {
+		return antecedenteClinicoService.listarAntecedenteporPaciente(id);
 	}
 	
-	@DeleteMapping(value="eliminar/{id}")
-	public MedicionSegmental borrar(@PathVariable("id")int id_medicion) {
-		this.medicionService.eliminar(id_medicion);
-		return null;
+	@GetMapping(value = "/detalle/{id}")
+	public AntecedentesClinicos buscarPorId(@PathVariable int id) {
+		return antecedenteClinicoService.buscarPorID(id);
+	}
+	
+	@PostMapping(value = "/save/{id}")
+	public AntecedentesClinicos anadirMedicion(@PathVariable("id") int id_paciente, @RequestBody AntecedentesClinicos medicion) {
+		antecedenteClinicoService.insertar(medicion, id_paciente);
+		return medicion;
+	}
+	
+	@PutMapping(value = "/actualizar/{id}")
+	public AntecedentesClinicos actualizar(@PathVariable("id") int id_paciente, @RequestBody AntecedentesClinicos medicion) {
+		// Implement update logic here
+		return medicion;
+	}
+	
+	@DeleteMapping(value = "/eliminar/{id}")
+	public void borrar(@PathVariable("id") int id_medicion) {
+		antecedenteClinicoService.eliminar(id_medicion);
 	}
 }

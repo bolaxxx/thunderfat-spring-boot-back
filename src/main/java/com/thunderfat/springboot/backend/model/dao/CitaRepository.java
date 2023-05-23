@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.entity.Cita;
-import com.thunderfat.springboot.backend.model.entity.Paciente;
 @Repository
 public interface CitaRepository extends JpaRepository<Cita, Integer> {
 	//List<Cita> findByPaciente(Paciente paciente);

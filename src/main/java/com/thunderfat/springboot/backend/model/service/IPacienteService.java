@@ -1,22 +1,20 @@
 package com.thunderfat.springboot.backend.model.service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-import com.thunderfat.springboot.backend.model.entity.Paciente;
+import com.thunderfat.springboot.backend.model.dto.PacienteDTO;
 
 
 
 public interface IPacienteService {
-	List <Paciente> ListarPaciente();
-	void insertar(Paciente paciente);
-	Paciente buscarPorId(int id_paciente);
+	List<PacienteDTO> ListarPaciente();
+	void insertar(PacienteDTO paciente);
+	PacienteDTO buscarPorId(int id_paciente);
 	void eliminar(int id_paciente);
-List<Paciente> listarPacienteNutrcionista(int id_nutricionista);
-List<Paciente> buscarNombreCompleto (int id ,String searchterm );
-List<Paciente> buscarPorDni(int id , String Dni);
-List<Paciente> buscarPorTelefono(String email, int id );
+	List<PacienteDTO> listarPacienteNutrcionista(int id_nutricionista);
+	List<PacienteDTO> buscarNombreCompleto (int id ,String searchterm );
+	List<PacienteDTO> buscarPorDni(int id , String Dni);
+	List<PacienteDTO> buscarPorTelefono(String email, int id );
 //	ArrayList<Map>listarPacienteNutricionistaSelect(int id_nutricionista); 
 	
 }

@@ -1,8 +1,5 @@
 package com.thunderfat.springboot.backend.model.service;
 
-import java.util.List;
-
-import com.thunderfat.springboot.backend.model.entity.Nutricionista;
 import com.thunderfat.springboot.backend.model.entity.PlatoPlanDieta;
 
 public interface IPlatoPlanDietaService {

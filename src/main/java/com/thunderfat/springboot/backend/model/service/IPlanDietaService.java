@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.List;
 
 import com.thunderfat.springboot.backend.model.entity.Ingrediente;
-import com.thunderfat.springboot.backend.model.entity.Nutricionista;
-import com.thunderfat.springboot.backend.model.entity.Paciente;
 import com.thunderfat.springboot.backend.model.entity.PlanDieta;
 
 public interface IPlanDietaService  {

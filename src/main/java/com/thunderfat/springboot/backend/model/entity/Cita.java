@@ -3,22 +3,26 @@ package com.thunderfat.springboot.backend.model.entity;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 @Entity 
 @Table(name="cita")
+@Data
+@NoArgsConstructor
 public class Cita implements Serializable{
 	/**
 	 * 
@@ -40,124 +44,4 @@ public class Cita implements Serializable{
 	@JoinColumn(name="id_nutricionista")	
 	@JsonIgnoreProperties({"hibernateLazyInitializer","hanlder","citas","pacientes"})
 	private Nutricionista nutricionista;
-	public Cita() {
-		super();
-		this.paciente= new Paciente();
-		this.nutricionista= new Nutricionista();
-	}
-
-
-
-
-
-
-
-	public LocalDateTime getFechaini() {
-		return fechaini;
-	}
-
-
-
-	public void setFechaini(LocalDateTime fechaini) {
-		this.fechaini = fechaini;
-	}
-
-
-
-	public LocalDateTime getFechafin() {
-		return fechafin;
-	}
-
-
-
-	public void setFechafin(LocalDateTime fechafin) {
-		this.fechafin = fechafin;
-	}
-
-
-
-	public Paciente getPaciente() {
-		return paciente;
-	}
-
-
-
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
-
-
-
-	
-
-
-	
-
-
-	public int getId() {
-		return id;
-	}
-
-
-
-
-
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-
-
-
-
-
-	@Override
-	public String toString() {
-		return "Cita [id=" + id + ", fechaini=" + fechaini + ", fechafin=" + fechafin + ", paciente="
-				+ paciente.getId() + ", nutricionista=" + nutricionista.getId() + "]";
-	}
-
-
-
-	public Nutricionista getNutricionista() {
-		return nutricionista;
-	}
-
-
-
-	public void setNutricionista(Nutricionista nutricionista) {
-		this.nutricionista = nutricionista;
-	}
-
-
-
-
-
-
-
-	
-
-
-	
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-	
-	
 }

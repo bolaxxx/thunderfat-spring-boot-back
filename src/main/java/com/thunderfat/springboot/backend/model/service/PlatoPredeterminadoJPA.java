@@ -19,7 +19,7 @@ private PlatoPredeterminadoRepository repo;
 private NutricionistaServiceJPA serviceNutricionista;
 @Override
 public PlatoPredeterminado buscarPorId(int id_plato) {
-	// TODO Auto-generated method stub
+	
 	Optional <PlatoPredeterminado>op=repo.findById(id_plato);
 	if(op.isPresent())
 		return op.get();
@@ -28,7 +28,7 @@ public PlatoPredeterminado buscarPorId(int id_plato) {
 
 @Override
 public void eliminarPlatoPredeterminado(int id_plato) {
-	// TODO Auto-generated method stub
+	
 	repo.deleteById(id_plato);
 	
 }
@@ -48,15 +48,9 @@ public PlatoPredeterminado insertar(PlatoPredeterminado plato,int id_nutricionis
 @Override
 @Transactional(readOnly=true)
 public List<PlatoPredeterminado> listarPorNutricionista(int nutricionista) {
-	// TODO Auto-generated method stub
 	return repo.listapornutricionista(nutricionista);
 }
 
-//@Override
-//public List<PlatoPredeterminado> listarPorNutricionista(Nutricionista nutricionista) {
-//		// TODO Auto-generated method stub
-//	
-//	return repo.findByCreador(nutricionista);
-//}
+
 
 }

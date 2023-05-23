@@ -2,6 +2,7 @@ package com.thunderfat.springboot.backend.model.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,130 +10,96 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.thunderfat.springboot.backend.model.dao.NutricionistaRepository;
 import com.thunderfat.springboot.backend.model.dao.PacienteRepository;
+import com.thunderfat.springboot.backend.model.dto.PacienteDTO;
+import com.thunderfat.springboot.backend.model.dto.mapper.PacienteMapper;
 import com.thunderfat.springboot.backend.model.entity.Nutricionista;
 import com.thunderfat.springboot.backend.model.entity.Paciente;
 
 @Service
-public class PacienteServiceJPA implements IPacienteService{
-	@Autowired
-	private PacienteRepository repo;
-	@Autowired
-	private NutricionistaRepository nutrirepo;
-@Autowired
-private UserServiceJPA userservice;
-	public List<Paciente> ListarPaciente() {
-		List <Paciente>pacientes=repo.findAll();
-		System.out.println(pacientes.toString());
-		return pacientes;
-	}
+public class PacienteServiceJPA implements IPacienteService {
+    @Autowired
+    private PacienteRepository repo;
 
-	public void insertar(Paciente paciente) {
-		repo.save(paciente);// TODO Auto-generated method stub
+    @Autowired
+    private NutricionistaRepository nutrirepo;
+
+    @Autowired
+    private PacienteMapper pacienteMapper;
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<PacienteDTO> listarPacienteNutrcionista(int id_nutricionista) {
+        List<Paciente> pacientes = repo.buscarPorNutricionista(id_nutricionista);
+        return pacientes.stream()
+                .map(pacienteMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<PacienteDTO> buscarNombreCompleto(int id, String searchTerm) {
+        List<Paciente> pacientes = repo.findBySearchString(searchTerm, id);
+        return pacientes.stream()
+                .map(pacienteMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<PacienteDTO> buscarPorDni(int id, String dni) {
+        List<Paciente> pacientes = repo.buscardni(dni, id);
+        return pacientes.stream()
+                .map(pacienteMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public List<PacienteDTO> buscarPorTelefono(String telefono, int id) {
+        List<Paciente> pacientes = repo.buscarPorTelefono(telefono, id);
+        return pacientes.stream()
+                .map(pacienteMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    
+
+    @Transactional(readOnly = true)
+    @Override
+    public PacienteDTO buscarPorId(int id_paciente) {
+        Optional<Paciente> optional = repo.findById(id_paciente);
+        return optional.map(pacienteMapper::toDto).orElse(null);
+    }
+
+    @Transactional
+    @Override
+    public void eliminar(int id_paciente) {
+        Paciente pac = repo.findById(id_paciente).orElse(null);
+        if (pac != null) {
+            Nutricionista nutricionista = nutrirepo.findById(pac.getNutricionista().getId()).orElse(null);
+            if (nutricionista != null) {
+                pac.getRoles().clear();
+                pac.getCitas().clear();
+                pac.getPlanesdieta().clear();
+                pac.getAntecedentesclinicos().clear();
+                pac.getAntecedentestratamientos().clear();
+                nutricionista.removePaciente(pac);
+                nutrirepo.save(nutricionista);
+            }
+        }
+    }
+
+	@Override
+	public List<PacienteDTO> ListarPaciente() {
+		return repo.findAll().stream().map(pacienteMapper::toDto).collect(Collectors.toList());
 		
 	}
 
-	public Paciente buscarPorId(int id_paciente) {
-		Optional<Paciente> optional = repo.findById(id_paciente);
-		if (optional.isPresent())
-			return optional.get();
-		return null;
-	
-	}
-	@Transactional
-	public void eliminar(int id_paciente) {
-		Paciente pac = this.repo.findById(id_paciente).get();
-		Nutricionista nutricionista = this.nutrirepo.findById(pac.getNutricionista().getId()).get();
-		pac.getRoles().clear();
-		pac.getCitas().clear();
-		pac.getPlanesdieta().clear();
-		pac.getAntecedentesclinicos().clear();
-		pac.getAntecedentestratamientos().clear();
-		//nutricionista.getPacientes().remove(pac);
-		//pac.setNutricionista(null);
-		//this.repo.save(pac);
-			nutricionista.removePaciente(pac);
-		//this.userservice.deletebyid(id_paciente);
-		this.nutrirepo.save(nutricionista);
-	}
-
-	
-//
-//	@Override
-//	public List<Paciente> listarPacienteNutrcionista(int id_nutricionista) {
-//		Optional <Nutricionista>op=nutrirepo.findById(id_nutricionista);
-//			if(op.isPresent()) {
-//				Nutricionista nutri =op.get();
-//				//System.out.println(nutri);
-//				List <Paciente> pacientes= repo.findByNutricionista(nutri);
-//				//System.out.println(pacientes);
-//				return pacientes;
-//				}
-//		return null;
-//	}
-//
-//	@Override
-//	public ArrayList<Map> listarPacienteNutricionistaSelect(int id_nutricionista) {
-//		// TODO Auto-generated method stub
-//		List<Paciente>lista=repo.buscarporNutricionista(nutrirepo.findById(id_nutricionista).get());
-//		ArrayList<Map> result = new ArrayList();
-//		for (int i = 0; i < lista.size(); i++) {
-//			/*
-//			 * "id": 293, "title": "Event 1", "url": "http://example.com", "class":
-//			 * "event-important", "start": 12039485678000, // Milliseconds "end":
-//			 * 1234576967000 // Milliseconds
-//			 */
-//			Map<String, Object> temp = new LinkedHashMap<String, Object>();
-//			temp.put("id", lista.get(i).getId());
-//			//temp.put("title", citas.get(i).getPaciente().getNombre() + ' ' + citas.get(i).getPaciente().getApellidos());
-//			//temp.put("url", "/thunderfat/alimento/index");
-//			// temp.put("class", "event-important");
-//			//temp.put("start", citas.get(i).getFecha_ini().format(DateTimeFormatter.ISO_DATE_TIME));
-//			temp.put("text",lista.get(i).getNombre()+" "+lista.get(i).getApellidos()+" "+lista.get(i).getDni());
-//			result.add(temp);
-//		}
-//		// respuesta.put("success", 1);
-//		// respuesta.put("result",result);
-//		System.out.println(result);
-//		return result;
-//		
-//	}
-	@Transactional(readOnly=true)
 	@Override
-	public List<Paciente> listarPacienteNutrcionista(int id_nutricionista) {
-	 // TODO Auto-generated method stub 
-		
-		//List<Paciente>list = repo.findNutricionistaById(id_nutricionista);
-		//System.out.println(list.toString()+"liusta recien sacada del repo");
-		return repo.buscarPorNutricionista(id_nutricionista) ;
-	}
-
-	@Override
-	public List<Paciente>buscarNombreCompleto (int id ,String searchterm ) {
-		
-			return repo.findBySearchString(searchterm,id);
-	}
-
-	@Override
-	public List<Paciente> buscarPorDni(int id, String Dni) {
-		// TODO Auto-generated method stub
-		return repo.buscardni(Dni, id);
-	}
-
-	@Override
-	public List<Paciente> buscarPorTelefono(String email, int id) {
-		// TODO Auto-generated method stub
-		return repo.buscarporEmail(email, id);
-	}
-
-	
+	public void insertar(PacienteDTO paciente) {
+		repo.save(pacienteMapper.toEntity(paciente));
+    }
 
 
-
-
-
-
-
-	
- 
-
+    // Resto de métodos omitidos por concisión
 }

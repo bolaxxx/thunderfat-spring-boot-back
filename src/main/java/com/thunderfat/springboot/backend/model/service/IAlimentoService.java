@@ -11,6 +11,7 @@ public interface IAlimentoService {
 	void insertar(Alimento alimento);
 	Alimento buscarPorId(int id_alimento);
 	void eliminar(int id_alimento);
-	ArrayList<Map> listarParaSelect();
+	ArrayList<Map<String, Object>> listarParaSelect();
+    void actualizar(Alimento alimento);
 
 }

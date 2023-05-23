@@ -2,8 +2,6 @@ package com.thunderfat.springboot.backend.controllers;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,35 +15,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.thunderfat.springboot.backend.model.entity.Alimento;
 import com.thunderfat.springboot.backend.model.service.IAlimentoService;
-@CrossOrigin(origins= {"http://localhost:4200"})
+
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping(value = "/alimentos")
+@RequestMapping("/alimentos")
 public class AlimentoRestController {
 	@Autowired
 	private IAlimentoService alimentoservice;
 
-	@GetMapping(value = "/")
-	public List<Alimento> index() {
+	@GetMapping("/")
+	public List<Alimento> listarAlimentos() {
 		return alimentoservice.ListarAlimentos();
-	};
+	}
 
-	@GetMapping(value = "/{id}")
-	public Alimento get(@PathVariable(name = "id") int id) {
+	@GetMapping("/{id}")
+	public Alimento obtenerAlimento(@PathVariable int id) {
 		return alimentoservice.buscarPorId(id);
+	}
 
-	}
-	@PostMapping(value="/save")
-	public Alimento saveAlimento(@Valid Alimento alimento) {
-		this.alimentoservice.insertar(alimento);
+	@PostMapping("/save")
+	public Alimento guardarAlimento(@RequestBody Alimento alimento) {
+		alimentoservice.insertar(alimento);
 		return alimento;
-	
 	}
-	@PutMapping(value="/update")
-	public void updateAlimento(@RequestBody Alimento alimento) {
-		
+
+	@PutMapping("/update")
+	public void actualizarAlimento(@RequestBody Alimento alimento) {
+		alimentoservice.actualizar(alimento);
 	}
-	@DeleteMapping(value="/delete/{id}")
-	public void borrarAlimentos( @PathVariable(name="id")int id ) {
-		this.alimentoservice.eliminar(id);
+
+	@DeleteMapping("/delete/{id}")
+	public void borrarAlimento(@PathVariable int id) {
+		alimentoservice.eliminar(id);
 	}
 }

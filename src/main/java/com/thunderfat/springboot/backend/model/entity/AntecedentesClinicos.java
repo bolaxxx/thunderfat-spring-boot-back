@@ -3,17 +3,21 @@ package com.thunderfat.springboot.backend.model.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "antecedentesclinicos")
+@Data
+@NoArgsConstructor
 public class AntecedentesClinicos implements Serializable {
 	/**
 	 * 
@@ -30,46 +34,11 @@ public class AntecedentesClinicos implements Serializable {
 //	@JoinColumn(name = "id_paciente")
 //	private Paciente paciente;
 
-	public AntecedentesClinicos() {
+	public AntecedentesClinicos(LocalDate fecha, String antecedente, String observacion) {
 		super();
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public LocalDate getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
-	}
-
-	public String getAntecedente() {
-		return antecedente;
-	}
-
-	public void setAntecedente(String antecedente) {
 		this.antecedente = antecedente;
-	}
-
-	public String getObservacion() {
-		return observacion;
-	}
-
-	public void setObservacion(String observacion) {
 		this.observacion = observacion;
-	}
-
-	@Override
-	public String toString() {
-		return "AntecedentesClinicos [id=" + id + ", fecha=" + fecha + ", antecedente=" + antecedente + ", observacion="
-				+ observacion + "]";
 	}
 
 }

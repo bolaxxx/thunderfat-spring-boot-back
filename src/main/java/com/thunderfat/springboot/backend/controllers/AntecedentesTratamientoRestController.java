@@ -16,37 +16,37 @@ import org.springframework.web.bind.annotation.RestController;
 import com.thunderfat.springboot.backend.model.entity.AntecedenteTratamiento;
 import com.thunderfat.springboot.backend.model.service.IAntecedente_TratamientoService;
 
-@CrossOrigin(origins={"http://localhost:4200"})
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping(value="/antecedente_tratamiento")
+@RequestMapping(value = "/antecedente_tratamiento")
 public class AntecedentesTratamientoRestController {
 	@Autowired
-	private IAntecedente_TratamientoService medicionService;
+	private IAntecedente_TratamientoService antecedenteTratamientoService;
 	
-	@GetMapping(value="/{id}/")
-	public List<AntecedenteTratamiento> listarPorPaciente(@PathVariable("id")int id){
-		
-		return this.medicionService.buscarPorPaciente(id);
-	}
-	@GetMapping(value="/detalle/{id}")
-	public AntecedenteTratamiento buscarporId(@PathVariable(name="id")int id ) {
-		return this.medicionService.buscarPorId(id);
-	}
-	@PostMapping(value="/save/{id}")
-	public AntecedenteTratamiento anadirMedicion(@PathVariable("id") int id_paciente,@RequestBody AntecedenteTratamiento medicion){
-		
-	this.medicionService.insertar(medicion, id_paciente);
-		return null;
-	}
-	@PutMapping(value="actualizar/{id}")
-	public AntecedenteTratamiento actulizar(@PathVariable("id")int id_paciente,@RequestBody AntecedenteTratamiento medicion) {
-		
-		return null;
+	@GetMapping(value = "/{id}/")
+	public List<AntecedenteTratamiento> listarPorPaciente(@PathVariable int id) {
+		return antecedenteTratamientoService.buscarPorPaciente(id);
 	}
 	
-	@DeleteMapping(value="eliminar/{id}")
-	public AntecedenteTratamiento borrar(@PathVariable("id")int id_medicion) {
-		this.medicionService.eliminar(id_medicion);
-		return null;
+	@GetMapping(value = "/detalle/{id}")
+	public AntecedenteTratamiento buscarPorId(@PathVariable int id) {
+		return antecedenteTratamientoService.buscarPorId(id);
+	}
+	
+	@PostMapping(value = "/save/{id}")
+	public AntecedenteTratamiento anadirMedicion(@PathVariable("id") int id_paciente, @RequestBody AntecedenteTratamiento medicion) {
+		antecedenteTratamientoService.insertar(medicion, id_paciente);
+		return medicion;
+	}
+	
+	@PutMapping(value = "/actualizar/{id}")
+	public AntecedenteTratamiento actualizar(@PathVariable("id") int id_paciente, @RequestBody AntecedenteTratamiento medicion) {
+		// Implement update logic here
+		return medicion;
+	}
+	
+	@DeleteMapping(value = "/eliminar/{id}")
+	public void borrar(@PathVariable("id") int id_medicion) {
+		antecedenteTratamientoService.eliminar(id_medicion);
 	}
 }

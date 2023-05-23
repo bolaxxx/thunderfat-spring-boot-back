@@ -27,7 +27,7 @@ public class UserServiceJPA implements UserDetailsService, IUserService {
 	@Override
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
+		
 		Usuario user = repo.findByEmail(username);
 		if(user==null) {
 			logger.error("no se ha encontrado  el usuario  error en el login");
@@ -40,11 +40,8 @@ public class UserServiceJPA implements UserDetailsService, IUserService {
 	@Override
 	@Transactional()
 	public Usuario findByEmail(String email) {
-		// TODO Auto-generated method stub
-	
-		Usuario user =repo.findByEmail(email);
-		System.out.println(user.getRoles().toString());
-		return user;
+		
+		return repo.findByEmail(email);
 	}
 
 	@Override

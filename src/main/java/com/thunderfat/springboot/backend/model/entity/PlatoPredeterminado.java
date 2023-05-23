@@ -1,16 +1,25 @@
 package com.thunderfat.springboot.backend.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name="platopredeterminado")
+@Data
+@NoArgsConstructor
 //@DiscriminatorValue("predeterminado")
 public class PlatoPredeterminado extends Plato{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+
+
+
+	
 //	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 //	private Nutricionista creador;
 
@@ -22,24 +31,7 @@ public class PlatoPredeterminado extends Plato{
 //		this.creador = creador;
 //	}
 
-	public PlatoPredeterminado() {
-		super();
-	}
-
-	@Override
-	public String toString() {
-		return "PlatoPredeterminado [getId()=" + getId() + ", getNombre()=" + getNombre() + ", getIngredientes()="
-				+ getIngredientes() + ", getReceta()=" + getReceta() + ", getProteinastotales()="
-				+ getProteinastotales() + ", getGrasastotales()=" + getGrasastotales() + ", getKcaltotales()="
-				+ getKcaltotales() + ", getHidratostotales()=" + getHidratostotales() + "]";
-	}
-
 	
-	
-
-	
-
-
 
 	
 

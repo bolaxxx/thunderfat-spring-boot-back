@@ -1,21 +1,25 @@
 package com.thunderfat.springboot.backend.model.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "filtroalimentario")
+@NoArgsConstructor
+@Data
 public class FiltroAlimentario implements Serializable{
 	/**
 	 * 
@@ -60,54 +64,6 @@ public class FiltroAlimentario implements Serializable{
 	/*
 	 * @ManyToMany(mappedBy="filtros_aplicados") private List<PlanDieta> planes;
 	 */
-	public FiltroAlimentario() {
-		super();
-		this.alimentos=new ArrayList<Alimento>();
-	}
-
-	
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-
-	
-
-	public List<Alimento> getAlimentos() {
-		return alimentos;
-	}
-
-	public void setAlimentos(List<Alimento> alimentos) {
-		this.alimentos = alimentos;
-	}
-
-
-
-	public int getId() {
-		return id;
-	}
-
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-
-	@Override
-	public String toString() {
-		return "FiltroAlimentario [id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", alimentos="
-				+ alimentos + "]";
-	}
-
-	
-
 	
 
 }

@@ -3,17 +3,21 @@ package com.thunderfat.springboot.backend.model.entity;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+import org.springframework.data.annotation.Id;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "antecedentetratamiento")
+@Data
+@NoArgsConstructor
 public class AntecedenteTratamiento implements Serializable {
 	/**
 	 * 
@@ -26,51 +30,12 @@ public class AntecedenteTratamiento implements Serializable {
 	@DateTimeFormat(iso=ISO.DATE)
 	private LocalDate fecha;
 	private String observacion;
-//	@ManyToOne(fetch=FetchType.LAZY)
-//	
-//	private Paciente paciente;
 
-	public AntecedenteTratamiento() {
+	public AntecedenteTratamiento(String antecedente, LocalDate fecha, String observacion) {
 		super();
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getAntecedente() {
-		return antecedente;
-	}
-
-	public void setAntecedente(String antecedente) {
 		this.antecedente = antecedente;
-	}
-
-	public LocalDate getFecha() {
-		return fecha;
-	}
-
-	public void setFecha(LocalDate fecha) {
 		this.fecha = fecha;
-	}
-
-	public String getObservacion() {
-		return observacion;
-	}
-
-	public void setObservacion(String observacion) {
 		this.observacion = observacion;
 	}
-
-	@Override
-	public String toString() {
-		return "AntecedenteTratamiento [id=" + id + ", antecedente=" + antecedente + ", fecha=" + fecha
-				+ ", observacion=" + observacion + "]";
-	}
-
 
 }
