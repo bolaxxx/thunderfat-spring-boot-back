@@ -1,10 +1,12 @@
 package com.thunderfat.springboot.backend.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
@@ -20,18 +22,24 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Entity	
 @Table(name="planDieta")
 @NoArgsConstructor
 @Data
-public class PlanDieta implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class PlanDieta implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+    
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;	
+	
+	@Column(insertable=false, updatable=false)
+	private int id_paciente;
+	@Column(insertable=false, updatable=false)
+	private int id_nutricionista;
 	
 //	@ManyToOne(fetch=FetchType.LAZY)
 //	@JoinColumn(name="id_paciente",nullable=false)
@@ -40,20 +48,23 @@ public class PlanDieta implements Serializable{
 	
 	@DateTimeFormat(iso=ISO.DATE)
 	private LocalDate fechaini;
+	
 	@DateTimeFormat(iso=ISO.DATE)
 	private LocalDate fechafin;
+	
 	private double calrangomin;
 	private double calrangomax;
 	private double ingestacaldiaria;
 	private double repartoglucidodiario;
 	private double repartolipidodiario;
-	private double repartoprotidodiario	;
+	private double repartoprotidodiario;
 	private int comidasdiarias;
 	private short visible;
 	private short intercambiable;
+	
 	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name="id_plandieta",nullable=false)
-	@JsonIgnoreProperties({"hibernateLazyInitializer","hanlder"})
+	@JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 	private List<DiaDieta> dias;
 	
 //	@ManyToMany
@@ -63,21 +74,4 @@ public class PlanDieta implements Serializable{
 	@ManyToOne
 	@JoinColumn(name="filtro")
 	private FiltroAlimentario filtrosaplicado;
-	
-	
-	
-
-	
-
-	
-	
-
-
-
-
-
-	
-	
-	
-
 }

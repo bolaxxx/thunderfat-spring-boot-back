@@ -7,5 +7,8 @@ public class IngredienteDTO {
     private int id;
     private AlimentoDTO alimento;
     private double cantidad;
-    // Otros atributos relevantes
+    private double proteinastotales;
+    private double grasastotales;
+    private double kcaltotales;
+    private double hidratostotales;
 }

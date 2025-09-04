@@ -5,27 +5,35 @@ import java.util.stream.Collectors;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.thunderfat.springboot.backend.model.dto.AlimentoDTO;
 import com.thunderfat.springboot.backend.model.dto.FiltroAlimentarioDTO;
 import com.thunderfat.springboot.backend.model.entity.Alimento;
 import com.thunderfat.springboot.backend.model.entity.FiltroAlimentario;
 
-@Mapper
-public interface FiltroAlimentarioMapper {
-    FiltroAlimentarioMapper INSTANCE = Mappers.getMapper(FiltroAlimentarioMapper.class);
+@Mapper(componentModel = "spring", uses = {AlimentoMapper.class})
+public abstract class FiltroAlimentarioMapper {
+    
+    @Autowired
+    protected AlimentoMapper alimentoMapper;
 
-    FiltroAlimentarioDTO toDTO(FiltroAlimentario filtroAlimentario);
+    @Mapping(target = "alimentos", ignore = true)
+    public abstract FiltroAlimentarioDTO toDTO(FiltroAlimentario filtroAlimentario);
 
-    FiltroAlimentario toEntity(FiltroAlimentarioDTO filtroAlimentarioDTO);
+    @Mapping(target = "alimentos", ignore = true)
+    @Mapping(target = "id_nutricionista", ignore = true)
+    public abstract FiltroAlimentario toEntity(FiltroAlimentarioDTO filtroAlimentarioDTO);
 
     @Mapping(target = "alimentos", expression = "java(mapAlimentos(filtroAlimentario.getAlimentos()))")
-    FiltroAlimentarioDTO toDTOWithAlimentos(FiltroAlimentario filtroAlimentario);
+    public abstract FiltroAlimentarioDTO toDTOWithAlimentos(FiltroAlimentario filtroAlimentario);
 
-    default List<AlimentoDTO> mapAlimentos(List<Alimento> alimentos) {
+    protected List<AlimentoDTO> mapAlimentos(List<Alimento> alimentos) {
+        if (alimentos == null) {
+            return null;
+        }
         return alimentos.stream()
-                .map(AlimentoMapper.INSTANCE::toDTO)
+                .map(alimentoMapper::toDto)
                 .collect(Collectors.toList());
     }
 }

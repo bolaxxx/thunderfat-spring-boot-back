@@ -40,8 +40,12 @@ public class UserServiceJPA implements UserDetailsService, IUserService {
 	@Override
 	@Transactional()
 	public Usuario findByEmail(String email) {
-		
-		return repo.findByEmail(email);
+		Usuario usuario = repo.findByEmail(email);
+		if (usuario != null) {
+			// Eagerly load roles to prevent LazyInitializationException
+			usuario.getRoles().size();
+		}
+		return usuario;
 	}
 
 	@Override

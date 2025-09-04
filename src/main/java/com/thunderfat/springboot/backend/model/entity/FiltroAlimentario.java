@@ -1,9 +1,11 @@
 package com.thunderfat.springboot.backend.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
+import jakarta.persistence.Column;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -20,17 +22,19 @@ import lombok.NoArgsConstructor;
 @Table(name = "filtroalimentario")
 @NoArgsConstructor
 @Data
-public class FiltroAlimentario implements Serializable{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class FiltroAlimentario implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
+    
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	private String nombre;
 	private String descripcion;
-
+	@Column(insertable=false, updatable=false)
+	private int id_nutricionista;
 
 	/*
 	 * @ManyToMany
@@ -45,13 +49,9 @@ public class FiltroAlimentario implements Serializable{
 		return descripcion;
 	}
 
-
-
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
-
 
 //	@ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
 //	@JoinTable(name = "alimentos_en_filtro", joinColumns = {
@@ -59,11 +59,9 @@ public class FiltroAlimentario implements Serializable{
 //					@JoinColumn(name = "id_alimentofk", referencedColumnName = "id") })
 	@ManyToMany(fetch=FetchType.LAZY)
 	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-	private List<Alimento> alimentos ;
+	private List<Alimento> alimentos;
 
 	/*
 	 * @ManyToMany(mappedBy="filtros_aplicados") private List<PlanDieta> planes;
 	 */
-	
-
 }

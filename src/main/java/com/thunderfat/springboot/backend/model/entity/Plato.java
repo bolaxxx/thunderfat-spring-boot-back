@@ -1,16 +1,16 @@
 package com.thunderfat.springboot.backend.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.data.annotation.Id;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
@@ -26,22 +26,25 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 // @DiscriminatorColumn(name="type",discriminatorType=DiscriminatorType.STRING)
-public class Plato  implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+public class Plato implements Serializable {
+    
+    @Serial
+    private static final long serialVersionUID = 1L;
+    
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	
 	private String nombre;
 	
 	@OneToMany( fetch = FetchType.LAZY)
 	@JoinColumn(name="id_plato")
 	private List<Ingrediente> ingredientes;
+	
 	@Lob
 	@Column(name = "receta", length = 512)
 	private String receta;
+	
 	private double proteinastotales;
 	private double grasastotales;
 	private double kcaltotales;
@@ -87,5 +90,4 @@ public class Plato  implements Serializable {
 		this.receta = receta;
 		this.ingredientes = new ArrayList<>();
 	}
-	
 }

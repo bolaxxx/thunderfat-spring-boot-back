@@ -17,12 +17,14 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 //declaracion de las anotaciones Para la persistenciaen base de datos indicamos que es una entidad y la tabla  a la que hace referencia 
 @Entity
 @Table(name = "paciente")
 @Data
+@EqualsAndHashCode(callSuper = false)
 @NoArgsConstructor
 //@JsonIdentityInfo(
 //		  generator = ObjectIdGenerators.PropertyGenerator.class, 

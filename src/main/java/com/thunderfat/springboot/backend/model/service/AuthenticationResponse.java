@@ -1,24 +1,20 @@
 package com.thunderfat.springboot.backend.model.service;
 
-import org.springframework.stereotype.Service;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import com.thunderfat.springboot.backend.model.dao.UserRepository;
-import com.thunderfat.springboot.backend.model.entity.Usuario;
-
-import lombok.RequiredArgsConstructor;
-
-@Service
-@RequiredArgsConstructor
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthenticationResponse {
-    private final UserRepository userRepository;
-     
-    public AuthenticationResponse register(RegisterRequest registerRequest) {
-        var user= Usuario.builder()
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'register'");
-    }
-    public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'authenticate'");
-    }
+    private String token;
+    private String refreshToken;
+    @Builder.Default
+    private String tokenType = "Bearer";
+    private Long expiresIn;
+    private String email;
+    private String role;
 }

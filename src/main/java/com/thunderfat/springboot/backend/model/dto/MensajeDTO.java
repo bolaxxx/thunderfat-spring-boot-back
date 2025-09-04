@@ -10,6 +10,9 @@ public class MensajeDTO {
     private String contenido;
     private LocalDateTime timestamp;
     private UsuarioDTO emisor;
+    private ChatDTO chat;
+    private boolean leido;
+
     // Otros atributos relevantes
 }
 

@@ -27,3 +27,14 @@ HELP.md
 
 ### VS Code ###
 .vscode/
+
+### Temporary Files ###
+*.txt
+*.json
+!pom.xml
+!package.json
+!application.properties
+
+### Test Output ###
+test-output/
+logs/

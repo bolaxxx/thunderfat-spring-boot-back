@@ -1,8 +1,9 @@
 package com.thunderfat.springboot.backend.model.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 
-import org.springframework.data.annotation.Id;
+import jakarta.persistence.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -16,17 +17,16 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-
 @Entity
 @Table(name="ingredientes")
 @Data
 @NoArgsConstructor
 public class Ingrediente implements Serializable {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+    /**
+     * 
+     */
+    @Serial
+    private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)

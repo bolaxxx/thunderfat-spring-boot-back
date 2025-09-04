@@ -1,90 +1,124 @@
 package com.thunderfat.springboot.backend.model.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.thunderfat.springboot.backend.model.dao.Medicion_GeneralRepository;
+import com.thunderfat.springboot.backend.model.dao.MedicionGeneralRepository;
+import com.thunderfat.springboot.backend.model.dto.PacienteDTO;
+import com.thunderfat.springboot.backend.model.dto.mapper.PacienteMapper;
 import com.thunderfat.springboot.backend.model.entity.MedicionGeneral;
 import com.thunderfat.springboot.backend.model.entity.Paciente;
 
+/**
+ * JPA implementation of the general measurements service.
+ * Manages comprehensive patient measurement operations including weight tracking,
+ * BMI calculation, and progress monitoring for nutritional assessment.
+ * 
+ * @author ThunderFat Development Team
+ * @since Spring Boot 2025
+ */
 @Service
-public class MedicionGeneralServiceJPA implements IMedicion_GeneralService{
-@Autowired
-private Medicion_GeneralRepository repo;
-@Autowired
-private PacienteServiceJPA pacienteservice;
+public class MedicionGeneralServiceJPA implements IMedicionGeneralService {
+    
+    @Autowired
+    private MedicionGeneralRepository repo;
+    
+    @Autowired
+    private PacienteServiceJPA pacienteService;
 
-	@Override
-	@Transactional
-	public MedicionGeneral insertar(MedicionGeneral medicion_general, int id_paciente) {
-		Paciente paciente=this.pacienteservice.buscarPorId(id_paciente);
-		paciente.getMedicionesgenerales().add(medicion_general);
-		pacienteservice.insertar(paciente);
-		//repo.save(medicion_general);
-		// TODO Auto-generated method stub
-		return paciente.getMedicionesgenerales().get(paciente.getMedicionesgenerales().size()-1); 
-	}
+    @Override
+    @Transactional
+    public MedicionGeneral insertar(MedicionGeneral medicionGeneral, int idPaciente) {
+        Optional<PacienteDTO> pacienteDTOOpt = this.pacienteService.findById(Integer.valueOf(idPaciente));
+        if (pacienteDTOOpt.isEmpty()) {
+            throw new RuntimeException("Patient not found with ID: " + idPaciente);
+        }
+        
+        PacienteDTO pacienteDTO = pacienteDTOOpt.get();
+        Paciente paciente = PacienteMapper.INSTANCE.toEntity(pacienteDTO);
+        paciente.getMedicionesgenerales().add(medicionGeneral);
+        PacienteDTO pacienteDTOUpdated = PacienteMapper.INSTANCE.toDto(paciente);
+        pacienteService.update(Integer.valueOf(idPaciente), pacienteDTOUpdated);
+        
+        return paciente.getMedicionesgenerales().get(paciente.getMedicionesgenerales().size() - 1);
+    }
 
-	@Override
-	public void eliminar(int id_medicion_general) {
-		repo.deleteById(id_medicion_general);
-		// TODO Auto-generated method stub
-		
-	}
+    @Override
+    @Transactional
+    public void eliminar(int idMedicionGeneral) {
+        repo.deleteById(Integer.valueOf(idMedicionGeneral));
+    }
 
-	@Override
-	public List<MedicionGeneral> listar() {
-		// TODO Auto-generated method stub
-		List<MedicionGeneral> lista=repo.findAll();
-		return lista;
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<MedicionGeneral> listar() {
+        return repo.findAll();
+    }
 
-////	@Override
-////	public List<Medicion_General> listarPorPaciente(Paciente paciente) {
-////		List<Medicion_General>	lista=repo.findByPacienteOrderByFechaAsc(paciente);
-////		
-////		// TODO Auto-generated method stub
-////		return lista;
-//	}
+    @Override
+    @Transactional(readOnly = true)
+    public List<MedicionGeneral> listarPorPaciente(int idPaciente) {
+        return repo.findByPacienteId(Integer.valueOf(idPaciente));
+    }
 
-	@Override
-	public MedicionGeneral buscarPorID(int id_medicion_general) {
-		Optional<MedicionGeneral> op=repo.findById(id_medicion_general);
-		if(op.isPresent())
-			return op.get();
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public Page<MedicionGeneral> listarPorPacientePaginado(int idPaciente, Pageable pageable) {
+        return repo.findByPacienteId(Integer.valueOf(idPaciente), pageable);
+    }
 
-//	@Override
-//	public List<Medicion_General> listarPorPacienteFechaReciente(Paciente paciente) {
-//		List<Medicion_General>lista =repo.findByPacienteOrderByFechaDesc(paciente);
-//		// TODO Auto-generated method stub
-//		return lista;
-//	}
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<MedicionGeneral> buscarPorId(int idMedicionGeneral) {
+        return repo.findById(Integer.valueOf(idMedicionGeneral));
+    }
 
-	@Override
-	public double buscarUltimopeso(int id_paciente) {
-		
-		return repo.ultimoPeso(id_paciente);
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<MedicionGeneral> buscarUltimaMedicion(int idPaciente) {
+        return repo.findLatestByPacienteId(Integer.valueOf(idPaciente));
+    }
 
-	@Override
-	@Transactional(readOnly=true)
-	public List<MedicionGeneral> listarPorPaciente(int id_paciente) {
-		
-		return repo.buscarporPaciente(id_paciente);
-	}
+    @Override
+    @Transactional
+    public void actualizar(MedicionGeneral medicion) {
+        repo.save(medicion);
+    }
 
-	@Override
-	@Transactional()
-	public void update(MedicionGeneral medicion) {
-		// TODO Auto-generated method stub
-		this.repo.save(medicion);
-	}
+    @Override
+    @Transactional(readOnly = true)
+    public Double buscarUltimoPeso(int idPaciente) {
+        return repo.findLatestWeightByPacienteId(Integer.valueOf(idPaciente));
+    }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<Object> obtenerHistorialPeso(int idPaciente) {
+        return repo.findWeightHistoryByPacienteId(Integer.valueOf(idPaciente));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Object> obtenerHistorialBmi(int idPaciente) {
+        return repo.findBmiHistoryByPacienteId(Integer.valueOf(idPaciente));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<MedicionGeneral> buscarPorRangoFecha(int idPaciente, LocalDate fechaInicio, LocalDate fechaFin) {
+        return repo.findByPacienteIdAndFechaBetween(Integer.valueOf(idPaciente), fechaInicio, fechaFin);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<MedicionGeneral> buscarMedicionBaseline(int idPaciente) {
+        return repo.findFirstByIdPacienteOrderByFechaAsc(Integer.valueOf(idPaciente));
+    }
 }

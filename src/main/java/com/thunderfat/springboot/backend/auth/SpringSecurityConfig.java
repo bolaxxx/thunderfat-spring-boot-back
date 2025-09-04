@@ -1,17 +1,13 @@
 package com.thunderfat.springboot.backend.auth;
 
-
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+// import org.springframework.context.annotation.Configuration; // Temporarily disabled
+import org.springframework.core.annotation.Order;
+import org.springframework.lang.NonNull;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -22,48 +18,39 @@ import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @RequiredArgsConstructor
-@Configuration
-public class SpringSecurityConfig  {
-	private final UserDetailsService userDetailsService;
+//@Configuration  // Temporarily disabled while TestingSecurityConfig is active
+public class SpringSecurityConfig {
 	private final JwtAuthenticationFilter jwtAutheFilter;
-	private final AuthenticationProvider autenticationProvider;
 
- 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
- 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-		return authenticationConfiguration.getAuthenticationManager();
-	}
- 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf()
-		.disable()
-		.authorizeHttpRequests()
-		.requestMatchers()
-		.permitAll()
-		.anyRequest()
-		.authenticated()
-		.and()
-		.sessionManagement()
-		.SessionCreationPolicy( SessionCreationPolicy.STATELESS)
-		.and()
-		.authenticationProvider(autenticationProvider)
-		.addFilterBefore(jwtAutheFilter, UsernamePasswordAuthenticationFilter.class)
+    @Bean
+    @Order(2)
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.csrf(csrf -> csrf.disable())
+			.authorizeHttpRequests(auth -> auth
+				.requestMatchers("/api/auth/**", "/api/public/**", "/api/info", "/api/endpoints", "/api/test", "/api/health/**", "/oauth2/**", "/.well-known/**", "/actuator/**", "/login.html").permitAll()
+				.anyRequest().authenticated()
+			)
+			.sessionManagement(session -> session
+				.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			)
+			.oauth2ResourceServer(oauth2 -> oauth2
+				.jwt(Customizer.withDefaults())
+			)
+			.addFilterBefore(jwtAutheFilter, UsernamePasswordAuthenticationFilter.class);
+		
 		return http.build();
 	}
- 
-	@Bean
-	public WebMvcConfigurer corsConfigurer() {
+
+    @Bean
+    WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
 			@Override
-			public void addCorsMappings(CorsRegistry registry) {
+			public void addCorsMappings(@NonNull CorsRegistry registry) {
 				registry.addMapping("/**")
-						.allowedMethods("*");
+						.allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD", "PATCH")
+						.allowedOriginPatterns("*") // Use allowedOriginPatterns instead of allowedOrigins for "*"
+						.allowedHeaders("*")
+						.allowCredentials(true); // Enable credentials for secure CORS
 			}
 		};
 	}
