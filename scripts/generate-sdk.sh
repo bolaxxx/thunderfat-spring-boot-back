@@ -21,9 +21,18 @@ fi
 install_tools() {
     echo "📦 Installing SDK generation tools..."
     
-    if ! command -v openapi-typescript-codegen &> /dev/null; then
+    # Install openapi-typescript-codegen if not already installed
+    if ! command -v openapi &> /dev/null; then
         npm install -g openapi-typescript-codegen
     fi
+    
+    # Install TypeScript if not already installed
+    if ! command -v tsc &> /dev/null; then
+        npm install -g typescript
+    fi
+    
+    # Install required Node.js modules
+    npm install -g axios @types/node
 }
 
 # Determine version
@@ -56,31 +65,31 @@ generate_typescript_sdk() {
     # Remove existing SDK directory
     rm -rf "$SDK_DIR"
     
-    # Create log directory if not exists
-    mkdir -p logs
-    
-    # Generate TypeScript client with verbose output
-    echo "💬 Running SDK generation with verbose logging..."
-    (openapi --input "$SPEC_FILE" \
+    # Generate TypeScript client with safer options
+    echo "🔧 Running OpenAPI TypeScript generator..."
+    openapi --input "$SPEC_FILE" \
             --output "$SDK_DIR" \
             --client axios \
             --name ThunderFatApi \
             --useOptions \
-            --useUnionTypes \
             --postfixServices Api \
-            --postfixModels Model) > logs/sdk-generation.log 2>&1
+            --postfixModels Model \
+            --indent 2 \
+            --exportCore true \
+            --exportModels true \
+            --exportSchemas true \
+            --exportServices true \
+            --useUnionTypes false > generator.log 2>&1
     
-    GENERATION_STATUS=$?
-    
-    if [ $GENERATION_STATUS -eq 0 ]; then
-        echo "✅ TypeScript SDK generated in: $SDK_DIR"
-    else
-        echo "❌ SDK generation failed with status code: $GENERATION_STATUS"
-        echo "💬 Last 20 lines of logs:"
-        tail -n 20 logs/sdk-generation.log
-        echo "📄 Full logs available in: logs/sdk-generation.log"
+    GENERATOR_STATUS=$?
+    if [ $GENERATOR_STATUS -ne 0 ]; then
+        echo "❌ Failed to generate TypeScript SDK"
+        echo "==== Generator log (last 20 lines) ===="
+        tail -n 20 generator.log
         exit 1
     fi
+    
+    echo "✅ TypeScript SDK generated in: $SDK_DIR"
 }
 
 # Create package.json
@@ -465,42 +474,39 @@ build_sdk() {
     
     cd "$SDK_DIR"
     
-    # Install dependencies
-    echo "📦 Installing dependencies..."
-    npm install --silent > ../logs/sdk-npm-install.log 2>&1 || {
-        echo "❌ Failed to install dependencies"
-        echo "💬 Last 10 lines of npm install log:"
-        tail -n 10 ../logs/sdk-npm-install.log
-        cd ..
-        return 1
-    }
+    # Install dependencies with verbose output
+    echo "📦 Installing SDK dependencies..."
+    npm install --verbose > npm-install.log 2>&1
+    if [ $? -ne 0 ]; then
+        echo "❌ Failed to install dependencies. Check npm-install.log for details"
+        echo "==== Last 20 lines of npm-install.log ===="
+        tail -n 20 npm-install.log
+        exit 1
+    fi
     
-    # Build TypeScript
-    echo "🔨 Building TypeScript..."
-    npm run build > ../logs/sdk-build.log 2>&1
-    BUILD_STATUS=$?
+    # Build TypeScript with verbose output
+    echo "🔨 Building TypeScript files..."
+    npm run build --verbose > npm-build.log 2>&1
+    BUILD_RESULT=$?
     
-    if [ $BUILD_STATUS -eq 0 ]; then
+    if [ $BUILD_RESULT -eq 0 ]; then
         echo "✅ SDK built successfully"
         
-        # Test the build
-        echo "🧪 Testing the build..."
-        npm run test > ../logs/sdk-test.log 2>&1
-        TEST_STATUS=$?
-        
-        if [ $TEST_STATUS -eq 0 ]; then
+        # Test the build with verbose output
+        echo "🧪 Testing SDK build..."
+        npm run test --verbose > npm-test.log 2>&1
+        if [ $? -eq 0 ]; then
             echo "✅ SDK tests passed"
         else
-            echo "⚠️  SDK tests failed"
-            echo "💬 Test log:"
-            cat ../logs/sdk-test.log
+            echo "⚠️  SDK tests failed. Check npm-test.log for details"
+            echo "==== Last 20 lines of npm-test.log ===="
+            tail -n 20 npm-test.log
         fi
     else
-        echo "❌ SDK build failed"
-        echo "💬 Last 20 lines of build log:"
-        tail -n 20 ../logs/sdk-build.log
-        cd ..
-        return 1
+        echo "❌ SDK build failed. Check npm-build.log for details"
+        echo "==== Last 20 lines of npm-build.log ===="
+        tail -n 20 npm-build.log
+        exit 1
     fi
     
     cd ..
