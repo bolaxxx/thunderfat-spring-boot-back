@@ -13,11 +13,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
+import com.thunderfat.springboot.backend.config.TestDataJpaConfig;
 import com.thunderfat.springboot.backend.model.entity.Nutricionista;
 import com.thunderfat.springboot.backend.model.entity.Paciente;
 
@@ -34,6 +37,11 @@ import com.thunderfat.springboot.backend.model.entity.Paciente;
  * @since Spring Boot 3.5.4
  */
 @DataJpaTest
+@Import(TestDataJpaConfig.class)
+@TestPropertySource(properties = {
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.datasource.url=jdbc:h2:mem:pacientetest;DB_CLOSE_DELAY=-1;CASE_INSENSITIVE_IDENTIFIERS=TRUE"
+})
 @ActiveProfiles("test")
 @DisplayName("Paciente Repository Tests")
 class PacienteRepositoryTest {
@@ -289,8 +297,9 @@ class PacienteRepositoryTest {
     void testPaginationBehavior() {
         // Create additional test patients
         for (int i = 3; i <= 15; i++) {
+            String dniNumber = String.format("%08d", 12345600 + i); // Ensures exactly 8 digits
             Paciente paciente = createTestPaciente(
-                "1234567" + i + "X", "Paciente" + i, "Apellido" + i,
+                dniNumber + "X", "Paciente" + i, "Apellido" + i,
                 "paciente" + i + "@example.com", "60012345" + i, "Ciudad" + i
             );
             entityManager.persistAndFlush(paciente);

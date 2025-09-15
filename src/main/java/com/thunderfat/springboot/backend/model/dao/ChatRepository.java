@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.dto.ChatUnreadCountDTO;
@@ -50,6 +51,7 @@ public interface ChatRepository extends BaseRepository<Chat, Integer> {
      */
     @Query("SELECT c FROM Chat c WHERE c.nutricionista.id = :nutricionistaId")
     @Cacheable(value = "chats", key = "'nutritionist_' + #nutricionistaId + '_' + #pageable.pageNumber")
+    @RestResource(path = "findByNutricionistaIdPaged", rel = "findByNutricionistaIdPaged")
     Page<Chat> findByNutricionistaId(@Param("nutricionistaId") Integer nutricionistaId, Pageable pageable);
 
     /**
@@ -58,6 +60,7 @@ public interface ChatRepository extends BaseRepository<Chat, Integer> {
      */
     @Deprecated(since = "3.5.4", forRemoval = true)
     @Query("SELECT c FROM Chat c WHERE c.nutricionista.id = :nutricionistaId")
+    @RestResource(path = "findByNutricionistaIdList", rel = "findByNutricionistaIdList")
     List<Chat> findByNutricionistaId(@Param("nutricionistaId") Integer nutricionistaId);
 
     /**
@@ -201,6 +204,7 @@ public interface ChatRepository extends BaseRepository<Chat, Integer> {
      * @deprecated Use findByPacienteId(Integer) instead
      */
     @Deprecated(since = "3.5.4", forRemoval = true)
+    @RestResource(exported = false)
     @Query("SELECT c FROM Chat c WHERE c.paciente.id = ?1")
     Chat findByPacienteId(int id_paciente);
 
@@ -209,6 +213,7 @@ public interface ChatRepository extends BaseRepository<Chat, Integer> {
      * @deprecated Use findByNutricionistaId(Integer, Pageable) instead
      */
     @Deprecated(since = "3.5.4", forRemoval = true)
+    @RestResource(exported = false)
     @Query("SELECT c FROM Chat c WHERE c.nutricionista.id = ?1")
     List<Chat> findByNutricionistaId(int id_nutricionista);
 }

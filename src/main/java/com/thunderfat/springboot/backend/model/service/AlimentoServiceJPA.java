@@ -76,11 +76,11 @@ public class AlimentoServiceJPA implements IAlimentoService {
         // Business validation: duplicate name check
         validarNombreUnico(alimentoDTO.getNombre(), null);
         
+        // Data validation: negative values (must be done before completeness check)
+        validarValoresPositivos(alimentoDTO);
+        
         // Business validation: nutritional completeness
         validarCompletudNutricional(alimentoDTO);
-        
-        // Business validation: negative values
-        validarValoresPositivos(alimentoDTO);
         
         Alimento alimento = alimentoMapper.toEntity(alimentoDTO);
         alimento = alimentoRepository.save(alimento);
@@ -101,11 +101,11 @@ public class AlimentoServiceJPA implements IAlimentoService {
         // Business validation: duplicate name check (excluding current record)
         validarNombreUnico(alimentoDTO.getNombre(), id);
         
+        // Data validation: negative values (must be done before completeness check)
+        validarValoresPositivos(alimentoDTO);
+        
         // Business validation: nutritional completeness
         validarCompletudNutricional(alimentoDTO);
-        
-        // Business validation: negative values
-        validarValoresPositivos(alimentoDTO);
         
         // Update all fields
         alimentoMapper.updateEntityFromDto(alimentoDTO, alimentoExistente);
@@ -256,7 +256,15 @@ public class AlimentoServiceJPA implements IAlimentoService {
         if (alimentoDTO.getCal() != null && alimentoDTO.getCal() < 0) {
             throw new BusinessException("Las calorías no pueden ser negativas");
         }
-        // Add more validations as needed...
+        if (alimentoDTO.getProteinas() != null && alimentoDTO.getProteinas() < 0) {
+            throw new BusinessException("Las proteínas no pueden ser negativas");
+        }
+        if (alimentoDTO.getGrasas() != null && alimentoDTO.getGrasas() < 0) {
+            throw new BusinessException("Las grasas no pueden ser negativas");
+        }
+        if (alimentoDTO.getHidratosdecarbono() != null && alimentoDTO.getHidratosdecarbono() < 0) {
+            throw new BusinessException("Los hidratos de carbono no pueden ser negativos");
+        }
     }
     
     /**

@@ -28,7 +28,7 @@ public class DiaDietaServiceJPA implements IDIaDietaService {
     private final DiaDietaRepository diaDietaRepository;
     private final PlanDietaRepository planDietaRepository;
     private final DiaDietaMapper diaDietaMapper;
-    private final SecurityService securityService;
+    
 
     // ============= Métodos Legacy (Deprecados) =============
     

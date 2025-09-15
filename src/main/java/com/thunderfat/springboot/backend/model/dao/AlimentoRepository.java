@@ -33,7 +33,7 @@ public interface AlimentoRepository extends JpaRepository<Alimento, Integer> {
     /**
      * Search foods by name (case-insensitive, partial match)
      */
-    @Query("SELECT a FROM Alimento a WHERE LOWER(a.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))")
+    @Query("SELECT a FROM Alimento a WHERE LOWER(a.nombre) LIKE LOWER(FUNCTION('CONCAT', '%', :nombre, '%'))")
     Page<Alimento> findByNombreContainingIgnoreCase(@Param("nombre") String nombre, Pageable pageable);
     
     /**

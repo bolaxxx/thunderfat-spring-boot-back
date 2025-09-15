@@ -6,21 +6,30 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.thunderfat.springboot.backend.config.GlobalTestConfiguration;
 import com.thunderfat.springboot.backend.model.dto.PlatoPredeterminadoDTO;
+import com.thunderfat.springboot.backend.model.entity.Nutricionista;
+import com.thunderfat.springboot.backend.model.entity.PlatoPredeterminado;
 import com.thunderfat.springboot.backend.model.service.IPlatoPredetereminadoService;
+
+import jakarta.persistence.EntityManager;
 
 /**
  * Integration tests for the PlatoPredeterminado endpoints.
@@ -33,9 +42,10 @@ import com.thunderfat.springboot.backend.model.service.IPlatoPredetereminadoServ
  * 
  * @author ThunderFat Development Team
  */
-@SpringBootTest
+@SpringBootTest(properties = {"spring.cache.type=none"})
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@Import(GlobalTestConfiguration.class)
 @Tag("integration")
 class PlatoPredeterminadoIntegrationTest {
 
@@ -48,19 +58,73 @@ class PlatoPredeterminadoIntegrationTest {
     @Autowired
     private IPlatoPredetereminadoService service;
     
-    @Test
-    @DisplayName("GET /api/v1/dishes/{id} - Should return dish by ID")
-    @Transactional
-    void shouldReturnDishById() throws Exception {
-        // This test assumes there's a dish with ID 1 in the test database
-        mockMvc.perform(get("/platopredeterminado/api/v1/dishes/1")
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.success").value(true))
-                .andExpect(jsonPath("$.data.id").value(1));
+    @Autowired
+    private EntityManager entityManager;
+    
+    /**
+     * Helper method to create test data programmatically.
+     * This is more reliable than SQL scripts with complex entity inheritance.
+     */
+    private int createTestData() {
+        // Create a test nutritionist
+        Nutricionista nutricionista = new Nutricionista();
+        // Don't set ID - let Hibernate auto-generate it
+        // Set basic fields required by Usuario parent class
+        nutricionista.setEmail("test-nutri@example.com");
+        nutricionista.setPsw("testpassword");
+        nutricionista.setEnabled(true);
+        
+        // Set specific Nutricionista fields
+        nutricionista.setNombre("Test Nutricionista");
+        nutricionista.setApellidos("Test Apellidos");
+        nutricionista.setNumeroColegiadoProfesional("COL123");
+        
+        entityManager.persist(nutricionista);
+        entityManager.flush(); // Ensure ID is generated
+        
+        // Create a test predetermined dish
+        PlatoPredeterminado plato = new PlatoPredeterminado();
+        // Don't set ID - let Hibernate auto-generate it
+        plato.setNombre("Test Dish");
+        plato.setReceta("Test recipe");
+        plato.setKcaltotales(300.0);
+        plato.setNutricionista(nutricionista);
+        
+        entityManager.persist(plato);
+        entityManager.flush(); // Ensure ID is generated
+        
+        return plato.getId(); // Return the generated ID for testing
     }
     
     @Test
+    @WithMockUser(roles = "NUTRICIONISTA")
+    @DisplayName("GET /api/v1/dishes/{id} - Should return dish by ID")
+    @Transactional
+    void shouldReturnDishById() throws Exception {
+        // Create test data programmatically and get the generated ID
+        int dishId = createTestData();
+        
+        // Debug: Check if the test data exists
+        System.out.println("=== DEBUG: Checking if dish with ID " + dishId + " exists ===");
+        Optional<PlatoPredeterminadoDTO> dish = service.findById(dishId);
+        System.out.println("Dish exists: " + dish.isPresent());
+        if (dish.isPresent()) {
+            System.out.println("Dish details: " + dish.get());
+        }
+        
+        // First verify the dish exists in the service
+        assertThat(dish).isPresent();
+        
+        // Then test the REST endpoint
+        mockMvc.perform(get("/platopredeterminado/api/v1/dishes/" + dishId)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.success").value(true))
+                .andExpect(jsonPath("$.data.id").value(dishId));
+    }
+    
+    @Test
+    @WithMockUser(roles = "NUTRICIONISTA")
     @DisplayName("GET /api/v1/dishes/{id} - Should return 404 when dish not found")
     void shouldReturn404WhenDishNotFound() throws Exception {
         mockMvc.perform(get("/platopredeterminado/api/v1/dishes/9999")
@@ -71,17 +135,25 @@ class PlatoPredeterminadoIntegrationTest {
     }
     
     @Test
+    @WithMockUser(roles = "NUTRICIONISTA")
     @DisplayName("POST /api/v1/nutritionists/{nutricionistaId}/dishes - Should create new dish")
     @Transactional
     void shouldCreateNewDish() throws Exception {
-        // Assuming there's a nutritionist with ID 1 in the test database
+        // Create test nutritionist first and get the generated ID
+        int dishId = createTestData(); // This creates nutritionist and one dish
+        // Get the nutritionist ID from the created dish
+        Optional<PlatoPredeterminadoDTO> existingDish = service.findById(dishId);
+        assertThat(existingDish).isPresent();
+        int nutricionistaId = existingDish.get().getNutricionistaId();
+        
+        // Create a new dish for the same nutritionist
         PlatoPredeterminadoDTO newDish = new PlatoPredeterminadoDTO();
         newDish.setNombre("Test Integration Dish");
         newDish.setReceta("Test recipe for integration");
-        newDish.setNutricionistaId(1);
+        newDish.setNutricionistaId(nutricionistaId);
         newDish.setKcaltotales(500.0);
         
-        MvcResult result = mockMvc.perform(post("/platopredeterminado/api/v1/nutritionists/1/dishes")
+        MvcResult result = mockMvc.perform(post("/platopredeterminado/api/v1/nutritionists/" + nutricionistaId + "/dishes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newDish))
                 .accept(MediaType.APPLICATION_JSON))
@@ -102,11 +174,19 @@ class PlatoPredeterminadoIntegrationTest {
     }
     
     @Test
+    @WithMockUser(roles = "NUTRICIONISTA")
     @DisplayName("GET /api/v1/nutritionists/{nutricionistaId}/dishes - Should return dishes for nutritionist")
     @Transactional
     void shouldReturnDishesForNutritionist() throws Exception {
-        // Assuming there's a nutritionist with ID 1 in the test database with dishes
-        mockMvc.perform(get("/platopredeterminado/api/v1/nutritionists/1/dishes")
+        // Create test nutritionist and dish first
+        int dishId = createTestData(); // This creates nutritionist and one dish
+        // Get the nutritionist ID from the created dish
+        Optional<PlatoPredeterminadoDTO> existingDish = service.findById(dishId);
+        assertThat(existingDish).isPresent();
+        int nutricionistaId = existingDish.get().getNutricionistaId();
+        
+        // Test the endpoint with the actual nutritionist ID
+        mockMvc.perform(get("/platopredeterminado/api/v1/nutritionists/" + nutricionistaId + "/dishes")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.success").value(true))

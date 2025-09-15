@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -17,8 +16,8 @@ import com.thunderfat.springboot.backend.model.dao.ChatRepository;
 import com.thunderfat.springboot.backend.model.dto.ChatDTO;
 import com.thunderfat.springboot.backend.model.dto.ChatUnreadCountDTO;
 import com.thunderfat.springboot.backend.model.dto.mapper.ChatMapper;
-import com.thunderfat.springboot.backend.model.entity.Chat;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -38,26 +37,15 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Service
 @Transactional
+@RequiredArgsConstructor
 @Slf4j
 public class ChatServiceJPA implements IChatService {
 	
-	@Autowired
-	private ChatRepository chatRepository;
+	private final ChatRepository chatRepository;
 
 	// ================================
 	// LEGACY CRUD OPERATIONS
 	// ================================
-
-	@Override
-	@Transactional(readOnly = true)
-	@Cacheable(value = "chats", key = "'all_legacy'")
-	@Deprecated(since = "3.5.4", forRemoval = true)
-	public List<ChatDTO> listar() {
-		log.debug("Listing all chats (legacy method)");
-		return chatRepository.findAll().stream()
-				.map(ChatMapper.INSTANCE::toDto)
-				.collect(Collectors.toList());
-	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -67,6 +55,37 @@ public class ChatServiceJPA implements IChatService {
 		return chatRepository.findById(idChat)
 				.map(ChatMapper.INSTANCE::toDto)
 				.orElse(null);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	@Cacheable(value = "chats", key = "'all_legacy'")
+	public List<ChatDTO> listar() {
+		log.debug("Listing all chats (legacy)");
+		return chatRepository.findAll().stream()
+				.map(ChatMapper.INSTANCE::toDto)
+				.collect(Collectors.toList());
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	@Cacheable(value = "chats", key = "'patient_legacy_' + #pacienteId")
+	public ChatDTO buscarPorPaciente(int pacienteId) {
+		log.debug("Finding chat for patient (legacy): {}", pacienteId);
+		return findByPacienteId(pacienteId).orElse(null);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	@Cacheable(value = "chats", key = "'nutritionist_legacy_' + #nutricionistaId")
+	public List<ChatDTO> buscarPorNutricionista(int nutricionistaId) {
+		log.debug("Finding chats for nutritionist (legacy): {}", nutricionistaId);
+		return chatRepository.findByNutricionistaId(Integer.valueOf(nutricionistaId), 
+				org.springframework.data.domain.Pageable.unpaged())
+				.getContent()
+				.stream()
+				.map(ChatMapper.INSTANCE::toDto)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -85,27 +104,6 @@ public class ChatServiceJPA implements IChatService {
 		log.info("Deleting chat: {}", idChat);
 		chatRepository.deleteById(idChat);
 		log.info("Successfully deleted chat: {}", idChat);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	@Cacheable(value = "chats", key = "'patient_legacy_' + #idPaciente")
-	@Deprecated(since = "3.5.4", forRemoval = true)
-	public ChatDTO buscarPorPaciente(int idPaciente) {
-		log.debug("Finding chat for patient (legacy): {}", idPaciente);
-		Chat chat = chatRepository.findByPacienteId(idPaciente);
-		return chat != null ? ChatMapper.INSTANCE.toDto(chat) : null;
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	@Cacheable(value = "chats", key = "'nutritionist_legacy_' + #idNutricionista")
-	@Deprecated(since = "3.5.4", forRemoval = true)
-	public List<ChatDTO> buscarPorNutricionista(int idNutricionista) {
-		log.debug("Finding chats for nutritionist (legacy): {}", idNutricionista);
-		return chatRepository.findByNutricionistaId(idNutricionista).stream()
-				.map(ChatMapper.INSTANCE::toDto)
-				.collect(Collectors.toList());
 	}
 
 	// ================================

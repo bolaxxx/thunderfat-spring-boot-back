@@ -36,6 +36,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -314,7 +315,7 @@ public class AlimentoRestController {
     public ResponseEntity<ManualApiResponseDTO<AlimentoDTO>> crear(
             @Parameter(description = "Datos del nuevo alimento", 
                       content = @Content(schema = @Schema(implementation = AlimentoDTO.class)))
-            @RequestBody @Validated(ValidationGroups.Create.class) AlimentoDTO alimentoDTO) {
+            @RequestBody @Valid AlimentoDTO alimentoDTO) {
         
         log.info("POST /alimentos/save - Creando alimento: {}", alimentoDTO.getNombre());
         

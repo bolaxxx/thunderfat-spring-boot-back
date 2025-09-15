@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import java.util.List;
 import java.util.Optional;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
-
-import com.thunderfat.springboot.backend.config.TestConfig;
+import org.springframework.test.context.TestPropertySource;
 import com.thunderfat.springboot.backend.model.dao.NutricionistaRepository;
 import com.thunderfat.springboot.backend.model.entity.Nutricionista;
 import com.thunderfat.springboot.backend.model.entity.Rol;
@@ -38,7 +38,11 @@ import com.thunderfat.springboot.backend.util.TestDataBuilder;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 @ActiveProfiles("test")
-@Import(TestConfig.class)
+@Import(RepositoryTestConfig.class)
+@TestPropertySource(properties = {
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.datasource.url=jdbc:h2:mem:nutricionistatest;DB_CLOSE_DELAY=-1;CASE_INSENSITIVE_IDENTIFIERS=TRUE"
+})
 @DisplayName("Nutricionista Repository Tests")
 public class NutricionistaRepositoryTest {
 
@@ -53,14 +57,27 @@ public class NutricionistaRepositoryTest {
 
     @BeforeEach
     void setUp() {
+        // Clear any existing data
+        nutricionistaRepository.deleteAll();
+        
         // Create role first
         nutricionistaRole = new Rol();
         nutricionistaRole.setNombre("ROLE_NUTRICIONISTA");
         entityManager.persistAndFlush(nutricionistaRole);
+        entityManager.clear(); // Clear persistence context
 
-        // Create test nutricionista
+        // Create test nutricionista with the persisted role
         testNutricionista = TestDataBuilder.buildValidNutricionista();
-        testNutricionista.getRoles().get(0).setId(nutricionistaRole.getId());
+        // Replace the role created by TestDataBuilder with the persisted one
+        testNutricionista.getRoles().clear();
+        testNutricionista.getRoles().add(nutricionistaRole);
+    }
+
+    @AfterEach
+    void tearDown() {
+        // Clean up after each test to ensure isolation
+        nutricionistaRepository.deleteAll();
+        entityManager.clear();
     }
 
     // ========================================
@@ -116,10 +133,10 @@ public class NutricionistaRepositoryTest {
         // Given
         entityManager.persistAndFlush(testNutricionista);
         
-        Nutricionista nutricionista2 = TestDataBuilder.buildValidNutricionista();
-        nutricionista2.setEmail("test2.nutritionist@example.com");
-        nutricionista2.setNumeroColegiadoProfesional("COL54321");
-        nutricionista2.getRoles().get(0).setId(nutricionistaRole.getId());
+        Nutricionista nutricionista2 = TestDataBuilder.buildValidNutricionista("test2.nutritionist@example.com", "COL54321");
+        // Use the persisted role
+        nutricionista2.getRoles().clear();
+        nutricionista2.getRoles().add(nutricionistaRole);
         entityManager.persistAndFlush(nutricionista2);
 
         // When
@@ -184,11 +201,11 @@ public class NutricionistaRepositoryTest {
         // Given
         entityManager.persistAndFlush(testNutricionista);
         
-        Nutricionista disabled = TestDataBuilder.buildValidNutricionista();
-        disabled.setEmail("disabled.nutritionist@example.com");
-        disabled.setNumeroColegiadoProfesional("COL99999");
+        Nutricionista disabled = TestDataBuilder.buildValidNutricionista("disabled.nutritionist@example.com", "COL99999");
         disabled.setEnabled(false);
-        disabled.getRoles().get(0).setId(nutricionistaRole.getId());
+        // Use the persisted role
+        disabled.getRoles().clear();
+        disabled.getRoles().add(nutricionistaRole);
         entityManager.persistAndFlush(disabled);
 
         // When - Use findAll and filter manually since no findByEnabledTrue exists
@@ -213,9 +230,10 @@ public class NutricionistaRepositoryTest {
         // Given
         entityManager.persistAndFlush(testNutricionista);
         
-        Nutricionista duplicate = TestDataBuilder.buildValidNutricionista();
-        duplicate.setNumeroColegiadoProfesional("COL99999"); // Different professional number
-        duplicate.getRoles().get(0).setId(nutricionistaRole.getId());
+        Nutricionista duplicate = TestDataBuilder.buildValidNutricionista("test.nutritionist@example.com", "COL99999"); // Same email, different professional number
+        // Use the persisted role
+        duplicate.getRoles().clear();
+        duplicate.getRoles().add(nutricionistaRole);
 
         // When & Then
         try {
@@ -235,9 +253,10 @@ public class NutricionistaRepositoryTest {
         // Given
         entityManager.persistAndFlush(testNutricionista);
         
-        Nutricionista duplicate = TestDataBuilder.buildValidNutricionista();
-        duplicate.setEmail("different.email@example.com"); // Different email
-        duplicate.getRoles().get(0).setId(nutricionistaRole.getId());
+        Nutricionista duplicate = TestDataBuilder.buildValidNutricionista("different.email@example.com", "COL12345"); // Different email, same professional number
+        // Use the persisted role
+        duplicate.getRoles().clear();
+        duplicate.getRoles().add(nutricionistaRole);
 
         // When & Then
         try {
@@ -307,10 +326,10 @@ public class NutricionistaRepositoryTest {
         // Given
         entityManager.persistAndFlush(testNutricionista);
         
-        Nutricionista nutricionista2 = TestDataBuilder.buildValidNutricionista();
-        nutricionista2.setEmail("test2@example.com");
-        nutricionista2.setNumeroColegiadoProfesional("COL54321");
-        nutricionista2.getRoles().get(0).setId(nutricionistaRole.getId());
+        Nutricionista nutricionista2 = TestDataBuilder.buildValidNutricionista("test2@example.com", "COL54321");
+        // Use the persisted role
+        nutricionista2.getRoles().clear();
+        nutricionista2.getRoles().add(nutricionistaRole);
         entityManager.persistAndFlush(nutricionista2);
 
         // When

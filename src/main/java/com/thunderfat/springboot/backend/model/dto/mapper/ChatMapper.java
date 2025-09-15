@@ -13,22 +13,20 @@ import org.mapstruct.factory.Mappers;
 import com.thunderfat.springboot.backend.model.dto.ChatDTO;
 import com.thunderfat.springboot.backend.model.entity.Chat;
 import com.thunderfat.springboot.backend.model.entity.Mensaje;
-import com.thunderfat.springboot.backend.model.entity.Nutricionista;
-import com.thunderfat.springboot.backend.model.entity.Paciente;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ChatMapper {
     ChatMapper INSTANCE = Mappers.getMapper(ChatMapper.class);
     
     @Mapping(source = "id_chat", target = "idChat")
-    @Mapping(source = "chat.paciente.id", target = "pacienteId")
-    @Mapping(source = "chat.nutricionista.id", target = "nutricionistaId")
-    @Mapping(source = "chat.mensajes", target = "mensajesIds", qualifiedByName = "mapMensajesToIds")
+    @Mapping(source = "paciente.id", target = "pacienteId", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.SET_TO_NULL)
+    @Mapping(source = "nutricionista.id", target = "nutricionistaId", nullValuePropertyMappingStrategy = org.mapstruct.NullValuePropertyMappingStrategy.SET_TO_NULL)
+    @Mapping(source = "mensajes", target = "mensajesIds", qualifiedByName = "mapMensajesToIds")
     ChatDTO toDto(Chat chat);
 
     @Mapping(source = "idChat", target = "id_chat")
-    @Mapping(source = "pacienteId", target = "paciente", qualifiedByName = "mapPacienteId")
-    @Mapping(source = "nutricionistaId", target = "nutricionista", qualifiedByName = "mapNutricionistaId")
+    @Mapping(target = "paciente", ignore = true) // Will be set separately in service
+    @Mapping(target = "nutricionista", ignore = true) // Will be set separately in service
     @Mapping(target = "mensajes", ignore = true) // Messages are handled separately
     Chat toEntity(ChatDTO chatDTO);
 
@@ -42,25 +40,5 @@ public interface ChatMapper {
                 .stream()
                 .map(Mensaje::getId_mensaje)
                 .collect(Collectors.toList());
-    }
-
-    @Named("mapPacienteId")
-    default Paciente mapPacienteId(Integer pacienteId) {
-        if (pacienteId == null) {
-            return null;
-        }
-        Paciente paciente = new Paciente();
-        paciente.setId(pacienteId);
-        return paciente;
-    }
-
-    @Named("mapNutricionistaId")
-    default Nutricionista mapNutricionistaId(Integer nutricionistaId) {
-        if (nutricionistaId == null) {
-            return null;
-        }
-        Nutricionista nutricionista = new Nutricionista();
-        nutricionista.setId(nutricionistaId);
-        return nutricionista;
     }
 }

@@ -168,8 +168,8 @@ public class CitaRestController {
     @GetMapping("/citasNutricionista/{id}")
     public ResponseEntity<ManualApiResponseDTO<List<Map<String, Object>>>> getCitasPorNutricionistaEntreFechas(
             @Parameter(description = "Nutritionist ID") @PathVariable("id") int idNutricionista,
-            @Parameter(description = "Start date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam("start") LocalDate startDate,
-            @Parameter(description = "End date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) @RequestParam("end") LocalDate endDate) {
+            @Parameter(description = "Start date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam("start") LocalDate startDate,
+            @Parameter(description = "End date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @RequestParam("end") LocalDate endDate) {
         try {
             List<Map<String, Object>> citas = citaService.listarPorNutricionistaEntreFechas(idNutricionista, startDate, endDate);
             return ResponseEntity.ok(

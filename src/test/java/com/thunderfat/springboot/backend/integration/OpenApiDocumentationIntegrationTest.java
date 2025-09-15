@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest
 @AutoConfigureMockMvc
+@ActiveProfiles({"test"})
 public class OpenApiDocumentationIntegrationTest {
 
     @Autowired
@@ -33,7 +34,7 @@ public class OpenApiDocumentationIntegrationTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.openapi").value("3.0.1"))
+                .andExpect(jsonPath("$.openapi").value("3.1.0"))
                 .andExpect(jsonPath("$.info.title").value("ThunderFat Nutrition Management API"))
                 .andExpect(jsonPath("$.paths").exists())
                 .andExpect(jsonPath("$.components.schemas").exists());
@@ -46,9 +47,7 @@ public class OpenApiDocumentationIntegrationTest {
     public void swaggerUiEndpointShouldBeAvailable() throws Exception {
         mockMvc.perform(get("/swagger-ui.html")
                 .accept(MediaType.TEXT_HTML))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType("text/html;charset=UTF-8"))
-                .andExpect(content().string(containsString("Swagger UI")));
+                .andExpect(status().isFound()); // 302 redirect to /swagger-ui/index.html
     }
     
     /**
@@ -56,11 +55,11 @@ public class OpenApiDocumentationIntegrationTest {
      */
     @Test
     public void openApiShouldDocumentPlatoPredeterminadoEndpoints() throws Exception {
-        mockMvc.perform(get("/api-docs")
+        mockMvc.perform(get("/v3/api-docs")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.paths./api/v1/dishes/{id}").exists())
-                .andExpect(jsonPath("$.paths./api/v1/nutritionists/{nutricionistaId}/dishes").exists())
+                .andExpect(jsonPath("$.paths['/platopredeterminado/api/v1/dishes/{id}']").exists())
+                .andExpect(jsonPath("$.paths['/platopredeterminado/api/v1/nutritionists/{nutricionistaId}/dishes']").exists())
                 .andExpect(jsonPath("$.components.schemas.PlatoPredeterminadoDTO").exists());
     }
 }

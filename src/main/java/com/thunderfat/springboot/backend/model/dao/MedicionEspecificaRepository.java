@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.entity.MedicionEspecifica;
@@ -31,6 +32,7 @@ public interface MedicionEspecificaRepository extends JpaRepository<MedicionEspe
      * @return list of specific measurements for the patient
      */
     @Query("SELECT me FROM MedicionEspecifica me WHERE me.id_paciente = :pacienteId ORDER BY me.fecha DESC")
+    @RestResource(path = "findByPacienteIdList", rel = "findByPacienteIdList")
     List<MedicionEspecifica> findByPacienteId(@Param("pacienteId") Integer pacienteId);
     
     /**
@@ -41,6 +43,7 @@ public interface MedicionEspecificaRepository extends JpaRepository<MedicionEspe
      * @return paginated list of specific measurements
      */
     @Query("SELECT me FROM MedicionEspecifica me WHERE me.id_paciente = :pacienteId")
+    @RestResource(path = "findByPacienteIdPaged", rel = "findByPacienteIdPaged")
     Page<MedicionEspecifica> findByPacienteId(@Param("pacienteId") Integer pacienteId, Pageable pageable);
     
     /**

@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.entity.MedicionSegmental;
@@ -42,6 +43,7 @@ public interface MedicionSegmentalRepository extends BaseRepository<MedicionSegm
      */
     @Cacheable(value = "mediciones-segmentales", key = "'patient_' + #pacienteId + '_' + #pageable.pageNumber + '_' + #pageable.pageSize")
     @Query("SELECT ms FROM MedicionSegmental ms WHERE ms.id_paciente = :pacienteId ORDER BY ms.fecha DESC")
+    @RestResource(path = "findByPacienteIdPaged", rel = "findByPacienteIdPaged")
     Page<MedicionSegmental> findByPacienteId(@Param("pacienteId") Integer pacienteId, Pageable pageable);
     
     /**
@@ -52,6 +54,7 @@ public interface MedicionSegmentalRepository extends BaseRepository<MedicionSegm
      */
     @Cacheable(value = "mediciones-segmentales", key = "'patient_all_' + #pacienteId")
     @Query("SELECT ms FROM MedicionSegmental ms WHERE ms.id_paciente = :pacienteId ORDER BY ms.fecha DESC")
+    @RestResource(path = "findByPacienteIdList", rel = "findByPacienteIdList")
     List<MedicionSegmental> findByPacienteId(@Param("pacienteId") Integer pacienteId);
     
     /**

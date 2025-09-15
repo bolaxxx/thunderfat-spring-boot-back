@@ -1,13 +1,15 @@
 package com.thunderfat.springboot.backend.config;
 
 import org.springframework.boot.test.context.TestConfiguration;
-import org.springframework.cache.CacheManager;
-import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.client.RestTemplate;
+
+import com.thunderfat.springboot.backend.auth.JwtService;
 
 /**
  * Test configuration for ThunderFat application.
@@ -21,30 +23,43 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class TestConfig {
 
     /**
-     * Simple cache manager for tests to avoid complex caching logic
-     */
-    @Bean
-    @Primary
-    public CacheManager testCacheManager() {
-        return new ConcurrentMapCacheManager(
-            "test-cache",
-            "pacientes",
-            "plan-dieta", 
-            "nutricionista",
-            "chats",
-            "comidas",
-            "citas",
-            "alimentos"
-        );
-    }
-
-    /**
      * Password encoder for test data
      */
     @Bean
     @Primary
     public PasswordEncoder testPasswordEncoder() {
         return new BCryptPasswordEncoder(4); // Lower strength for faster tests
+    }
+
+    /**
+     * Authentication Manager for test environment
+     * Using a simple mock that accepts any authentication
+     */
+    @Bean
+    @Primary
+    public AuthenticationManager authenticationManager() {
+        return authentication -> {
+            authentication.setAuthenticated(true);
+            return authentication;
+        };
+    }
+
+    /**
+     * RestTemplate bean for test environment
+     */
+    @Bean
+    @Primary
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+
+    /**
+     * Mock JwtService for test environment
+     */
+    @Bean
+    @Primary
+    public JwtService jwtService() {
+        return org.mockito.Mockito.mock(JwtService.class);
     }
 
     /**

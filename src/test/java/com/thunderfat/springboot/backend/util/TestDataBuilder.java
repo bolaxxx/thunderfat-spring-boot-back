@@ -37,7 +37,7 @@ public class TestDataBuilder {
     
     public static NutricionistaDTO buildValidNutricionistaDTO() {
         return NutricionistaDTO.builder()
-                .id(1)
+                // Remove explicit ID setting - let database auto-generate
                 .nombre("Dr. Test")
                 .apellidos("Nutrition Specialist")
                 .email("test.nutritionist@example.com")
@@ -49,20 +49,27 @@ public class TestDataBuilder {
     }
     
     public static Nutricionista buildValidNutricionista() {
+        return buildValidNutricionista("test.nutritionist@example.com", "COL12345");
+    }
+    
+    public static Nutricionista buildValidNutricionista(String email, String numeroColegiado) {
+        return buildValidNutricionista(email, numeroColegiado, generateUniqueDni());
+    }
+    
+    public static Nutricionista buildValidNutricionista(String email, String numeroColegiado, String dni) {
         Nutricionista nutricionista = new Nutricionista();
-        nutricionista.setId(1);
+        // Remove explicit ID setting - let database auto-generate
         nutricionista.setNombre("Dr. Test");
         nutricionista.setApellidos("Nutrition Specialist");
-        nutricionista.setEmail("test.nutritionist@example.com");
+        nutricionista.setEmail(email);
         nutricionista.setTelefono("123456789");
-        nutricionista.setNumeroColegiadoProfesional("COL12345");
-        nutricionista.setDni("12345678A");
+        nutricionista.setNumeroColegiadoProfesional(numeroColegiado);
+        nutricionista.setDni(dni);
         nutricionista.setPsw(TEST_PASSWORD);
         nutricionista.setEnabled(true);
         
-        // Add role
+        // Add role (don't set ID - will be handled by test setup)
         Rol role = new Rol();
-        role.setId(1);
         role.setNombre("ROLE_NUTRICIONISTA");
         List<Rol> roles = new ArrayList<>();
         roles.add(role);
@@ -71,13 +78,19 @@ public class TestDataBuilder {
         return nutricionista;
     }
     
+    private static String generateUniqueDni() {
+        // Generate a unique DNI for testing purposes
+        long timestamp = System.nanoTime() % 100000000L; // Last 8 digits of nano time
+        return String.format("%08d", timestamp) + "A";
+    }
+    
     // ====================================
     // PACIENTE TEST DATA
     // ====================================
     
     public static PacienteDTO buildValidPacienteDTO(Integer nutricionistaId) {
         return PacienteDTO.builder()
-                .id(1)
+                // Remove explicit ID setting - let database auto-generate
                 .nombre("John")
                 .apellidos("Test Patient")
                 .email("john.patient@example.com")
@@ -90,7 +103,7 @@ public class TestDataBuilder {
     
     public static Paciente buildValidPaciente(Nutricionista nutricionista) {
         Paciente paciente = new Paciente();
-        paciente.setId(1);
+        // Remove explicit ID setting - let database auto-generate
         paciente.setNombre("John");
         paciente.setApellidos("Test Patient");
         paciente.setEmail("john.patient@example.com");
@@ -101,9 +114,8 @@ public class TestDataBuilder {
         paciente.setPsw(TEST_PASSWORD);
         paciente.setEnabled(true);
         
-        // Add role
+        // Add role (don't set ID - will be handled by test setup)
         Rol role = new Rol();
-        role.setId(2);
         role.setNombre("ROLE_PACIENTE");
         List<Rol> roles = new ArrayList<>();
         roles.add(role);
@@ -118,7 +130,7 @@ public class TestDataBuilder {
     
     public static PlanDietaDTO buildValidPlanDietaDTO(Integer nutricionistaId, Integer pacienteId) {
         return PlanDietaDTO.builder()
-                .id(1)
+                // Remove explicit ID setting - let database auto-generate
                 .fechaini(LocalDate.now())
                 .fechafin(LocalDate.now().plusDays(30))
                 .idNutricionista(nutricionistaId)
@@ -130,7 +142,7 @@ public class TestDataBuilder {
     
     public static PlanDieta buildValidPlanDieta(Nutricionista nutricionista, Paciente paciente) {
         PlanDieta plan = new PlanDieta();
-        plan.setId(1);
+        // Remove explicit ID setting - let database auto-generate
         plan.setFechaini(LocalDate.now());
         plan.setFechafin(LocalDate.now().plusDays(30));
         plan.setId_nutricionista(nutricionista.getId());
@@ -148,7 +160,7 @@ public class TestDataBuilder {
     
     public static CitaDTO buildValidCitaDTO(Integer nutricionistaId, Integer pacienteId) {
         return CitaDTO.builder()
-                .id(1)
+                // Remove explicit ID setting - let database auto-generate
                 .fechaInicio(LocalDateTime.now().plusDays(1))
                 .fechaFin(LocalDateTime.now().plusDays(1).plusHours(1))
                 .notas("Test appointment")
@@ -159,7 +171,7 @@ public class TestDataBuilder {
     
     public static Cita buildValidCita(Nutricionista nutricionista, Paciente paciente) {
         Cita cita = new Cita();
-        cita.setId(1);
+        // Remove explicit ID setting - let database auto-generate
         cita.setFechaini(LocalDateTime.now().plusDays(1));
         cita.setFechafin(LocalDateTime.now().plusDays(1).plusHours(1));
         cita.setNutricionista(nutricionista);
@@ -173,7 +185,7 @@ public class TestDataBuilder {
     
     public static AlimentoDTO buildValidAlimentoDTO() {
         return AlimentoDTO.builder()
-                .id(1)
+                // Remove explicit ID setting - let database auto-generate
                 .nombre("Test Food")
                 .estado("Active")
                 .cal(100.0)
@@ -186,7 +198,7 @@ public class TestDataBuilder {
     
     public static Alimento buildValidAlimento() {
         Alimento alimento = new Alimento();
-        alimento.setId(1);
+        // Remove explicit ID setting - let database auto-generate
         alimento.setNombre("Test Food");
         alimento.setEstado("Active");
         alimento.setCal(100.0);
@@ -203,7 +215,7 @@ public class TestDataBuilder {
     
     public static ComidaDTO buildValidComidaDTO() {
         ComidaDTO comida = new ComidaDTO();
-        comida.setId(1);
+        // Remove explicit ID setting - let database auto-generate
         comida.setHora(LocalTime.of(8, 0));
         comida.setValoracion(5);
         return comida;
@@ -211,7 +223,7 @@ public class TestDataBuilder {
     
     public static Comida buildValidComida() {
         Comida comida = new Comida();
-        comida.setId(1);
+        // Remove explicit ID setting - let database auto-generate
         comida.setHora(LocalTime.of(8, 0));
         comida.setValoracion(5);
         return comida;

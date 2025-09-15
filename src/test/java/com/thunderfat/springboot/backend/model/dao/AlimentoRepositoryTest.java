@@ -12,11 +12,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
+import com.thunderfat.springboot.backend.config.TestDataJpaConfig;
 import com.thunderfat.springboot.backend.model.entity.Alimento;
 
 /**
@@ -34,6 +37,11 @@ import com.thunderfat.springboot.backend.model.entity.Alimento;
  * @version 2025.1
  */
 @DataJpaTest
+@Import(TestDataJpaConfig.class)
+@TestPropertySource(properties = {
+    "spring.jpa.hibernate.ddl-auto=create-drop",
+    "spring.datasource.url=jdbc:h2:mem:alimentotest;DB_CLOSE_DELAY=-1;CASE_INSENSITIVE_IDENTIFIERS=TRUE"
+})
 @ActiveProfiles("test")
 @DisplayName("AlimentoRepository Integration Tests")
 class AlimentoRepositoryTest {
@@ -255,12 +263,12 @@ class AlimentoRepositoryTest {
         @DisplayName("Should find foods rich in specific vitamin")
         void shouldFindFoodsRichInVitamin() {
             // When
-            List<Alimento> vitaminDFoods = alimentoRepository.findFoodsRichInVitamin("vitamina", 5.0);
-            List<Alimento> vitaminCFoods = alimentoRepository.findFoodsRichInVitamin("vitaminc", 1.0);
+            List<Alimento> vitaminAFoods = alimentoRepository.findFoodsRichInVitamin("A", 5.0);
+            List<Alimento> vitaminCFoods = alimentoRepository.findFoodsRichInVitamin("C", 1.0);
             
             // Then
-            assertThat(vitaminDFoods).hasSize(1); // Only Salmón (11.0)
-            assertThat(vitaminDFoods.get(0).getNombre()).isEqualTo("Salmón a la plancha");
+            assertThat(vitaminAFoods).hasSize(1); // Only Salmón (11.0)
+            assertThat(vitaminAFoods.get(0).getNombre()).isEqualTo("Salmón a la plancha");
             
             assertThat(vitaminCFoods).isEmpty(); // No foods with vitaminc > 1.0
         }
@@ -301,6 +309,7 @@ class AlimentoRepositoryTest {
             duplicateAlimento.setNombre("Pollo a la plancha"); // Duplicate name
             duplicateAlimento.setCal(100.0);
             duplicateAlimento.setProteinas(10.0);
+            duplicateAlimento.setEstado("fresco"); // Add required estado field
             
             // When & Then
             // This should succeed since we're not enforcing unique constraint at database level
@@ -320,7 +329,9 @@ class AlimentoRepositoryTest {
             // Given
             Alimento alimentoWithNulls = new Alimento();
             alimentoWithNulls.setNombre("Alimento con nulos");
-            // Leaving other fields as null
+            alimentoWithNulls.setCal(100.0); // Add required cal field
+            alimentoWithNulls.setEstado("procesado"); // Add required estado field
+            // Leaving other optional fields as null
             
             // When
             Alimento saved = entityManager.persistAndFlush(alimentoWithNulls);
@@ -328,8 +339,10 @@ class AlimentoRepositoryTest {
             // Then
             assertThat(saved.getId()).isNotNull();
             assertThat(saved.getNombre()).isEqualTo("Alimento con nulos");
-            assertThat(saved.getCal()).isNull();
+            assertThat(saved.getCal()).isEqualTo(100.0);
+            assertThat(saved.getEstado()).isEqualTo("procesado");
             assertThat(saved.getProteinas()).isNull();
+            assertThat(saved.getGrasas()).isNull();
         }
     }
     

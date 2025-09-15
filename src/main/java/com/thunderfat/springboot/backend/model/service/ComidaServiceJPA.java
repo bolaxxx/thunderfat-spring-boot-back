@@ -289,6 +289,9 @@ public class ComidaServiceJPA implements IComidaService {
             return substitutions.stream()
                     .map(platoPredeterminadoMapper::toDto)
                     .collect(Collectors.toList());
+        } catch (ResourceNotFoundException e) {
+            // Let ResourceNotFoundException bubble up
+            throw e;
         } catch (Exception e) {
             log.error("Error finding meal substitutions for patient: {} and plate: {}", pacienteId, platoId, e);
             throw new BusinessException("Error al buscar sustituciones de comida", e);
@@ -495,8 +498,17 @@ public class ComidaServiceJPA implements IComidaService {
      */
     private boolean isIngredientInPlan(PlatoPredeterminado plato, PlanDieta plandieta) {
         try {
+            // Add null checks for safety
+            if (plato == null || plato.getIngredientes() == null || 
+                plandieta == null || plandieta.getFiltrosaplicado() == null ||
+                plandieta.getFiltrosaplicado().getAlimentos() == null) {
+                log.warn("Null ingredients or plan data found, returning false for safety");
+                return false;
+            }
+            
             return plato.getIngredientes().stream()
                     .anyMatch(ingrediente -> 
+                        ingrediente != null && ingrediente.getAlimento() != null &&
                         plandieta.getFiltrosaplicado().getAlimentos().contains(ingrediente.getAlimento()));
         } catch (Exception e) {
             log.error("Error checking if ingredient is in plan", e);

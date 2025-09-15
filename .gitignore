@@ -30,11 +30,36 @@ HELP.md
 
 ### Temporary Files ###
 *.txt
+*.log
+nul
+
+### JSON Files (Keep Important Ones) ###
 *.json
 !pom.xml
 !package.json
 !application.properties
+!api/openapi.json
+!.spectral.yml
 
 ### Test Output ###
 test-output/
 logs/
+redis-monitor.bat
+setup-redis.bat
+
+### Node.js ###
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+### Generated SDK ###
+sdk/node_modules/
+sdk/*.js
+sdk/*.d.ts
+sdk/package-lock.json
+
+### Certificates ###
+certificates/*.p12
+certificates/*.jks
+!certificates/.gitkeep

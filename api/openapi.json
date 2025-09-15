@@ -1,0 +1,55 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ThunderFat Nutrition Management API",
+    "version": "1.0.0",
+    "description": "Comprehensive nutrition and diet management system"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "operationId": "authenticate",
+        "summary": "User authentication",
+        "tags": ["Authentication"],
+        "responses": {
+          "200": {
+            "description": "Authentication successful"
+          }
+        }
+      }
+    },
+    "/pacientes": {
+      "get": {
+        "operationId": "getAllPacientes",
+        "summary": "Get all patients",
+        "tags": ["Patient Management"],
+        "responses": {
+          "200": {
+            "description": "List of patients"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PacienteDTO": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "nombre": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

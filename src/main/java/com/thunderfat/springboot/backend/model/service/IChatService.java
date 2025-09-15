@@ -31,16 +31,24 @@ public interface IChatService {
     // ================================
 
     /**
-     * List all chats in the system.
-     * @deprecated Use findAll(Pageable) for better performance
-     */
-    @Deprecated(since = "3.5.4", forRemoval = true)
-    List<ChatDTO> listar();
-
-    /**
      * Find chat by ID.
      */
     ChatDTO buscarPorId(int idChat);
+
+    /**
+     * List all chats (legacy method).
+     */
+    List<ChatDTO> listar();
+
+    /**
+     * Find chat by patient ID (legacy method).
+     */
+    ChatDTO buscarPorPaciente(int pacienteId);
+
+    /**
+     * Find chats by nutritionist ID (legacy method).
+     */
+    List<ChatDTO> buscarPorNutricionista(int nutricionistaId);
 
     /**
      * Create new chat.
@@ -51,20 +59,6 @@ public interface IChatService {
      * Delete chat by ID.
      */
     void eliminar(int idChat);
-
-    /**
-     * Find chat for specific patient.
-     * @deprecated Use findByPacienteId(Integer) instead
-     */
-    @Deprecated(since = "3.5.4", forRemoval = true)
-    ChatDTO buscarPorPaciente(int idPaciente);
-
-    /**
-     * Find chats for specific nutritionist.
-     * @deprecated Use findByNutricionistaId(Integer, Pageable) instead
-     */
-    @Deprecated(since = "3.5.4", forRemoval = true)
-    List<ChatDTO> buscarPorNutricionista(int idNutricionista);
 
     // ================================
     // MODERN OPERATIONS (Spring Boot 2025)

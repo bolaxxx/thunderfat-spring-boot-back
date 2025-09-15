@@ -1,0 +1,104 @@
+# =====================================
+# DEVELOPMENT ENVIRONMENT CONFIGURATION
+# =====================================
+# Configuration for local development with Redis caching
+
+spring:
+  # Redis Configuration for Development
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 20
+          max-idle: 10
+          min-idle: 2
+          max-wait: 2000ms
+        shutdown-timeout: 100ms
+  
+  # Override cache type to use Redis
+  cache:
+    type: redis
+    redis:
+      time-to-live: 30m # Default TTL
+      cache-null-values: false
+      use-key-prefix: true
+      key-prefix: "thunderfat:"
+    cache-names:
+      # Patient-related caches
+      - pacientes
+      - pacientes-by-nutritionist
+      - paciente-stats
+      - paciente-search
+      - paciente-search-dni
+      - paciente-search-telefono
+      - paciente-search-nombre
+      - paciente-appointments
+      - paciente-exists
+      - paciente-validation
+      
+      # Cita service caches
+      - citas-by-patient
+      - citas-by-nutritionist
+      - citas-by-nutritionist-dates
+      - next-appointment
+      - cita-stats
+      - upcoming-appointments
+      - appointment-conflicts
+      - calendar-events
+      
+      # Other entity caches
+      - nutricionistas
+      - alimentos
+      - planesdieta
+      - mediciones
+      - usuarios
+      - roles
+      - statistics
+      
+      # Comida service caches
+      - comidas
+      - comida-stats
+      - comida-substitutions
+      
+      # PlatoPredeterminado service caches
+      - platos-predeterminados
+      - platos-by-nutricionista
+      - platos-by-nutricionista-list
+      
+      # Chat system caches
+      - chats
+      - chat-stats
+      
+      # Additional Spanish billing caches
+      - facturas
+      - facturas-stats
+      - facturas-paginated
+      - facturas-paciente
+      - iva-calculations
+      - verifactu-responses
+      - certificados-cache
+
+# =====================================
+# REDIS HEALTH CHECK CONFIGURATION
+# =====================================
+management:
+  health:
+    redis:
+      enabled: true
+    db:
+      enabled: true
+
+# =====================================
+# LOGGING FOR REDIS DEBUGGING
+# =====================================
+logging:
+  level:
+    "[org.springframework.cache]": DEBUG
+    "[org.springframework.data.redis]": DEBUG
+    "[io.lettuce.core]": INFO
+    "[com.thunderfat.springboot.backend.config.CacheConfig]": DEBUG
+    "[com.thunderfat.springboot.backend.config.RedisConfig]": DEBUG

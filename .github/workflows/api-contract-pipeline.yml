@@ -1,0 +1,438 @@
+name: API Contract & SDK Pipeline
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+env:
+  JAVA_VERSION: '21'
+  NODE_VERSION: '20'
+  REGISTRY: npm
+  SDK_PACKAGE_NAME: '@thunderfat/backend-sdk'
+
+jobs:
+  # Step 1: Export OpenAPI spec from running application
+  export-api-spec:
+    runs-on: ubuntu-latest
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: sasa
+          MYSQL_DATABASE: thunderfatboot
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      - name: Start Spring Boot application
+        run: |
+          # Start the application in background
+          ./mvnw spring-boot:run -Dspring-boot.run.jvmArguments="-Dserver.port=8080" &
+          APP_PID=$!
+          echo "APP_PID=$APP_PID" >> $GITHUB_ENV
+          
+          # Wait for application to be ready
+          timeout 120 bash -c 'until curl -f http://localhost:8080/actuator/health; do sleep 2; done'
+
+      - name: Export OpenAPI specification
+        run: |
+          # Export the API spec from the running application
+          curl -s http://localhost:8080/v3/api-docs > api/openapi.json
+          
+          # Validate the exported spec is valid JSON
+          python -m json.tool api/openapi.json > /dev/null
+          
+          # Pretty format the JSON
+          python -m json.tool api/openapi.json > temp.json && mv temp.json api/openapi.json
+
+      - name: Stop Spring Boot application
+        run: |
+          kill $APP_PID || true
+          wait $APP_PID 2>/dev/null || true
+
+      - name: Upload OpenAPI spec artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: openapi-spec
+          path: api/openapi.json
+          retention-days: 30
+
+  # Step 2: Lint and validate the API specification
+  validate-api-spec:
+    runs-on: ubuntu-latest
+    needs: export-api-spec
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Download OpenAPI spec
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-spec
+          path: api/
+
+      - name: Install validation tools
+        run: |
+          npm install -g @stoplight/spectral-cli
+          npm install -g openapi-diff
+
+      - name: Lint OpenAPI specification
+        run: |
+          # Create Spectral config if it doesn't exist
+          if [ ! -f ".spectral.yml" ]; then
+            cat > .spectral.yml << 'EOF'
+          extends: ["@stoplight/spectral/dist/rulesets/oas/index.js"]
+          rules:
+            operation-operationId: error
+            operation-description: warn
+            operation-tag-defined: error
+            path-params: error
+            contact-properties: off
+            license-url: off
+            no-$ref-siblings: off
+          EOF
+          fi
+          
+          spectral lint api/openapi.json --format junit --output spectral-report.xml
+          spectral lint api/openapi.json
+
+      - name: Check for breaking changes
+        if: github.event_name == 'pull_request'
+        run: |
+          # Get the previous version of the spec from the base branch
+          git fetch origin ${{ github.base_ref }}
+          
+          # Check if previous spec exists
+          if git show origin/${{ github.base_ref }}:api/openapi.json > previous-spec.json 2>/dev/null; then
+            # Compare specifications
+            openapi-diff previous-spec.json api/openapi.json --format json > api-diff.json
+            
+            # Check for breaking changes
+            if jq -e '.breakingChanges | length > 0' api-diff.json > /dev/null; then
+              echo "🚨 BREAKING CHANGES DETECTED!"
+              echo "The following breaking changes were found:"
+              jq -r '.breakingChanges[] | "- \(.description)"' api-diff.json
+              echo ""
+              echo "Consider:"
+              echo "1. Incrementing MAJOR version"
+              echo "2. Creating a new API version (/api/v2)"
+              echo "3. Deprecating old endpoints before removing them"
+              exit 1
+            else
+              echo "✅ No breaking changes detected"
+            fi
+          else
+            echo "ℹ️ No previous specification found, skipping breaking change detection"
+          fi
+
+      - name: Upload validation results
+        uses: actions/upload-artifact@v4
+        with:
+          name: validation-results
+          path: |
+            spectral-report.xml
+            api-diff.json
+
+  # Step 3: Generate and package SDK
+  generate-sdk:
+    runs-on: ubuntu-latest
+    needs: [export-api-spec, validate-api-spec]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Download OpenAPI spec
+        uses: actions/download-artifact@v4
+        with:
+          name: openapi-spec
+          path: api/
+
+      - name: Install SDK generation tools
+        run: |
+          npm install -g openapi-typescript-codegen
+
+      - name: Generate TypeScript SDK
+        run: |
+          # Create SDK directory
+          mkdir -p sdk
+          
+          # Generate TypeScript client
+          openapi --input api/openapi.json \
+                  --output sdk \
+                  --client axios \
+                  --name ThunderFatApi \
+                  --useOptions \
+                  --useUnionTypes
+
+      - name: Create SDK package.json
+        run: |
+          # Determine version based on changes
+          CURRENT_VERSION=$(jq -r '.version // "1.0.0"' package.json 2>/dev/null || echo "1.0.0")
+          
+          # For now, increment patch version (proper semver logic can be added later)
+          NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{$NF = $NF + 1;} 1' | sed 's/ /./g')
+          
+          cat > sdk/package.json << EOF
+          {
+            "name": "${{ env.SDK_PACKAGE_NAME }}",
+            "version": "$NEW_VERSION",
+            "description": "TypeScript SDK for ThunderFat Nutrition Management API",
+            "main": "index.js",
+            "types": "index.d.ts",
+            "scripts": {
+              "build": "tsc",
+              "prepublishOnly": "npm run build"
+            },
+            "keywords": [
+              "thunderfat",
+              "nutrition",
+              "api",
+              "sdk",
+              "typescript"
+            ],
+            "author": "ThunderFat Team",
+            "license": "MIT",
+            "repository": {
+              "type": "git",
+              "url": "https://github.com/${{ github.repository }}"
+            },
+            "dependencies": {
+              "axios": "^1.6.0"
+            },
+            "devDependencies": {
+              "typescript": "^5.0.0"
+            },
+            "files": [
+              "index.js",
+              "index.d.ts",
+              "models/",
+              "services/",
+              "README.md"
+            ]
+          }
+          EOF
+
+      - name: Create SDK TypeScript config
+        run: |
+          cat > sdk/tsconfig.json << 'EOF'
+          {
+            "compilerOptions": {
+              "target": "ES2020",
+              "module": "CommonJS",
+              "lib": ["ES2020"],
+              "declaration": true,
+              "outDir": "./",
+              "strict": true,
+              "esModuleInterop": true,
+              "skipLibCheck": true,
+              "forceConsistentCasingInFileNames": true
+            },
+            "include": [
+              "**/*.ts"
+            ],
+            "exclude": [
+              "node_modules",
+              "**/*.js"
+            ]
+          }
+          EOF
+
+      - name: Create SDK README
+        run: |
+          cat > sdk/README.md << 'EOF'
+          # ThunderFat Backend SDK
+
+          TypeScript/JavaScript SDK for the ThunderFat Nutrition Management API.
+
+          ## Installation
+
+          ```bash
+          npm install @thunderfat/backend-sdk
+          ```
+
+          ## Usage
+
+          ```typescript
+          import { ThunderFatApi } from '@thunderfat/backend-sdk';
+
+          const api = new ThunderFatApi({
+            BASE: 'https://api.thunderfat.com',
+            TOKEN: 'your-jwt-token'
+          });
+
+          // Example: Get all patients
+          const patients = await api.paciente.getAllPacientes();
+          ```
+
+          ## Features
+
+          - Full TypeScript support
+          - Automatic request/response typing
+          - Built-in authentication handling
+          - Comprehensive error handling
+
+          ## Documentation
+
+          For full API documentation, visit: [API Docs](https://api.thunderfat.com/swagger-ui/)
+          EOF
+
+      - name: Build SDK
+        run: |
+          cd sdk
+          npm install
+          npm run build
+
+      - name: Upload SDK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdk-package
+          path: sdk/
+
+      # Uncomment when ready to publish to npm
+      # - name: Publish SDK to npm
+      #   if: github.ref == 'refs/heads/master'
+      #   run: |
+      #     cd sdk
+      #     npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  # Step 4: Update changelog and create release
+  create-release:
+    runs-on: ubuntu-latest
+    needs: [export-api-spec, validate-api-spec, generate-sdk]
+    if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          pattern: '*'
+          merge-multiple: true
+
+      - name: Determine version bump
+        id: version
+        run: |
+          # Simple version detection logic (can be enhanced)
+          if [ -f "api-diff.json" ] && jq -e '.breakingChanges | length > 0' api-diff.json > /dev/null; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          elif git log --oneline $(git describe --tags --abbrev=0 2>/dev/null || echo "HEAD~10")..HEAD | grep -i "feat\|add" > /dev/null; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          else
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update CHANGELOG_API.md
+        run: |
+          # Get current date
+          DATE=$(date +%Y-%m-%d)
+          
+          # Get current version from pom.xml
+          CURRENT_VERSION=$(grep -oP '<version>\K[^<]+' pom.xml | head -1)
+          
+          # Calculate new version based on bump type
+          case "${{ steps.version.outputs.bump }}" in
+            "major")
+              NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{print ($1+1)".0.0"}')
+              ;;
+            "minor")
+              NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{print $1"."($2+1)".0"}')
+              ;;
+            "patch")
+              NEW_VERSION=$(echo $CURRENT_VERSION | awk -F. '{print $1"."$2"."($3+1)}')
+              ;;
+          esac
+          
+          # Create changelog entry
+          TEMP_CHANGELOG=$(mktemp)
+          echo "# ThunderFat API Changelog" > $TEMP_CHANGELOG
+          echo "" >> $TEMP_CHANGELOG
+          echo "## [$NEW_VERSION] - $DATE" >> $TEMP_CHANGELOG
+          echo "" >> $TEMP_CHANGELOG
+          echo "### Changed" >> $TEMP_CHANGELOG
+          echo "- API specification updated" >> $TEMP_CHANGELOG
+          echo "- SDK regenerated with latest changes" >> $TEMP_CHANGELOG
+          echo "" >> $TEMP_CHANGELOG
+          
+          # Append existing changelog (skip the first line)
+          tail -n +2 CHANGELOG_API.md >> $TEMP_CHANGELOG
+          mv $TEMP_CHANGELOG CHANGELOG_API.md
+          
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit updated files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          
+          # Update version in pom.xml
+          sed -i "s/<version>.*<\/version>/<version>$NEW_VERSION<\/version>/" pom.xml
+          
+          git add api/openapi.json CHANGELOG_API.md pom.xml
+          git commit -m "chore: update API spec and changelog for v$NEW_VERSION" || exit 0
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ env.NEW_VERSION }}
+          release_name: Release v${{ env.NEW_VERSION }}
+          body: |
+            ## Changes in v${{ env.NEW_VERSION }}
+            
+            This release includes API specification updates and SDK regeneration.
+            
+            ### API Changes
+            - Updated OpenAPI specification
+            - Generated TypeScript SDK
+            
+            ### Downloads
+            - [OpenAPI Specification](https://github.com/${{ github.repository }}/releases/download/v${{ env.NEW_VERSION }}/openapi.json)
+            - [TypeScript SDK](https://www.npmjs.com/package/@thunderfat/backend-sdk)
+            
+            For detailed changes, see [CHANGELOG_API.md](https://github.com/${{ github.repository }}/blob/master/CHANGELOG_API.md)
+          draft: false
+          prerelease: false

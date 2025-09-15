@@ -20,6 +20,11 @@ public interface CitaMapper {
     @Mapping(source = "fechafin", target = "fechaFin")
     @Mapping(source = "paciente.id", target = "pacienteId")
     @Mapping(source = "nutricionista.id", target = "nutricionistaId")
+    @Mapping(target = "notas", ignore = true) // Set manually if needed
+    @Mapping(target = "pacienteNombre", ignore = true) // Computed field
+    @Mapping(target = "nutricionistaNombre", ignore = true) // Computed field
+    @Mapping(target = "duracionMinutos", ignore = true) // Computed field
+    @Mapping(target = "estado", ignore = true) // Computed field
     @Mapping(target = "paciente", ignore = true) // Handle separately if needed
     @Mapping(target = "nutricionista", ignore = true) // Handle separately if needed
     CitaDTO toDto(Cita cita);

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.entity.PlatoPredeterminado;
@@ -28,6 +29,7 @@ public interface PlatoPredeterminadoRepository extends JpaRepository<PlatoPredet
      * @param id_nutricionista The ID of the nutritionist
      * @return List of PlatoPredeterminado entities
      */
+    @RestResource(path = "byNutricionistaIdQuery", rel = "byNutricionistaIdQuery")
     @Query("SELECT p FROM PlatoPredeterminado p WHERE p.nutricionista.id = :id_nutricionista")
     List<PlatoPredeterminado> listapornutricionista(@Param("id_nutricionista") int id_nutricionista);
     
@@ -38,6 +40,7 @@ public interface PlatoPredeterminadoRepository extends JpaRepository<PlatoPredet
      * @param nutricionistaId The nutritionist ID
      * @return List of dishes
      */
+    @RestResource(path = "byNutricionistaIdConvention", rel = "byNutricionistaIdConvention")
     List<PlatoPredeterminado> findByNutricionistaId(Integer nutricionistaId);
     
     /**

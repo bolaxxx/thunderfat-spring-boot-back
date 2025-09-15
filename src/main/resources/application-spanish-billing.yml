@@ -1,0 +1,129 @@
+# =====================================
+# SPANISH MARKET COMPLIANCE CONFIGURATION
+# =====================================
+# Configuración para cumplimiento normativo español
+# Requerido para Verifactu (julio 2025) y Facturae B2B (2026)
+
+# Información de la empresa
+thunderfat:
+  spain:
+    company:
+      nif: "B12345678"
+      nombre: "ThunderFat Nutrición S.L."
+      nombre-comercial: "ThunderFat"
+      direccion: "Calle Principal, 123"
+      codigo-postal: "28001"
+      poblacion: "Madrid"
+      provincia: "Madrid"
+      pais: "España"
+      codigo-pais: "ES"
+      telefono: "912345678"
+      email: "facturacion@thunderfat.com"
+      web: "https://www.thunderfat.com"
+
+    # Configuración Sistema Verifactu (AEAT)
+    verifactu:
+      endpoint: "https://prewww2.aeat.es/wlpl/TIKE-CONT/ValidarRegistrosFacturacion"
+      endpoint-test: "https://prewww2.aeat.es/wlpl/TIKE-CONT-PREPRO/ValidarRegistrosFacturacion"
+      test-mode: true
+      timeout-seconds: 30
+      max-retries: 3
+      version: "1.0"
+      sistema-informatico-emisor: "ThunderFat Billing System v1.0"
+      id-terminal: "THUNDERFAT_TERMINAL_01"
+
+    # Configuración Facturae B2B
+    facturae:
+      output-directory: "./facturae"
+      version: "3.2.2"
+      schema-location: "http://www.facturae.es/Facturae/2014/v3.2.1/Facturae"
+      tipo-factura-defecto: "FC"
+      moneda-defecto: "EUR"
+      idioma-defecto: "es"
+      firmar-digitalmente: true
+      validar-esquema: true
+
+    # Configuración Certificados Digitales
+    certificados:
+      keystore-path: "./certificates/thunderfat.p12"
+      keystore-password: "${KEYSTORE_PASSWORD:changeit}"
+      keystore-type: "PKCS12"
+      certificate-alias: "thunderfat-sign"
+      certificate-password: "${CERTIFICATE_PASSWORD:changeit}"
+      truststore-path: "./certificates/truststore.jks"
+      truststore-password: "${TRUSTSTORE_PASSWORD:changeit}"
+      validar-cadena: true
+      verificar-revocacion: false
+
+    # Configuración IVA Español
+    iva:
+      tipo-general: 21.0
+      tipo-reducido: 10.0
+      tipo-superreducido: 4.0
+      tipo-medico: 4.0
+      aplicar-iva-medico-automatico: true
+      servicios-medicos:
+        - "NUTRI_MEDICO"
+        - "CONSULTA_MEDICA"
+      umbral-empresario: 1000.0
+      regimen-especial: "01"
+
+# =====================================
+# CONFIGURACIÓN DE CACHÉ PARA FACTURACIÓN
+# =====================================
+spring:
+  cache:
+    caffeine:
+      spec: maximumSize=1000,expireAfterWrite=1h
+    cache-names:
+      - facturas
+      - facturas-stats
+      - facturas-paginated
+      - facturas-paciente
+      - iva-calculations
+      - verifactu-responses
+      - certificados-cache
+
+# =====================================
+# CONFIGURACIÓN DE SEGURIDAD ADICIONAL
+# =====================================
+# Configuración específica para operaciones de facturación
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+  metrics:
+    tags:
+      application: thunderfat-billing
+      environment: ${spring.profiles.active:development}
+
+# =====================================
+# CONFIGURACIÓN DE LOGGING PARA AUDITORÍA
+# =====================================
+logging:
+  level:
+    com.thunderfat.springboot.backend.spain: DEBUG
+    com.thunderfat.springboot.backend.model.service.FacturacionEspanolService: INFO
+    com.thunderfat.springboot.backend.spain.verifactu: INFO
+    com.thunderfat.springboot.backend.spain.facturae: INFO
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+  file:
+    name: ./logs/thunderfat-billing.log
+    max-size: 10MB
+    max-history: 30
+
+# =====================================
+# CONFIGURACIÓN DE VALIDACIÓN
+# =====================================
+# Validaciones específicas para facturación española
+validation:
+  spanish-billing:
+    validate-nif: true
+    validate-postal-codes: true
+    validate-iban: true
+    require-certificate-validation: true

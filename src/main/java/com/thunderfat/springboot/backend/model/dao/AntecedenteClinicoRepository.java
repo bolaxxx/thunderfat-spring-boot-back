@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.entity.AntecedentesClinicos;
@@ -27,6 +28,7 @@ public interface AntecedenteClinicoRepository extends BaseRepository<Antecedente
      * @param pacienteId the ID of the patient
      * @return list of clinical antecedents for the patient
      */
+    @RestResource(path = "findByPacienteIdList", rel = "findByPacienteIdList")
     @Query("SELECT ac FROM AntecedentesClinicos ac WHERE ac.paciente.id = :pacienteId ORDER BY ac.paciente.id DESC")
     List<AntecedentesClinicos> findByPacienteId(@Param("pacienteId") Integer pacienteId);
     
@@ -37,6 +39,7 @@ public interface AntecedenteClinicoRepository extends BaseRepository<Antecedente
      * @param pageable pagination information
      * @return paginated list of clinical antecedents
      */
+    @RestResource(path = "findByPacienteIdPaged", rel = "findByPacienteIdPaged")
     @Query("SELECT ac FROM AntecedentesClinicos ac WHERE ac.paciente.id = :pacienteId")
     Page<AntecedentesClinicos> findByPacienteId(@Param("pacienteId") Integer pacienteId, Pageable pageable);
     
@@ -47,7 +50,7 @@ public interface AntecedenteClinicoRepository extends BaseRepository<Antecedente
      * @param condicionTipo the type of medical condition
      * @return list of patients with the specified condition
      */
-    @Query("SELECT ac FROM AntecedentesClinicos ac WHERE LOWER(ac.condicion) LIKE LOWER(CONCAT('%', :condicionTipo, '%')) ORDER BY ac.paciente.id")
+    @Query("SELECT ac FROM AntecedentesClinicos ac WHERE LOWER(ac.condicion) LIKE LOWER(FUNCTION('CONCAT', '%', :condicionTipo, '%')) ORDER BY ac.paciente.id")
     List<AntecedentesClinicos> findByAntecedenteContainingIgnoreCase(@Param("antecedenteTipo") String antecedenteTipo);
     
     /**

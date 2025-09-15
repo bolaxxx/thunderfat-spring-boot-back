@@ -8,6 +8,9 @@ import com.thunderfat.springboot.backend.model.entity.PlanDieta;
 import com.thunderfat.springboot.backend.model.service.IPlanDietaService;
 
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,7 +50,7 @@ public class PlanDietaRestController {
     public ResponseEntity<ManualApiResponseDTO<List<PlanDietaDTO>>> listarPorNutricionista(
             @Parameter(description = "Nutritionist ID") @PathVariable int id) {
         try {
-            List<PlanDietaDTO> planes = planDietaService.listarPorNutricionista(id);
+            List<PlanDietaDTO> planes = planDietaService.findByNutricionistaId(id);
             return ResponseEntity.ok(
                 ManualApiResponseDTO.success(planes, "Diet plans retrieved successfully")
             );
@@ -68,7 +71,7 @@ public class PlanDietaRestController {
     public ResponseEntity<ManualApiResponseDTO<PlanDietaDTO>> buscarPorId(
             @Parameter(description = "Diet plan ID") @PathVariable int id) {
         try {
-            Optional<PlanDietaDTO> dietaOpt = planDietaService.buscarPorId(id);
+            Optional<PlanDietaDTO> dietaOpt = planDietaService.findById(id);
             if (dietaOpt.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(ManualApiResponseDTO.error("No diet plan found with ID: " + id));
@@ -98,7 +101,7 @@ public class PlanDietaRestController {
             @Parameter(description = "Nutritionist ID") @PathVariable("nutricionista") int idNutricionista,
             @Parameter(description = "Patient ID") @PathVariable("paciente") int idPaciente) {
         try {
-            planDietaService.insertar(newPaciente, idNutricionista, idPaciente);
+            planDietaService.createPlan(newPaciente, idNutricionista, idPaciente);
             return ResponseEntity.status(HttpStatus.CREATED)
                 .body(ManualApiResponseDTO.success(null, "Diet plan created successfully"));
         } catch (Exception e) {
@@ -118,7 +121,7 @@ public class PlanDietaRestController {
     public ResponseEntity<ManualApiResponseDTO<Void>> eliminarPorId(
             @Parameter(description = "Diet plan ID") @PathVariable int id) {
         try {
-            planDietaService.eliminar(id);
+            planDietaService.deleteById(id);
             return ResponseEntity.status(HttpStatus.NO_CONTENT)
                 .body(ManualApiResponseDTO.success(null, "Diet plan deleted successfully"));
         } catch (Exception e) {
@@ -162,7 +165,7 @@ public class PlanDietaRestController {
             @Parameter(description = "Start date (YYYY-MM-DD)") 
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("start") LocalDate startDate) {
         try {
-            List<Ingrediente> ingredientes = planDietaService.listadelacompra(idPaciente, startDate);
+            List<Ingrediente> ingredientes = planDietaService.generateShoppingList(idPaciente, startDate);
             return ResponseEntity.ok(
                 ManualApiResponseDTO.success(ingredientes, "Shopping list generated successfully")
             );
@@ -185,7 +188,7 @@ public class PlanDietaRestController {
             @Parameter(description = "Start date (YYYY-MM-DD)") 
             @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) @PathVariable("start") LocalDate startDate) {
         try {
-            Optional<PlanDietaDTO> planOpt = planDietaService.buscarPlanActualPaciente(idPaciente, startDate);
+            Optional<PlanDietaDTO> planOpt = planDietaService.findCurrentActivePlan(idPaciente, startDate);
             if (planOpt.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                     .body(ManualApiResponseDTO.error("No active diet plan found for patient"));
@@ -206,13 +209,14 @@ public class PlanDietaRestController {
         @ApiResponse(responseCode = "400", description = "Invalid input data"),
         @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PostMapping("/update/{id_nutricionista}/{id_paciente}")
+    @PostMapping("/update/{id}/{id_nutricionista}/{id_paciente}")
     public ResponseEntity<ManualApiResponseDTO<Void>> update(
+            @Parameter(description = "Diet Plan ID") @PathVariable int id,
             @Parameter(description = "Nutritionist ID") @PathVariable int id_nutricionista, 
             @Parameter(description = "Patient ID") @PathVariable int id_paciente, 
             @Valid @RequestBody PlanDietaDTO dieta) {
         try {
-            planDietaService.updatePlan(dieta, id_nutricionista, id_paciente);
+            planDietaService.updatePlan(id, dieta, id_nutricionista, id_paciente);
             return ResponseEntity.ok(
                 ManualApiResponseDTO.success(null, "Diet plan updated successfully")
             );

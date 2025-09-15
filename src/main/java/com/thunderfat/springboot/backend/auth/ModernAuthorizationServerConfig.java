@@ -7,6 +7,7 @@ import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
 import java.util.UUID;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
@@ -36,6 +37,11 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
 @Configuration
+@ConditionalOnProperty(
+    name = "thunderfat.oauth2.authorization-server.enabled", 
+    havingValue = "true", 
+    matchIfMissing = true
+)
 public class ModernAuthorizationServerConfig {
 
     @Bean

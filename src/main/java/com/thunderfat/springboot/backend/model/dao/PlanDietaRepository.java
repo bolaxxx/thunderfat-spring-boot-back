@@ -13,6 +13,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Repository;
 
@@ -49,6 +50,7 @@ public interface PlanDietaRepository extends BaseRepository<PlanDieta, Integer> 
      */
     @EntityGraph(attributePaths = {"paciente", "nutricionista", "diasdieta"})
     @Query("SELECT pd FROM PlanDieta pd WHERE pd.id_nutricionista = :nutricionistaId ORDER BY pd.fechaini DESC")
+    @RestResource(path = "findByNutricionistaIdPaged", rel = "findByNutricionistaIdPaged")
     Page<PlanDieta> findByNutricionistaId(@Param("nutricionistaId") Integer nutricionistaId, Pageable pageable);
     
     /**
@@ -58,6 +60,7 @@ public interface PlanDietaRepository extends BaseRepository<PlanDieta, Integer> 
      * @return list of diet plans ordered by creation date (newest first)
      */
     @Query("SELECT pd FROM PlanDieta pd WHERE pd.id_nutricionista = :nutricionistaId ORDER BY pd.fechaini DESC")
+    @RestResource(path = "findByNutricionistaIdList", rel = "findByNutricionistaIdList")
     List<PlanDieta> findByNutricionistaId(@Param("nutricionistaId") Integer nutricionistaId);
     
     /**
@@ -89,6 +92,7 @@ public interface PlanDietaRepository extends BaseRepository<PlanDieta, Integer> 
      */
     @EntityGraph(attributePaths = {"diasdieta"})
     @Query("SELECT pd FROM PlanDieta pd WHERE pd.id_paciente = :pacienteId ORDER BY pd.fechaini DESC")
+    @RestResource(path = "findByPacienteIdPaged", rel = "findByPacienteIdPaged")
     Page<PlanDieta> findByPacienteId(@Param("pacienteId") Integer pacienteId, Pageable pageable);
     
     /**
@@ -98,6 +102,7 @@ public interface PlanDietaRepository extends BaseRepository<PlanDieta, Integer> 
      * @return list of diet plans ordered by creation date (newest first)
      */
     @Query("SELECT pd FROM PlanDieta pd WHERE pd.id_paciente = :pacienteId ORDER BY pd.fechaini DESC")
+    @RestResource(path = "findByPacienteIdList", rel = "findByPacienteIdList")
     List<PlanDieta> findByPacienteId(@Param("pacienteId") Integer pacienteId);
     
     /**
@@ -315,12 +320,12 @@ public interface PlanDietaRepository extends BaseRepository<PlanDieta, Integer> 
     
     /**
      * Calculates the average duration of diet plans for a nutritionist.
-     * Uses DATEDIFF to calculate duration in days.
+     * Uses database-agnostic date arithmetic for better test compatibility.
      * 
      * @param nutricionistaId the nutritionist ID
      * @return average plan duration in days, or null if no plans
      */
-    @Query("SELECT AVG(CAST(FUNCTION('DATEDIFF', pd.fechafin, pd.fechaini) AS DOUBLE)) FROM PlanDieta pd " +
+    @Query("SELECT AVG(CAST((pd.fechafin - pd.fechaini) AS DOUBLE)) FROM PlanDieta pd " +
            "WHERE pd.id_nutricionista = :nutricionistaId")
     Double calculateAveragePlanDuration(@Param("nutricionistaId") Integer nutricionistaId);
 
@@ -335,11 +340,12 @@ public interface PlanDietaRepository extends BaseRepository<PlanDieta, Integer> 
     
     /**
      * Gets average plan duration for a nutritionist.
+     * Uses database-agnostic date arithmetic for Hibernate compatibility.
      * 
      * @param nutricionistaId the nutritionist ID
      * @return average duration in days
      */
-    @Query("SELECT AVG(DATEDIFF(pd.fechafin, pd.fechaini)) FROM PlanDieta pd " +
+    @Query("SELECT AVG(CAST((pd.fechafin - pd.fechaini) AS DOUBLE)) FROM PlanDieta pd " +
            "WHERE pd.id_nutricionista = :nutricionistaId")
     Double getAveragePlanDurationByNutritionist(@Param("nutricionistaId") Integer nutricionistaId);
     

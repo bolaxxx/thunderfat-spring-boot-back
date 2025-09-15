@@ -8,6 +8,7 @@ import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 
 /**
  * Caching configuration for ThunderFat application.
@@ -24,6 +25,7 @@ import org.springframework.context.annotation.Primary;
  */
 @Configuration
 @EnableCaching
+@Profile("!test")
 public class CacheConfig {
     
     // Cache names as constants for better maintainability
@@ -60,6 +62,11 @@ public class CacheConfig {
     public static final String COMIDAS_CACHE = "comidas";
     public static final String COMIDA_STATS_CACHE = "comida-stats";
     public static final String COMIDA_SUBSTITUTIONS_CACHE = "comida-substitutions";
+    
+    // PlatoPredeterminado service cache regions
+    public static final String PLATOS_PREDETERMINADOS_CACHE = "platos-predeterminados";
+    public static final String PLATOS_BY_NUTRICIONISTA_CACHE = "platos-by-nutricionista";
+    public static final String PLATOS_BY_NUTRICIONISTA_LIST_CACHE = "platos-by-nutricionista-list";
     
     /**
      * Primary cache manager using simple concurrent map implementation.
@@ -98,7 +105,12 @@ public class CacheConfig {
             // Comida service caches
             COMIDAS_CACHE,
             COMIDA_STATS_CACHE,
-            COMIDA_SUBSTITUTIONS_CACHE
+            COMIDA_SUBSTITUTIONS_CACHE,
+            
+            // PlatoPredeterminado service caches
+            PLATOS_PREDETERMINADOS_CACHE,
+            PLATOS_BY_NUTRICIONISTA_CACHE,
+            PLATOS_BY_NUTRICIONISTA_LIST_CACHE
         ));
         
         // Allow dynamic cache creation

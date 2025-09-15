@@ -1,0 +1,8 @@
+extends: ["spectral:oas"]
+
+rules:
+  # Disable some rules that might be too strict
+  info-contact: off
+  info-license: off
+  contact-properties: off
+  license-url: off

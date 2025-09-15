@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import com.thunderfat.springboot.backend.exception.ResourceNotFoundException;
 import com.thunderfat.springboot.backend.model.dao.PlatoPredeterminadoRepository;
@@ -37,7 +36,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Validated
 public class PlatoPredeterminadoJPA implements IPlatoPredetereminadoService {
     
     private final PlatoPredeterminadoRepository repo;
@@ -55,7 +53,7 @@ public class PlatoPredeterminadoJPA implements IPlatoPredetereminadoService {
  */
 @Cacheable(value = "platos-predeterminados", key = "#id", unless = "#result == null || #result.empty")
 @Transactional(readOnly = true)
-public Optional<PlatoPredeterminadoDTO> findById(@NotNull(message = "ID cannot be null") Integer id) {
+public Optional<PlatoPredeterminadoDTO> findById(@NotNull Integer id) {
     log.debug("Finding PlatoPredeterminado with ID: {}", id);
     
     return repo.findById(id)
@@ -90,7 +88,7 @@ public Page<PlatoPredeterminadoDTO> findAll(Pageable pageable) {
           key = "#nutricionistaId + ':' + #pageable.pageNumber + ':' + #pageable.pageSize", 
           condition = "#nutricionistaId > 0", unless = "#result.isEmpty()")
 @Transactional(readOnly = true)
-public Page<PlatoPredeterminadoDTO> findByNutricionistaId(@NotNull(message = "Nutricionista ID cannot be null") Integer nutricionistaId, Pageable pageable) {
+public Page<PlatoPredeterminadoDTO> findByNutricionistaId(@NotNull Integer nutricionistaId, Pageable pageable) {
     log.debug("Finding PlatoPredeterminado for nutritionist ID: {}", nutricionistaId);
     
     // Create a PageRequest if not provided
@@ -117,8 +115,8 @@ public Page<PlatoPredeterminadoDTO> findByNutricionistaId(@NotNull(message = "Nu
 @CacheEvict(cacheNames = {"platos-predeterminados", "platos-by-nutricionista", "platos-by-nutricionista-list"}, allEntries = true)
 @Transactional
 public PlatoPredeterminadoDTO create(
-        @Valid @NotNull(message = "PlatoPredeterminado data cannot be null") PlatoPredeterminadoDTO platoPredeterminadoDTO,
-        @NotNull(message = "Nutricionista ID cannot be null") Integer nutricionistaId) {
+        @Valid @NotNull PlatoPredeterminadoDTO platoPredeterminadoDTO,
+        @NotNull Integer nutricionistaId) {
     
     log.info("Creating new PlatoPredeterminado for nutritionist with ID: {}", nutricionistaId);
     
@@ -152,7 +150,7 @@ public PlatoPredeterminadoDTO create(
  */
 @CacheEvict(cacheNames = {"platos-predeterminados", "platos-by-nutricionista", "platos-by-nutricionista-list"}, allEntries = true)
 @Transactional
-public void deleteById(@NotNull(message = "ID cannot be null") Integer id) {
+public void deleteById(@NotNull Integer id) {
     log.info("Deleting PlatoPredeterminado with ID: {}", id);
     
     // Check existence

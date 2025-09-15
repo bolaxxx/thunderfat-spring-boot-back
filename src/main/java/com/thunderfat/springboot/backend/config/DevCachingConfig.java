@@ -8,6 +8,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Configuration
 @EnableCaching
 @ConditionalOnProperty(name = "spring.cache.type", havingValue = "caffeine", matchIfMissing = true)
+@Profile("!test")
 @Slf4j
 public class DevCachingConfig {
 

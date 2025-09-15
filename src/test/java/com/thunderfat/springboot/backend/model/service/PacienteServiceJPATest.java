@@ -33,8 +33,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.thunderfat.springboot.backend.model.dao.PacienteRepository;
+import com.thunderfat.springboot.backend.model.dao.NutricionistaRepository;
 import com.thunderfat.springboot.backend.model.dto.PacienteDTO;
+import com.thunderfat.springboot.backend.model.dto.mapper.PacienteMapper;
 import com.thunderfat.springboot.backend.model.entity.Paciente;
+import com.thunderfat.springboot.backend.model.entity.Nutricionista;
+import com.thunderfat.springboot.backend.exception.UniqueConstraintViolationException;
 
 /**
  * Comprehensive test suite for PacienteServiceJPA.
@@ -49,6 +53,12 @@ class PacienteServiceJPATest {
 
     @Mock
     private PacienteRepository pacienteRepository;
+    
+    @Mock
+    private NutricionistaRepository nutricionistaRepository;
+    
+    @Mock
+    private PacienteMapper pacienteMapper;
     
     @Mock
     private PasswordEncoder passwordEncoder;
@@ -74,8 +84,9 @@ class PacienteServiceJPATest {
                 .telefono("600123456")
                 .fechanacimiento(LocalDate.of(1990, 1, 15))
                 .sexo("MASCULINO")
+                .altura(175.0)
                 .enabled(true)
-                .nutricionistaId(100)
+                .nutricionistaId(1)
                 .psw("password123")
                 .build();
         
@@ -179,8 +190,12 @@ class PacienteServiceJPATest {
         @DisplayName("Should create new patient successfully")
         void shouldCreateNewPatientSuccessfully() {
             // Given
+            Nutricionista testNutricionista = new Nutricionista();
+            testNutricionista.setId(1);
+            
             when(pacienteRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.empty());
             when(pacienteRepository.existsByDniIgnoreCaseAndIdNot(anyString(), eq(-1))).thenReturn(false);
+            when(nutricionistaRepository.findById(1)).thenReturn(Optional.of(testNutricionista));
             when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
             when(pacienteRepository.save(any(Paciente.class))).thenReturn(testPaciente);
 
@@ -205,8 +220,8 @@ class PacienteServiceJPATest {
 
             // When & Then
             assertThatThrownBy(() -> pacienteService.create(testPacienteDTO))
-                    .isInstanceOf(IllegalArgumentException.class)
-                    .hasMessage("Patient with this email or DNI already exists");
+                    .isInstanceOf(UniqueConstraintViolationException.class)
+                    .hasMessage("Email or DNI already exists");
         }
 
         @Test
@@ -214,6 +229,15 @@ class PacienteServiceJPATest {
         void shouldUpdateExistingPatientSuccessfully() {
             // Given
             Integer patientId = 1;
+            
+            // Mock nutricionista
+            Nutricionista nutricionista = new Nutricionista();
+            nutricionista.setId(1);
+            nutricionista.setNombre("Dr. Test");
+            nutricionista.setApellidos("Nutritionist");
+            nutricionista.setEmail("dr.test@example.com");
+            when(nutricionistaRepository.findById(1)).thenReturn(Optional.of(nutricionista));
+            
             when(pacienteRepository.findById(patientId)).thenReturn(Optional.of(testPaciente));
             when(pacienteRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.of(testPaciente));
             when(pacienteRepository.existsByDniIgnoreCaseAndIdNot(anyString(), eq(patientId))).thenReturn(false);
@@ -244,7 +268,7 @@ class PacienteServiceJPATest {
             // When & Then
             assertThatThrownBy(() -> pacienteService.update(patientId, testPacienteDTO))
                     .isInstanceOf(RuntimeException.class)
-                    .hasMessage("Patient not found with ID: " + patientId);
+                    .hasMessage("Patient not found with id " + patientId);
         }
 
         @Test
@@ -386,8 +410,12 @@ class PacienteServiceJPATest {
         @DisplayName("Should insert patient using legacy method")
         void shouldInsertPatientUsingLegacyMethod() {
             // Given
+            Nutricionista testNutricionista = new Nutricionista();
+            testNutricionista.setId(1);
+            
             when(pacienteRepository.findByEmailIgnoreCase(anyString())).thenReturn(Optional.empty());
             when(pacienteRepository.existsByDniIgnoreCaseAndIdNot(anyString(), eq(-1))).thenReturn(false);
+            when(nutricionistaRepository.findById(1)).thenReturn(Optional.of(testNutricionista));
             when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
             when(pacienteRepository.save(any(Paciente.class))).thenReturn(testPaciente);
 

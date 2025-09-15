@@ -11,6 +11,7 @@ import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.entity.Paciente;
@@ -40,6 +41,7 @@ public interface PacienteRepository extends BaseRepository<Paciente, Integer> {
      */
     @Cacheable(value = "pacientes", key = "#nutricionistaId + '_' + #pageable.pageNumber + '_' + #pageable.pageSize")
     @Query("SELECT p FROM Paciente p WHERE p.nutricionista.id = :nutricionistaId")
+    @RestResource(path = "byNutricionistaIdPaged", rel = "byNutricionistaIdPaged")
     Page<Paciente> findByNutricionistaId(@Param("nutricionistaId") Integer nutricionistaId, Pageable pageable);
     
     /**
@@ -50,6 +52,7 @@ public interface PacienteRepository extends BaseRepository<Paciente, Integer> {
      * @return list of patients
      */
     @Query("SELECT p FROM Paciente p WHERE p.nutricionista.id = :nutricionistaId ORDER BY p.nombre, p.apellidos")
+    @RestResource(path = "byNutricionistaIdList", rel = "byNutricionistaIdList")
     List<Paciente> findByNutricionistaId(@Param("nutricionistaId") Integer nutricionistaId);
     
     /**

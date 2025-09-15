@@ -4,6 +4,9 @@ import com.thunderfat.springboot.backend.model.dto.ManualApiResponseDTO;
 import com.thunderfat.springboot.backend.model.dto.ChatDTO;
 import com.thunderfat.springboot.backend.model.service.IChatService;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +19,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Chat", description = "Operations related to chat functionality between nutritionists and patients")
 @CrossOrigin(origins = {"http://localhost:4200", "http://localhost:8100"})
@@ -38,7 +42,10 @@ public class ChatRestController {
     @GetMapping("/todos")
     public ResponseEntity<ManualApiResponseDTO<List<ChatDTO>>> listarTodos() {
         try {
-            List<ChatDTO> chats = chatService.listar();
+            // Use pageable method instead of deprecated listar()
+            Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
+            Page<ChatDTO> chatsPage = chatService.findAll(pageable);
+            List<ChatDTO> chats = chatsPage.getContent();
             return ResponseEntity.ok(
                 ManualApiResponseDTO.success(
                     chats,
@@ -146,11 +153,11 @@ public class ChatRestController {
     public ResponseEntity<ManualApiResponseDTO<ChatDTO>> buscarPorPaciente(
             @Parameter(description = "Patient ID") @PathVariable int id_paciente) {
         try {
-            ChatDTO chat = chatService.buscarPorPaciente(id_paciente);
-            if (chat != null) {
+            Optional<ChatDTO> chatOpt = chatService.findByPacienteId(id_paciente);
+            if (chatOpt.isPresent()) {
                 return ResponseEntity.ok(
                     ManualApiResponseDTO.success(
-                        chat,
+                        chatOpt.get(),
                         "Patient chat retrieved successfully"
                     )
                 );
@@ -178,7 +185,9 @@ public class ChatRestController {
     public ResponseEntity<ManualApiResponseDTO<List<ChatDTO>>> buscarPorNutricionista(
             @Parameter(description = "Nutritionist ID") @PathVariable int id_nutricionista) {
         try {
-            List<ChatDTO> chats = chatService.buscarPorNutricionista(id_nutricionista);
+            Pageable pageable = PageRequest.of(0, Integer.MAX_VALUE);
+            Page<ChatDTO> chatsPage = chatService.findByNutricionistaId(id_nutricionista, pageable);
+            List<ChatDTO> chats = chatsPage.getContent();
             return ResponseEntity.ok(
                 ManualApiResponseDTO.success(
                     chats,

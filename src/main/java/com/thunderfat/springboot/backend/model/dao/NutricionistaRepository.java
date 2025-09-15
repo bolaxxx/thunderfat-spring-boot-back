@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.rest.core.annotation.RestResource;
 import org.springframework.stereotype.Repository;
 
 import com.thunderfat.springboot.backend.model.entity.Nutricionista;
@@ -62,6 +63,7 @@ public interface NutricionistaRepository extends BaseRepository<Nutricionista, I
      * @param pageable pagination information
      * @return paginated list of nutritionists in the locality
      */
+    @RestResource(path = "findByLocalidadIgnoreCasePaged", rel = "findByLocalidadIgnoreCasePaged")
     @EntityGraph(attributePaths = {"pacientes", "roles"})
     @Query("SELECT n FROM Nutricionista n WHERE LOWER(n.localidad) = LOWER(:localidad)")
     Page<Nutricionista> findByLocalidadIgnoreCase(@Param("localidad") String localidad, Pageable pageable);
@@ -72,6 +74,7 @@ public interface NutricionistaRepository extends BaseRepository<Nutricionista, I
      * @param localidad the locality name
      * @return list of nutritionists in the locality
      */
+    @RestResource(path = "findByLocalidadIgnoreCaseList", rel = "findByLocalidadIgnoreCaseList")
     @Query("SELECT n FROM Nutricionista n WHERE LOWER(n.localidad) = LOWER(:localidad) ORDER BY n.nombre, n.apellidos")
     List<Nutricionista> findByLocalidadIgnoreCase(@Param("localidad") String localidad);
     

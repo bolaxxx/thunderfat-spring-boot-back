@@ -1,6 +1,7 @@
 package com.thunderfat.springboot.backend.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.thunderfat.springboot.backend.validation.ValidationGroups;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,8 +38,10 @@ public class AlimentoDTO {
     // Nutritional values with validation (matching entity fields)
     @NotNull(message = "Las calorías son obligatorias", 
              groups = {ValidationGroups.Create.class, ValidationGroups.Update.class})
-    @PositiveOrZero(message = "Las calorías no pueden ser negativas")
-    @DecimalMin(value = "0.0", message = "Las calorías deben ser un valor positivo")
+    @PositiveOrZero(message = "Las calorías no pueden ser negativas",
+                    groups = {ValidationGroups.Create.class, ValidationGroups.Update.class})
+    @DecimalMin(value = "0.0", message = "Las calorías deben ser un valor positivo",
+                groups = {ValidationGroups.Create.class, ValidationGroups.Update.class})
     private Double cal;
     
     @PositiveOrZero(message = "Los hidratos de carbono no pueden ser negativos")
