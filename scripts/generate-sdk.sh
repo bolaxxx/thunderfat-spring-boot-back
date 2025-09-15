@@ -96,29 +96,14 @@ generate_typescript_sdk() {
 create_package_json() {
     echo "📝 Creating package.json..."
     
-    # Get API info from spec using Node.js
-    API_TITLE=$(node -e "
-        try {
-            const spec = JSON.parse(require('fs').readFileSync('$SPEC_FILE', 'utf8'));
-            console.log(spec.info?.title || 'ThunderFat API');
-        } catch (e) {
-            console.log('ThunderFat API');
-        }
-    " 2>/dev/null || echo "ThunderFat API")
-    API_DESCRIPTION=$(node -e "
-        try {
-            const spec = JSON.parse(require('fs').readFileSync('$SPEC_FILE', 'utf8'));
-            console.log(spec.info?.description || 'TypeScript SDK for ThunderFat Nutrition Management API');
-        } catch (e) {
-            console.log('TypeScript SDK for ThunderFat Nutrition Management API');
-        }
-    " 2>/dev/null || echo "TypeScript SDK for ThunderFat Nutrition Management API")
+    # Use a simple, static description to avoid JSON parsing issues
+    # This is safer than trying to extract from OpenAPI spec which might contain special characters
     
     cat > "$SDK_DIR/package.json" << EOF
 {
   "name": "$PACKAGE_NAME",
   "version": "$VERSION",
-  "description": "$API_DESCRIPTION",
+  "description": "TypeScript SDK for ThunderFat Nutrition Management API",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
