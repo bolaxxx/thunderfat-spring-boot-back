@@ -56,17 +56,31 @@ generate_typescript_sdk() {
     # Remove existing SDK directory
     rm -rf "$SDK_DIR"
     
-    # Generate TypeScript client
-    openapi --input "$SPEC_FILE" \
+    # Create log directory if not exists
+    mkdir -p logs
+    
+    # Generate TypeScript client with verbose output
+    echo "💬 Running SDK generation with verbose logging..."
+    (openapi --input "$SPEC_FILE" \
             --output "$SDK_DIR" \
             --client axios \
             --name ThunderFatApi \
             --useOptions \
             --useUnionTypes \
             --postfixServices Api \
-            --postfixModels Model
+            --postfixModels Model) > logs/sdk-generation.log 2>&1
     
-    echo "✅ TypeScript SDK generated in: $SDK_DIR"
+    GENERATION_STATUS=$?
+    
+    if [ $GENERATION_STATUS -eq 0 ]; then
+        echo "✅ TypeScript SDK generated in: $SDK_DIR"
+    else
+        echo "❌ SDK generation failed with status code: $GENERATION_STATUS"
+        echo "💬 Last 20 lines of logs:"
+        tail -n 20 logs/sdk-generation.log
+        echo "📄 Full logs available in: logs/sdk-generation.log"
+        exit 1
+    fi
 }
 
 # Create package.json
@@ -452,21 +466,41 @@ build_sdk() {
     cd "$SDK_DIR"
     
     # Install dependencies
-    npm install --silent
+    echo "📦 Installing dependencies..."
+    npm install --silent > ../logs/sdk-npm-install.log 2>&1 || {
+        echo "❌ Failed to install dependencies"
+        echo "💬 Last 10 lines of npm install log:"
+        tail -n 10 ../logs/sdk-npm-install.log
+        cd ..
+        return 1
+    }
     
     # Build TypeScript
-    if npm run build; then
+    echo "🔨 Building TypeScript..."
+    npm run build > ../logs/sdk-build.log 2>&1
+    BUILD_STATUS=$?
+    
+    if [ $BUILD_STATUS -eq 0 ]; then
         echo "✅ SDK built successfully"
         
         # Test the build
-        if npm run test; then
+        echo "🧪 Testing the build..."
+        npm run test > ../logs/sdk-test.log 2>&1
+        TEST_STATUS=$?
+        
+        if [ $TEST_STATUS -eq 0 ]; then
             echo "✅ SDK tests passed"
         else
             echo "⚠️  SDK tests failed"
+            echo "💬 Test log:"
+            cat ../logs/sdk-test.log
         fi
     else
         echo "❌ SDK build failed"
-        exit 1
+        echo "💬 Last 20 lines of build log:"
+        tail -n 20 ../logs/sdk-build.log
+        cd ..
+        return 1
     fi
     
     cd ..
