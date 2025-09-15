@@ -34,9 +34,14 @@ check_working_directory() {
     fi
 }
 
-# Get current version from pom.xml
+# Get current version from pom.xml (project version, not parent)
 get_current_version() {
-    CURRENT_VERSION=$(grep -oP '<version>\K[^<-]+' pom.xml | head -1)
+    # Get the project version (after parent section)
+    CURRENT_VERSION=$(sed -n '/<\/parent>/,/<properties>/p' pom.xml | grep -oP '<version>\K[^<-]+' | head -1)
+    if [ -z "$CURRENT_VERSION" ]; then
+        # Fallback: get version after groupId line
+        CURRENT_VERSION=$(sed -n '/<groupId>com\.thunderfat<\/groupId>/,/<properties>/p' pom.xml | grep -oP '<version>\K[^<-]+' | head -1)
+    fi
     echo "📦 Current version: $CURRENT_VERSION"
 }
 
@@ -61,8 +66,8 @@ update_version_files() {
     echo "📝 Updating version files..."
     
     if [ "$DRY_RUN" != "true" ]; then
-        # Update pom.xml
-        sed -i "s/<version>$CURRENT_VERSION<\/version>/<version>$NEW_VERSION<\/version>/" pom.xml
+        # Update pom.xml (only project version, not parent version)
+        sed -i "/com\.thunderfat/,/<properties>/ s/<version>$CURRENT_VERSION<\/version>/<version>$NEW_VERSION<\/version>/" pom.xml
         echo "✅ Updated pom.xml"
         
         # Update CHANGELOG_API.md
