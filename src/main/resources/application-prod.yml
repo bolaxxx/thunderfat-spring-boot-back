@@ -1,0 +1,75 @@
+# Production configuration for ThunderFat API
+spring:
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:thunderfatboot}?serverTimezone=UTC&useSSL=true
+    username: ${MYSQL_USERNAME:root}
+    password: ${MYSQL_PASSWORD:sasa}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+      
+  jpa:
+    hibernate:
+      ddl-auto: none  # Important: no automatic schema changes in production!
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        jdbc.batch_size: 25
+        format_sql: false
+    show-sql: false  # Disable SQL logging in production
+    
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      timeout: 2000ms
+      lettuce:
+        pool:
+          max-active: 20
+          max-idle: 10
+          min-idle: 2
+          max-wait: 2000ms
+        shutdown-timeout: 100ms
+  
+  cache:
+    type: redis
+    redis:
+      time-to-live: 30m
+      cache-null-values: false
+      use-key-prefix: true
+      key-prefix: "thunderfat:"
+    
+server:
+  port: 5000  # Elastic Beanstalk expects applications to run on port 5000
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/plain
+    min-response-size: 2048
+  error:
+    include-stacktrace: never
+    
+# Security settings
+security:
+  jwt:
+    enabled: true
+    
+# Documentation settings
+springdoc:
+  swagger-ui:
+    path: /api-docs
+  api-docs:
+    path: /v3/api-docs
+
+# Actuator settings
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized
