@@ -54,10 +54,15 @@ yarn-debug.log*
 yarn-error.log*
 
 ### Generated SDK ###
+sdk/
 sdk/node_modules/
 sdk/*.js
 sdk/*.d.ts
 sdk/package-lock.json
+
+### Release artifacts ###
+RELEASE_v*.md
+RELEASE_v*_SUMMARY.md
 
 ### Certificates ###
 certificates/*.p12
