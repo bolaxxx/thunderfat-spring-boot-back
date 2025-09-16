@@ -36814,221 +36814,6 @@
           }
         }
       },
-      "MedicionGeneral": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "id_paciente": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "fecha": {
-            "type": "string",
-            "format": "date"
-          },
-          "pesoideal": {
-            "type": "number",
-            "format": "double"
-          },
-          "pesoactual": {
-            "type": "number",
-            "format": "double"
-          },
-          "brazo": {
-            "type": "number",
-            "format": "double"
-          },
-          "icc": {
-            "type": "number",
-            "format": "double"
-          },
-          "porcentajegrasas": {
-            "type": "number",
-            "format": "double"
-          },
-          "imc": {
-            "type": "number",
-            "format": "double"
-          },
-          "tensionmin": {
-            "type": "number",
-            "format": "double"
-          },
-          "tensionmax": {
-            "type": "number",
-            "format": "double"
-          },
-          "cadera": {
-            "type": "number",
-            "format": "double"
-          },
-          "cintura": {
-            "type": "number",
-            "format": "double"
-          },
-          "muslo": {
-            "type": "number",
-            "format": "double"
-          },
-          "pantorrilla": {
-            "type": "number",
-            "format": "double"
-          },
-          "pecho": {
-            "type": "number",
-            "format": "double"
-          },
-          "abdomen": {
-            "type": "number",
-            "format": "double"
-          },
-          "cuello": {
-            "type": "number",
-            "format": "double"
-          }
-        }
-      },
-      "EntityModelMedicionGeneral": {
-        "type": "object",
-        "properties": {
-          "id_paciente": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "fecha": {
-            "type": "string",
-            "format": "date"
-          },
-          "pesoideal": {
-            "type": "number",
-            "format": "double"
-          },
-          "pesoactual": {
-            "type": "number",
-            "format": "double"
-          },
-          "brazo": {
-            "type": "number",
-            "format": "double"
-          },
-          "icc": {
-            "type": "number",
-            "format": "double"
-          },
-          "porcentajegrasas": {
-            "type": "number",
-            "format": "double"
-          },
-          "imc": {
-            "type": "number",
-            "format": "double"
-          },
-          "tensionmin": {
-            "type": "number",
-            "format": "double"
-          },
-          "tensionmax": {
-            "type": "number",
-            "format": "double"
-          },
-          "cadera": {
-            "type": "number",
-            "format": "double"
-          },
-          "cintura": {
-            "type": "number",
-            "format": "double"
-          },
-          "muslo": {
-            "type": "number",
-            "format": "double"
-          },
-          "pantorrilla": {
-            "type": "number",
-            "format": "double"
-          },
-          "pecho": {
-            "type": "number",
-            "format": "double"
-          },
-          "abdomen": {
-            "type": "number",
-            "format": "double"
-          },
-          "cuello": {
-            "type": "number",
-            "format": "double"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PageMetadata": {
-        "type": "object",
-        "properties": {
-          "size": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "totalElements": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "totalPages": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "number": {
-            "type": "integer",
-            "format": "int64"
-          }
-        }
-      },
-      "PagedModelEntityModelMedicionGeneral": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "medicionGenerals": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelMedicionGeneral"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelEntityModelMedicionGeneral": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "medicionGenerals": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelMedicionGeneral"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
       "Alimento": {
         "type": "object",
         "properties": {
@@ -37443,6 +37228,83 @@
           }
         }
       },
+      "MedicionGeneral": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id_paciente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date"
+          },
+          "pesoideal": {
+            "type": "number",
+            "format": "double"
+          },
+          "pesoactual": {
+            "type": "number",
+            "format": "double"
+          },
+          "brazo": {
+            "type": "number",
+            "format": "double"
+          },
+          "icc": {
+            "type": "number",
+            "format": "double"
+          },
+          "porcentajegrasas": {
+            "type": "number",
+            "format": "double"
+          },
+          "imc": {
+            "type": "number",
+            "format": "double"
+          },
+          "tensionmin": {
+            "type": "number",
+            "format": "double"
+          },
+          "tensionmax": {
+            "type": "number",
+            "format": "double"
+          },
+          "cadera": {
+            "type": "number",
+            "format": "double"
+          },
+          "cintura": {
+            "type": "number",
+            "format": "double"
+          },
+          "muslo": {
+            "type": "number",
+            "format": "double"
+          },
+          "pantorrilla": {
+            "type": "number",
+            "format": "double"
+          },
+          "pecho": {
+            "type": "number",
+            "format": "double"
+          },
+          "abdomen": {
+            "type": "number",
+            "format": "double"
+          },
+          "cuello": {
+            "type": "number",
+            "format": "double"
+          }
+        }
+      },
       "MedicionSegmental": {
         "type": "object",
         "properties": {
@@ -37550,27 +37412,6 @@
           "numeroColegiadoProfesional": {
             "type": "string"
           },
-          "pacientes": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Paciente"
-            }
-          },
-          "citas": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Cita"
-            }
-          },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
           "password": {
             "type": "string"
           },
@@ -37582,6 +37423,15 @@
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -37650,6 +37500,9 @@
           "sexo": {
             "type": "string"
           },
+          "nutricionista": {
+            "$ref": "#/components/schemas/Nutricionista"
+          },
           "citas": {
             "type": "array",
             "items": {
@@ -37692,15 +37545,6 @@
               "$ref": "#/components/schemas/PlanDieta"
             }
           },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
           "password": {
             "type": "string"
           },
@@ -37712,6 +37556,15 @@
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -37965,264 +37818,6 @@
           }
         }
       },
-      "Producto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "codigoProducto": {
-            "type": "string"
-          },
-          "nombre": {
-            "type": "string"
-          },
-          "descripcion": {
-            "type": "string"
-          },
-          "marca": {
-            "type": "string"
-          },
-          "categoria": {
-            "type": "string",
-            "enum": [
-              "SUPLEMENTOS_NUTRICIONALES",
-              "ALIMENTACION_DEPORTIVA",
-              "ROPA_DEPORTIVA",
-              "EQUIPAMIENTO_DEPORTIVO",
-              "LIBROS_NUTRICION",
-              "ACCESORIOS_COCINA",
-              "PRODUCTOS_DIETETICOS",
-              "COSMETICA_NATURAL",
-              "TECNOLOGIA_SALUD",
-              "OTROS"
-            ]
-          },
-          "subcategoria": {
-            "type": "string",
-            "enum": [
-              "PROTEINAS",
-              "AMINOACIDOS",
-              "VITAMINAS",
-              "TERMOGENICOS",
-              "PROBIOTICOS",
-              "OMEGA_3",
-              "CREATINA",
-              "PRE_ENTRENO",
-              "POST_ENTRENO",
-              "BARRITAS_ENERGETICAS",
-              "BEBIDAS_DEPORTIVAS",
-              "SNACKS_SALUDABLES",
-              "COMIDA_PREPARADA",
-              "CAMISETAS_DEPORTIVAS",
-              "PANTALONES_DEPORTIVOS",
-              "CALZADO_DEPORTIVO",
-              "ROPA_INTERIOR_DEPORTIVA",
-              "ACCESORIOS_DEPORTIVOS",
-              "PESAS_MANCUERNAS",
-              "BANDAS_ELASTICAS",
-              "ESTERILLAS_YOGA",
-              "EQUIPOS_CARDIO",
-              "ACCESORIOS_GIMNASIO",
-              "LIBROS_NUTRICION",
-              "GUIAS_EJERCICIO",
-              "RECETARIOS",
-              "MATERIAL_EDUCATIVO",
-              "BATIDORAS",
-              "BASCULA_COCINA",
-              "RECIPIENTES",
-              "UTENSILIOS_COCINA",
-              "PRODUCTOS_SIN_AZUCAR",
-              "PRODUCTOS_SIN_GLUTEN",
-              "PRODUCTOS_VEGANOS",
-              "ALIMENTOS_ORGANICOS",
-              "CREMAS_DEPORTIVAS",
-              "PROTECTORES_SOLARES",
-              "PRODUCTOS_NATURALES",
-              "BASCULA_CORPORAL",
-              "MONITORES_ACTIVIDAD",
-              "PULSOMETROS",
-              "APLICACIONES_MOVIL",
-              "OTROS"
-            ]
-          },
-          "precioVenta": {
-            "type": "number"
-          },
-          "precioCoste": {
-            "type": "number"
-          },
-          "tipoIva": {
-            "type": "number"
-          },
-          "stockActual": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stockMinimo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stockMaximo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unidadMedida": {
-            "type": "string"
-          },
-          "pesoGramos": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "dimensiones": {
-            "type": "string"
-          },
-          "codigoBarras": {
-            "type": "string"
-          },
-          "imagenUrl": {
-            "type": "string"
-          },
-          "informacionNutricional": {
-            "type": "string"
-          },
-          "ingredientes": {
-            "type": "string"
-          },
-          "modoUso": {
-            "type": "string"
-          },
-          "contraindicaciones": {
-            "type": "string"
-          },
-          "proveedor": {
-            "$ref": "#/components/schemas/Proveedor"
-          },
-          "activo": {
-            "type": "boolean"
-          },
-          "destacado": {
-            "type": "boolean"
-          },
-          "requiereReceta": {
-            "type": "boolean"
-          },
-          "aptoVegano": {
-            "type": "boolean"
-          },
-          "sinGluten": {
-            "type": "boolean"
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "fechaActualizacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "precioConIva": {
-            "type": "number"
-          }
-        }
-      },
-      "Proveedor": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nif": {
-            "type": "string"
-          },
-          "razonSocial": {
-            "type": "string"
-          },
-          "nombreComercial": {
-            "type": "string"
-          },
-          "direccion": {
-            "type": "string"
-          },
-          "codigoPostal": {
-            "type": "string"
-          },
-          "poblacion": {
-            "type": "string"
-          },
-          "provincia": {
-            "type": "string"
-          },
-          "pais": {
-            "type": "string"
-          },
-          "telefono": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "web": {
-            "type": "string"
-          },
-          "contactoNombre": {
-            "type": "string"
-          },
-          "contactoTelefono": {
-            "type": "string"
-          },
-          "contactoEmail": {
-            "type": "string"
-          },
-          "tipoProveedor": {
-            "type": "string",
-            "enum": [
-              "SUPLEMENTOS_DEPORTIVOS",
-              "ALIMENTACION_NATURAL",
-              "ROPA_DEPORTIVA",
-              "EQUIPAMIENTO_DEPORTIVO",
-              "EDITORIAL_LIBROS",
-              "TECNOLOGIA_SALUD",
-              "COSMETICA_NATURAL",
-              "UTENSILIOS_COCINA",
-              "MAYORISTA_GENERAL",
-              "FABRICANTE_DIRECTO",
-              "DISTRIBUIDOR_OFICIAL",
-              "OTROS"
-            ]
-          },
-          "condicionesPagoDias": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "descuentoVolumen": {
-            "type": "number",
-            "format": "double"
-          },
-          "observaciones": {
-            "type": "string"
-          },
-          "activo": {
-            "type": "boolean"
-          },
-          "fechaAlta": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "fechaActualizacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "productos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Producto"
-            }
-          }
-        }
-      },
       "Rol": {
         "type": "object",
         "properties": {
@@ -38235,79 +37830,23 @@
           }
         }
       },
-      "EntityModelFactura": {
+      "EntityModelAntecedentesClinicos": {
         "type": "object",
         "properties": {
-          "numeroFactura": {
-            "type": "string"
-          },
-          "fechaEmision": {
+          "fecha": {
             "type": "string",
             "format": "date"
           },
-          "fechaVencimiento": {
-            "type": "string",
-            "format": "date"
-          },
-          "baseImponible": {
-            "type": "number"
-          },
-          "tipoIva": {
-            "type": "number"
-          },
-          "importeIva": {
-            "type": "number"
-          },
-          "total": {
-            "type": "number"
-          },
-          "estado": {
-            "type": "string",
-            "enum": [
-              "BORRADOR",
-              "PENDIENTE",
-              "ENVIADA",
-              "PAGADA",
-              "VENCIDA",
-              "ANULADA",
-              "REGISTRADA_VERIFACTU",
-              "ERROR_VERIFACTU"
-            ]
-          },
-          "numeroRegistroVerifactu": {
+          "antecedente": {
             "type": "string"
           },
-          "hashVerifactu": {
+          "observacion": {
             "type": "string"
           },
-          "fechaRegistroVerifactu": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "requiereFacturae": {
-            "type": "boolean"
-          },
-          "rutaFacturaeXml": {
+          "descripcion": {
             "type": "string"
           },
-          "certificadoUtilizado": {
-            "type": "string"
-          },
-          "observaciones": {
-            "type": "string"
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "fechaModificacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "usuarioCreacion": {
-            "type": "string"
-          },
-          "usuarioModificacion": {
+          "condicion": {
             "type": "string"
           },
           "_links": {
@@ -38315,16 +37854,37 @@
           }
         }
       },
-      "PagedModelEntityModelFactura": {
+      "PageMetadata": {
+        "type": "object",
+        "properties": {
+          "size": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "number": {
+            "type": "integer",
+            "format": "int64"
+          }
+        }
+      },
+      "PagedModelEntityModelAntecedentesClinicos": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "facturas": {
+              "antecedentesClinicoses": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelFactura"
+                  "$ref": "#/components/schemas/EntityModelAntecedentesClinicos"
                 }
               }
             }
@@ -38336,75 +37896,6 @@
             "$ref": "#/components/schemas/PageMetadata"
           }
         }
-      },
-      "EntityModelNutricionista": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "psw": {
-            "type": "string"
-          },
-          "createtime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "nombre": {
-            "type": "string"
-          },
-          "apellidos": {
-            "type": "string"
-          },
-          "telefono": {
-            "type": "string"
-          },
-          "localidad": {
-            "type": "string"
-          },
-          "provincia": {
-            "type": "string"
-          },
-          "dni": {
-            "type": "string"
-          },
-          "direccion": {
-            "type": "string"
-          },
-          "numeroColegiadoProfesional": {
-            "type": "string"
-          },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
-          "authorities": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GrantedAuthority"
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        },
-        "required": [
-          "email"
-        ]
       },
       "CollectionModelObject": {
         "type": "object",
@@ -38475,14 +37966,93 @@
           "sexo": {
             "type": "string"
           },
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
           "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
             "type": "boolean"
           },
           "accountNonLocked": {
             "type": "boolean"
           },
-          "credentialsNonExpired": {
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "CollectionModelEntityModelAntecedentesClinicos": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "antecedentesClinicoses": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelAntecedentesClinicos"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelNutricionista": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "psw": {
+            "type": "string"
+          },
+          "createtime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "enabled": {
             "type": "boolean"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "apellidos": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "localidad": {
+            "type": "string"
+          },
+          "provincia": {
+            "type": "string"
+          },
+          "dni": {
+            "type": "string"
+          },
+          "direccion": {
+            "type": "string"
+          },
+          "numeroColegiadoProfesional": {
+            "type": "string"
           },
           "password": {
             "type": "string"
@@ -38496,6 +38066,15 @@
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
           "_links": {
             "$ref": "#/components/schemas/Links"
           }
@@ -38504,50 +38083,16 @@
           "email"
         ]
       },
-      "CollectionModelLineaFactura": {
+      "PagedModelEntityModelNutricionista": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "lineaFacturas": {
+              "nutricionistas": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/LineaFacturaResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "EntityModelComida": {
-        "type": "object",
-        "properties": {
-          "hora": {
-            "type": "string"
-          },
-          "valoracion": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelComida": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "comidas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelComida"
+                  "$ref": "#/components/schemas/EntityModelNutricionista"
                 }
               }
             }
@@ -38557,405 +38102,6 @@
           },
           "page": {
             "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelPlatoPlanDieta": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "platoPlanDietas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/PlatoPlanDietaResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelEntityModelComida": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "comidas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelComida"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "EntityModelPlatoPlanDieta": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "receta": {
-            "type": "string"
-          },
-          "proteinastotales": {
-            "type": "number",
-            "format": "double"
-          },
-          "grasastotales": {
-            "type": "number",
-            "format": "double"
-          },
-          "kcaltotales": {
-            "type": "number",
-            "format": "double"
-          },
-          "hidratostotales": {
-            "type": "number",
-            "format": "double"
-          },
-          "fibra": {
-            "type": "number",
-            "format": "double"
-          },
-          "sal": {
-            "type": "number",
-            "format": "double"
-          },
-          "azucar": {
-            "type": "number",
-            "format": "double"
-          },
-          "colesterol": {
-            "type": "number",
-            "format": "double"
-          },
-          "sodio": {
-            "type": "number",
-            "format": "double"
-          },
-          "potasio": {
-            "type": "number",
-            "format": "double"
-          },
-          "calcio": {
-            "type": "number",
-            "format": "double"
-          },
-          "hierro": {
-            "type": "number",
-            "format": "double"
-          },
-          "magnesio": {
-            "type": "number",
-            "format": "double"
-          },
-          "fosforo": {
-            "type": "number",
-            "format": "double"
-          },
-          "zinc": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaA": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaC": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaD": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaB6": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaB12": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaE": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaK": {
-            "type": "number",
-            "format": "double"
-          },
-          "tiamina": {
-            "type": "number",
-            "format": "double"
-          },
-          "riboflavina": {
-            "type": "number",
-            "format": "double"
-          },
-          "niacina": {
-            "type": "number",
-            "format": "double"
-          },
-          "acfolico": {
-            "type": "number",
-            "format": "double"
-          },
-          "pantotenico": {
-            "type": "number",
-            "format": "double"
-          },
-          "biotina": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaB12_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaC_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "sodio_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "potasio_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "calcio_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "hierro_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "magnesio_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "fosforo_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "zinc_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaA_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "cantidad": {
-            "type": "number",
-            "format": "double"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelPlatoPlanDieta": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "platoPlanDietas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelPlatoPlanDieta"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelIngrediente": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "ingredientes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/IngredienteResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "EntityModelRol": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelRol": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "rols": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelRol"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "PagedModelEntityModelPaciente": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "pacientes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelPaciente"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelMedicionSegmental": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "medicionSegmentals": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/MedicionSegmentalResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelPlanDieta": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "planDietas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/PlanDietaResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelMedicionEspecifica": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "medicionEspecificas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/MedicionEspecificaResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelMedicionGeneral": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "medicionGenerals": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/MedicionGeneralResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelAntecedentesClinicos": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "antecedentesClinicoses": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/AntecedentesClinicosResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
           }
         }
       },
@@ -38969,6 +38115,25 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/CitaResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelPaciente": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "pacientes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PacienteResponse"
                 }
               }
             }
@@ -38997,223 +38162,6 @@
           }
         }
       },
-      "CollectionModelAntecedenteTratamiento": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "antecedenteTratamientoes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/AntecedenteTratamientoResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelEntityModelPaciente": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "pacientes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelPaciente"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "EntityModelPlanDieta": {
-        "type": "object",
-        "properties": {
-          "id_paciente": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "id_nutricionista": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "fechaini": {
-            "type": "string",
-            "format": "date"
-          },
-          "fechafin": {
-            "type": "string",
-            "format": "date"
-          },
-          "calrangomin": {
-            "type": "number",
-            "format": "double"
-          },
-          "calrangomax": {
-            "type": "number",
-            "format": "double"
-          },
-          "ingestacaldiaria": {
-            "type": "number",
-            "format": "double"
-          },
-          "repartoglucidodiario": {
-            "type": "number",
-            "format": "double"
-          },
-          "repartolipidodiario": {
-            "type": "number",
-            "format": "double"
-          },
-          "repartoprotidodiario": {
-            "type": "number",
-            "format": "double"
-          },
-          "comidasdiarias": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "visible": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "intercambiable": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelPlanDieta": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "planDietas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelPlanDieta"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "EntityModelFiltroAlimentario": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "descripcion": {
-            "type": "string"
-          },
-          "id_nutricionista": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelDiaDieta": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "diaDietas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/DiaDietaResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelEntityModelPlanDieta": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "planDietas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelPlanDieta"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelNutricionista": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "nutricionistas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelNutricionista"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelPaciente": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "pacientes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/PacienteResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
       "CollectionModelEntityModelNutricionista": {
         "type": "object",
         "properties": {
@@ -39233,157 +38181,28 @@
           }
         }
       },
-      "EntityModelAlimento": {
+      "EntityModelChat": {
         "type": "object",
         "properties": {
-          "nombre": {
+          "fechahora": {
             "type": "string",
-            "minLength": 1
-          },
-          "estado": {
-            "type": "string",
-            "minLength": 1
-          },
-          "cal": {
-            "type": "number",
-            "format": "double"
-          },
-          "hidratosdecarbono": {
-            "type": "number",
-            "format": "double"
-          },
-          "h2o": {
-            "type": "number",
-            "format": "double"
-          },
-          "noespecifico": {
-            "type": "number",
-            "format": "double"
-          },
-          "grasas": {
-            "type": "number",
-            "format": "double"
-          },
-          "proteinas": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitamina": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminb2": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminb1": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminc": {
-            "type": "number",
-            "format": "double"
-          },
-          "niac": {
-            "type": "number",
-            "format": "double"
-          },
-          "cobre": {
-            "type": "number",
-            "format": "double"
-          },
-          "potasio": {
-            "type": "number",
-            "format": "double"
-          },
-          "sodio": {
-            "type": "number",
-            "format": "double"
-          },
-          "azufre": {
-            "type": "number",
-            "format": "double"
-          },
-          "calcio": {
-            "type": "number",
-            "format": "double"
-          },
-          "fosforo": {
-            "type": "number",
-            "format": "double"
-          },
-          "hierro": {
-            "type": "number",
-            "format": "double"
-          },
-          "magnesio": {
-            "type": "number",
-            "format": "double"
-          },
-          "cloro": {
-            "type": "number",
-            "format": "double"
-          },
-          "met": {
-            "type": "number",
-            "format": "double"
-          },
-          "lis": {
-            "type": "number",
-            "format": "double"
-          },
-          "leu": {
-            "type": "number",
-            "format": "double"
-          },
-          "illeu": {
-            "type": "number",
-            "format": "double"
-          },
-          "tre": {
-            "type": "number",
-            "format": "double"
-          },
-          "tri": {
-            "type": "number",
-            "format": "double"
-          },
-          "fen": {
-            "type": "number",
-            "format": "double"
-          },
-          "val": {
-            "type": "number",
-            "format": "double"
-          },
-          "acid": {
-            "type": "number",
-            "format": "double"
-          },
-          "alcal": {
-            "type": "number",
-            "format": "double"
+            "format": "date-time"
           },
           "_links": {
             "$ref": "#/components/schemas/Links"
           }
-        },
-        "required": [
-          "cal",
-          "estado",
-          "nombre"
-        ]
+        }
       },
-      "PagedModelEntityModelAlimento": {
+      "PagedModelEntityModelChat": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "alimentoes": {
+              "chats": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelAlimento"
+                  "$ref": "#/components/schemas/EntityModelChat"
                 }
               }
             }
@@ -39396,16 +38215,16 @@
           }
         }
       },
-      "CollectionModelEntityModelAlimento": {
+      "CollectionModelMensaje": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "alimentoes": {
+              "mensajes": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelAlimento"
+                  "$ref": "#/components/schemas/MensajeResponse"
                 }
               }
             }
@@ -39415,318 +38234,16 @@
           }
         }
       },
-      "EntityModelPlato": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "receta": {
-            "type": "string"
-          },
-          "proteinastotales": {
-            "type": "number",
-            "format": "double"
-          },
-          "grasastotales": {
-            "type": "number",
-            "format": "double"
-          },
-          "kcaltotales": {
-            "type": "number",
-            "format": "double"
-          },
-          "hidratostotales": {
-            "type": "number",
-            "format": "double"
-          },
-          "fibra": {
-            "type": "number",
-            "format": "double"
-          },
-          "sal": {
-            "type": "number",
-            "format": "double"
-          },
-          "azucar": {
-            "type": "number",
-            "format": "double"
-          },
-          "colesterol": {
-            "type": "number",
-            "format": "double"
-          },
-          "sodio": {
-            "type": "number",
-            "format": "double"
-          },
-          "potasio": {
-            "type": "number",
-            "format": "double"
-          },
-          "calcio": {
-            "type": "number",
-            "format": "double"
-          },
-          "hierro": {
-            "type": "number",
-            "format": "double"
-          },
-          "magnesio": {
-            "type": "number",
-            "format": "double"
-          },
-          "fosforo": {
-            "type": "number",
-            "format": "double"
-          },
-          "zinc": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaA": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaC": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaD": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaB6": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaB12": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaE": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaK": {
-            "type": "number",
-            "format": "double"
-          },
-          "tiamina": {
-            "type": "number",
-            "format": "double"
-          },
-          "riboflavina": {
-            "type": "number",
-            "format": "double"
-          },
-          "niacina": {
-            "type": "number",
-            "format": "double"
-          },
-          "acfolico": {
-            "type": "number",
-            "format": "double"
-          },
-          "pantotenico": {
-            "type": "number",
-            "format": "double"
-          },
-          "biotina": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaB12_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaC_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "sodio_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "potasio_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "calcio_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "hierro_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "magnesio_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "fosforo_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "zinc_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "vitaminaA_2": {
-            "type": "number",
-            "format": "double"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelPlato": {
+      "CollectionModelEntityModelChat": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "platoes": {
+              "chats": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelPlato"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "EntityModelMedicionEspecifica": {
-        "type": "object",
-        "properties": {
-          "id_paciente": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "grasavisceral": {
-            "type": "number",
-            "format": "double"
-          },
-          "retencionliquidos": {
-            "type": "number",
-            "format": "double"
-          },
-          "aguaid": {
-            "type": "number",
-            "format": "double"
-          },
-          "litrosagua": {
-            "type": "number",
-            "format": "double"
-          },
-          "porcentajeagua": {
-            "type": "number",
-            "format": "double"
-          },
-          "musculoidmax": {
-            "type": "number",
-            "format": "double"
-          },
-          "musculoidmin": {
-            "type": "number",
-            "format": "double"
-          },
-          "mbi": {
-            "type": "number",
-            "format": "double"
-          },
-          "metabolismo": {
-            "type": "number",
-            "format": "double"
-          },
-          "edadmet": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "musculo": {
-            "type": "number",
-            "format": "double"
-          },
-          "masaosea": {
-            "type": "number",
-            "format": "double"
-          },
-          "poxmusmax": {
-            "type": "number",
-            "format": "double"
-          },
-          "poxmusmin": {
-            "type": "number",
-            "format": "double"
-          },
-          "porcentajegrasa": {
-            "type": "number",
-            "format": "double"
-          },
-          "grasas": {
-            "type": "number",
-            "format": "double"
-          },
-          "grasasidmin": {
-            "type": "number",
-            "format": "double"
-          },
-          "grasaidmax": {
-            "type": "number",
-            "format": "double"
-          },
-          "peso": {
-            "type": "number",
-            "format": "double"
-          },
-          "fecha": {
-            "type": "string",
-            "format": "date"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelMedicionEspecifica": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "medicionEspecificas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelMedicionEspecifica"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelEntityModelMedicionEspecifica": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "medicionEspecificas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelMedicionEspecifica"
+                  "$ref": "#/components/schemas/EntityModelChat"
                 }
               }
             }
@@ -39793,105 +38310,16 @@
           }
         }
       },
-      "EntityModelProveedor": {
-        "type": "object",
-        "properties": {
-          "nif": {
-            "type": "string"
-          },
-          "razonSocial": {
-            "type": "string"
-          },
-          "nombreComercial": {
-            "type": "string"
-          },
-          "direccion": {
-            "type": "string"
-          },
-          "codigoPostal": {
-            "type": "string"
-          },
-          "poblacion": {
-            "type": "string"
-          },
-          "provincia": {
-            "type": "string"
-          },
-          "pais": {
-            "type": "string"
-          },
-          "telefono": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
-          "web": {
-            "type": "string"
-          },
-          "contactoNombre": {
-            "type": "string"
-          },
-          "contactoTelefono": {
-            "type": "string"
-          },
-          "contactoEmail": {
-            "type": "string"
-          },
-          "tipoProveedor": {
-            "type": "string",
-            "enum": [
-              "SUPLEMENTOS_DEPORTIVOS",
-              "ALIMENTACION_NATURAL",
-              "ROPA_DEPORTIVA",
-              "EQUIPAMIENTO_DEPORTIVO",
-              "EDITORIAL_LIBROS",
-              "TECNOLOGIA_SALUD",
-              "COSMETICA_NATURAL",
-              "UTENSILIOS_COCINA",
-              "MAYORISTA_GENERAL",
-              "FABRICANTE_DIRECTO",
-              "DISTRIBUIDOR_OFICIAL",
-              "OTROS"
-            ]
-          },
-          "condicionesPagoDias": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "descuentoVolumen": {
-            "type": "number",
-            "format": "double"
-          },
-          "observaciones": {
-            "type": "string"
-          },
-          "activo": {
-            "type": "boolean"
-          },
-          "fechaAlta": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "fechaActualizacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelProveedor": {
+      "PagedModelEntityModelPaciente": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "proveedors": {
+              "pacientes": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelProveedor"
+                  "$ref": "#/components/schemas/EntityModelPaciente"
                 }
               }
             }
@@ -39904,16 +38332,16 @@
           }
         }
       },
-      "CollectionModelProducto": {
+      "CollectionModelMedicionEspecifica": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "productoes": {
+              "medicionEspecificas": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/ProductoResponse"
+                  "$ref": "#/components/schemas/MedicionEspecificaResponse"
                 }
               }
             }
@@ -39923,220 +38351,7 @@
           }
         }
       },
-      "CollectionModelEntityModelProveedor": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "proveedors": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelProveedor"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "EntityModelUsuario": {
-        "type": "object",
-        "properties": {
-          "email": {
-            "type": "string"
-          },
-          "psw": {
-            "type": "string"
-          },
-          "createtime": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
-          "authorities": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GrantedAuthority"
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        },
-        "required": [
-          "email"
-        ]
-      },
-      "PagedModelEntityModelUsuario": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "usuarios": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelUsuario"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "EntityModelMensaje": {
-        "type": "object",
-        "properties": {
-          "contenido": {
-            "type": "string"
-          },
-          "timestamp": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "leido": {
-            "type": "boolean"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelMensaje": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "mensajes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelMensaje"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "EntityModelChat": {
-        "type": "object",
-        "properties": {
-          "fechahora": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelEntityModelMensaje": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "mensajes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelMensaje"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "EntityModelMedicionSegmental": {
-        "type": "object",
-        "properties": {
-          "id_paciente": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "fecha": {
-            "type": "string",
-            "format": "date"
-          },
-          "bdporcentajegrasas": {
-            "type": "number",
-            "format": "double"
-          },
-          "bdmusculo": {
-            "type": "number",
-            "format": "double"
-          },
-          "bimusculo": {
-            "type": "number",
-            "format": "double"
-          },
-          "piporcentajegrasas": {
-            "type": "number",
-            "format": "double"
-          },
-          "pdmusculo": {
-            "type": "number",
-            "format": "double"
-          },
-          "pdporcentajegrasas": {
-            "type": "number",
-            "format": "double"
-          },
-          "tporcentajegrasa": {
-            "type": "number",
-            "format": "double"
-          },
-          "tmusculo": {
-            "type": "number",
-            "format": "double"
-          },
-          "pimusculo": {
-            "type": "number",
-            "format": "double"
-          },
-          "biporcentajegrasas": {
-            "type": "number",
-            "format": "double"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelMedicionSegmental": {
+      "CollectionModelMedicionSegmental": {
         "type": "object",
         "properties": {
           "_embedded": {
@@ -40145,29 +38360,102 @@
               "medicionSegmentals": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelMedicionSegmental"
+                  "$ref": "#/components/schemas/MedicionSegmentalResponse"
                 }
               }
             }
           },
           "_links": {
             "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
           }
         }
       },
-      "CollectionModelEntityModelMedicionSegmental": {
+      "CollectionModelMedicionGeneral": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "medicionSegmentals": {
+              "medicionGenerals": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelMedicionSegmental"
+                  "$ref": "#/components/schemas/MedicionGeneralResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelAntecedentesClinicos": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "antecedentesClinicoses": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AntecedentesClinicosResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelAntecedenteTratamiento": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "antecedenteTratamientoes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AntecedenteTratamientoResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelPlanDieta": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "planDietas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PlanDietaResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelEntityModelPaciente": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "pacientes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelPaciente"
                 }
               }
             }
@@ -40227,307 +38515,6 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/EntityModelAntecedenteTratamiento"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "EntityModelProducto": {
-        "type": "object",
-        "properties": {
-          "codigoProducto": {
-            "type": "string"
-          },
-          "nombre": {
-            "type": "string"
-          },
-          "descripcion": {
-            "type": "string"
-          },
-          "marca": {
-            "type": "string"
-          },
-          "categoria": {
-            "type": "string",
-            "enum": [
-              "SUPLEMENTOS_NUTRICIONALES",
-              "ALIMENTACION_DEPORTIVA",
-              "ROPA_DEPORTIVA",
-              "EQUIPAMIENTO_DEPORTIVO",
-              "LIBROS_NUTRICION",
-              "ACCESORIOS_COCINA",
-              "PRODUCTOS_DIETETICOS",
-              "COSMETICA_NATURAL",
-              "TECNOLOGIA_SALUD",
-              "OTROS"
-            ]
-          },
-          "subcategoria": {
-            "type": "string",
-            "enum": [
-              "PROTEINAS",
-              "AMINOACIDOS",
-              "VITAMINAS",
-              "TERMOGENICOS",
-              "PROBIOTICOS",
-              "OMEGA_3",
-              "CREATINA",
-              "PRE_ENTRENO",
-              "POST_ENTRENO",
-              "BARRITAS_ENERGETICAS",
-              "BEBIDAS_DEPORTIVAS",
-              "SNACKS_SALUDABLES",
-              "COMIDA_PREPARADA",
-              "CAMISETAS_DEPORTIVAS",
-              "PANTALONES_DEPORTIVOS",
-              "CALZADO_DEPORTIVO",
-              "ROPA_INTERIOR_DEPORTIVA",
-              "ACCESORIOS_DEPORTIVOS",
-              "PESAS_MANCUERNAS",
-              "BANDAS_ELASTICAS",
-              "ESTERILLAS_YOGA",
-              "EQUIPOS_CARDIO",
-              "ACCESORIOS_GIMNASIO",
-              "LIBROS_NUTRICION",
-              "GUIAS_EJERCICIO",
-              "RECETARIOS",
-              "MATERIAL_EDUCATIVO",
-              "BATIDORAS",
-              "BASCULA_COCINA",
-              "RECIPIENTES",
-              "UTENSILIOS_COCINA",
-              "PRODUCTOS_SIN_AZUCAR",
-              "PRODUCTOS_SIN_GLUTEN",
-              "PRODUCTOS_VEGANOS",
-              "ALIMENTOS_ORGANICOS",
-              "CREMAS_DEPORTIVAS",
-              "PROTECTORES_SOLARES",
-              "PRODUCTOS_NATURALES",
-              "BASCULA_CORPORAL",
-              "MONITORES_ACTIVIDAD",
-              "PULSOMETROS",
-              "APLICACIONES_MOVIL",
-              "OTROS"
-            ]
-          },
-          "precioVenta": {
-            "type": "number"
-          },
-          "precioCoste": {
-            "type": "number"
-          },
-          "tipoIva": {
-            "type": "number"
-          },
-          "stockActual": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stockMinimo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "stockMaximo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unidadMedida": {
-            "type": "string"
-          },
-          "pesoGramos": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "dimensiones": {
-            "type": "string"
-          },
-          "codigoBarras": {
-            "type": "string"
-          },
-          "imagenUrl": {
-            "type": "string"
-          },
-          "informacionNutricional": {
-            "type": "string"
-          },
-          "ingredientes": {
-            "type": "string"
-          },
-          "modoUso": {
-            "type": "string"
-          },
-          "contraindicaciones": {
-            "type": "string"
-          },
-          "activo": {
-            "type": "boolean"
-          },
-          "destacado": {
-            "type": "boolean"
-          },
-          "requiereReceta": {
-            "type": "boolean"
-          },
-          "aptoVegano": {
-            "type": "boolean"
-          },
-          "sinGluten": {
-            "type": "boolean"
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "fechaActualizacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "precioConIva": {
-            "type": "number"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelProducto": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "productoes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelProducto"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelEntityModelProducto": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "productoes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelProducto"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "EntityModelLineaFactura": {
-        "type": "object",
-        "properties": {
-          "numeroLinea": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "codigoServicio": {
-            "type": "string"
-          },
-          "descripcion": {
-            "type": "string"
-          },
-          "cantidad": {
-            "type": "number"
-          },
-          "precioUnitario": {
-            "type": "number"
-          },
-          "descuento": {
-            "type": "number"
-          },
-          "importeBruto": {
-            "type": "number"
-          },
-          "importeDescuento": {
-            "type": "number"
-          },
-          "baseImponible": {
-            "type": "number"
-          },
-          "tipoIva": {
-            "type": "number"
-          },
-          "importeIva": {
-            "type": "number"
-          },
-          "totalLinea": {
-            "type": "number"
-          },
-          "tipoLinea": {
-            "type": "string",
-            "enum": [
-              "SERVICIO",
-              "PRODUCTO",
-              "DESCUENTO",
-              "RECARGO"
-            ]
-          },
-          "loteProducto": {
-            "type": "string"
-          },
-          "fechaCaducidad": {
-            "type": "string",
-            "format": "date"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelLineaFactura": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "lineaFacturas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelLineaFactura"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelEntityModelLineaFactura": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "lineaFacturas": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelLineaFactura"
                 }
               }
             }
@@ -40901,6 +38888,25 @@
           }
         }
       },
+      "CollectionModelIngrediente": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "ingredientes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/IngredienteResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
       "CollectionModelEntityModelPlatoPredeterminado": {
         "type": "object",
         "properties": {
@@ -40973,6 +38979,1170 @@
           }
         }
       },
+      "EntityModelPlanDieta": {
+        "type": "object",
+        "properties": {
+          "id_paciente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "id_nutricionista": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fechaini": {
+            "type": "string",
+            "format": "date"
+          },
+          "fechafin": {
+            "type": "string",
+            "format": "date"
+          },
+          "calrangomin": {
+            "type": "number",
+            "format": "double"
+          },
+          "calrangomax": {
+            "type": "number",
+            "format": "double"
+          },
+          "ingestacaldiaria": {
+            "type": "number",
+            "format": "double"
+          },
+          "repartoglucidodiario": {
+            "type": "number",
+            "format": "double"
+          },
+          "repartolipidodiario": {
+            "type": "number",
+            "format": "double"
+          },
+          "repartoprotidodiario": {
+            "type": "number",
+            "format": "double"
+          },
+          "comidasdiarias": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "visible": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "intercambiable": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelPlanDieta": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "planDietas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelPlanDieta"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "EntityModelFiltroAlimentario": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "id_nutricionista": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelDiaDieta": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "diaDietas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/DiaDietaResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelEntityModelPlanDieta": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "planDietas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelPlanDieta"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelMedicionEspecifica": {
+        "type": "object",
+        "properties": {
+          "id_paciente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "grasavisceral": {
+            "type": "number",
+            "format": "double"
+          },
+          "retencionliquidos": {
+            "type": "number",
+            "format": "double"
+          },
+          "aguaid": {
+            "type": "number",
+            "format": "double"
+          },
+          "litrosagua": {
+            "type": "number",
+            "format": "double"
+          },
+          "porcentajeagua": {
+            "type": "number",
+            "format": "double"
+          },
+          "musculoidmax": {
+            "type": "number",
+            "format": "double"
+          },
+          "musculoidmin": {
+            "type": "number",
+            "format": "double"
+          },
+          "mbi": {
+            "type": "number",
+            "format": "double"
+          },
+          "metabolismo": {
+            "type": "number",
+            "format": "double"
+          },
+          "edadmet": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "musculo": {
+            "type": "number",
+            "format": "double"
+          },
+          "masaosea": {
+            "type": "number",
+            "format": "double"
+          },
+          "poxmusmax": {
+            "type": "number",
+            "format": "double"
+          },
+          "poxmusmin": {
+            "type": "number",
+            "format": "double"
+          },
+          "porcentajegrasa": {
+            "type": "number",
+            "format": "double"
+          },
+          "grasas": {
+            "type": "number",
+            "format": "double"
+          },
+          "grasasidmin": {
+            "type": "number",
+            "format": "double"
+          },
+          "grasaidmax": {
+            "type": "number",
+            "format": "double"
+          },
+          "peso": {
+            "type": "number",
+            "format": "double"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelMedicionEspecifica": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "medicionEspecificas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelMedicionEspecifica"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelEntityModelMedicionEspecifica": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "medicionEspecificas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelMedicionEspecifica"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelMedicionSegmental": {
+        "type": "object",
+        "properties": {
+          "id_paciente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date"
+          },
+          "bdporcentajegrasas": {
+            "type": "number",
+            "format": "double"
+          },
+          "bdmusculo": {
+            "type": "number",
+            "format": "double"
+          },
+          "bimusculo": {
+            "type": "number",
+            "format": "double"
+          },
+          "piporcentajegrasas": {
+            "type": "number",
+            "format": "double"
+          },
+          "pdmusculo": {
+            "type": "number",
+            "format": "double"
+          },
+          "pdporcentajegrasas": {
+            "type": "number",
+            "format": "double"
+          },
+          "tporcentajegrasa": {
+            "type": "number",
+            "format": "double"
+          },
+          "tmusculo": {
+            "type": "number",
+            "format": "double"
+          },
+          "pimusculo": {
+            "type": "number",
+            "format": "double"
+          },
+          "biporcentajegrasas": {
+            "type": "number",
+            "format": "double"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelMedicionSegmental": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "medicionSegmentals": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelMedicionSegmental"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelEntityModelMedicionSegmental": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "medicionSegmentals": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelMedicionSegmental"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelComida": {
+        "type": "object",
+        "properties": {
+          "hora": {
+            "type": "string"
+          },
+          "valoracion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelComida": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "comidas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelComida"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelPlatoPlanDieta": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "platoPlanDietas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PlatoPlanDietaResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelEntityModelComida": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "comidas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelComida"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelPlato": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "receta": {
+            "type": "string"
+          },
+          "proteinastotales": {
+            "type": "number",
+            "format": "double"
+          },
+          "grasastotales": {
+            "type": "number",
+            "format": "double"
+          },
+          "kcaltotales": {
+            "type": "number",
+            "format": "double"
+          },
+          "hidratostotales": {
+            "type": "number",
+            "format": "double"
+          },
+          "fibra": {
+            "type": "number",
+            "format": "double"
+          },
+          "sal": {
+            "type": "number",
+            "format": "double"
+          },
+          "azucar": {
+            "type": "number",
+            "format": "double"
+          },
+          "colesterol": {
+            "type": "number",
+            "format": "double"
+          },
+          "sodio": {
+            "type": "number",
+            "format": "double"
+          },
+          "potasio": {
+            "type": "number",
+            "format": "double"
+          },
+          "calcio": {
+            "type": "number",
+            "format": "double"
+          },
+          "hierro": {
+            "type": "number",
+            "format": "double"
+          },
+          "magnesio": {
+            "type": "number",
+            "format": "double"
+          },
+          "fosforo": {
+            "type": "number",
+            "format": "double"
+          },
+          "zinc": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaA": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaC": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaD": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaB6": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaB12": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaE": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaK": {
+            "type": "number",
+            "format": "double"
+          },
+          "tiamina": {
+            "type": "number",
+            "format": "double"
+          },
+          "riboflavina": {
+            "type": "number",
+            "format": "double"
+          },
+          "niacina": {
+            "type": "number",
+            "format": "double"
+          },
+          "acfolico": {
+            "type": "number",
+            "format": "double"
+          },
+          "pantotenico": {
+            "type": "number",
+            "format": "double"
+          },
+          "biotina": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaB12_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaC_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "sodio_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "potasio_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "calcio_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "hierro_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "magnesio_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "fosforo_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "zinc_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaA_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelPlato": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "platoes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelPlato"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "EntityModelRol": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelRol": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "rols": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelRol"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "EntityModelMensaje": {
+        "type": "object",
+        "properties": {
+          "contenido": {
+            "type": "string"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "leido": {
+            "type": "boolean"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelMensaje": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "mensajes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelMensaje"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "EntityModelUsuario": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "psw": {
+            "type": "string"
+          },
+          "createtime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "authorities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GrantedAuthority"
+            }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        },
+        "required": [
+          "email"
+        ]
+      },
+      "CollectionModelEntityModelMensaje": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "mensajes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelMensaje"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelAlimento": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "minLength": 1
+          },
+          "estado": {
+            "type": "string",
+            "minLength": 1
+          },
+          "cal": {
+            "type": "number",
+            "format": "double"
+          },
+          "hidratosdecarbono": {
+            "type": "number",
+            "format": "double"
+          },
+          "h2o": {
+            "type": "number",
+            "format": "double"
+          },
+          "noespecifico": {
+            "type": "number",
+            "format": "double"
+          },
+          "grasas": {
+            "type": "number",
+            "format": "double"
+          },
+          "proteinas": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitamina": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminb2": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminb1": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminc": {
+            "type": "number",
+            "format": "double"
+          },
+          "niac": {
+            "type": "number",
+            "format": "double"
+          },
+          "cobre": {
+            "type": "number",
+            "format": "double"
+          },
+          "potasio": {
+            "type": "number",
+            "format": "double"
+          },
+          "sodio": {
+            "type": "number",
+            "format": "double"
+          },
+          "azufre": {
+            "type": "number",
+            "format": "double"
+          },
+          "calcio": {
+            "type": "number",
+            "format": "double"
+          },
+          "fosforo": {
+            "type": "number",
+            "format": "double"
+          },
+          "hierro": {
+            "type": "number",
+            "format": "double"
+          },
+          "magnesio": {
+            "type": "number",
+            "format": "double"
+          },
+          "cloro": {
+            "type": "number",
+            "format": "double"
+          },
+          "met": {
+            "type": "number",
+            "format": "double"
+          },
+          "lis": {
+            "type": "number",
+            "format": "double"
+          },
+          "leu": {
+            "type": "number",
+            "format": "double"
+          },
+          "illeu": {
+            "type": "number",
+            "format": "double"
+          },
+          "tre": {
+            "type": "number",
+            "format": "double"
+          },
+          "tri": {
+            "type": "number",
+            "format": "double"
+          },
+          "fen": {
+            "type": "number",
+            "format": "double"
+          },
+          "val": {
+            "type": "number",
+            "format": "double"
+          },
+          "acid": {
+            "type": "number",
+            "format": "double"
+          },
+          "alcal": {
+            "type": "number",
+            "format": "double"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        },
+        "required": [
+          "cal",
+          "estado",
+          "nombre"
+        ]
+      },
+      "PagedModelEntityModelAlimento": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "alimentoes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelAlimento"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelEntityModelAlimento": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "alimentoes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelAlimento"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelPlatoPlanDieta": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "receta": {
+            "type": "string"
+          },
+          "proteinastotales": {
+            "type": "number",
+            "format": "double"
+          },
+          "grasastotales": {
+            "type": "number",
+            "format": "double"
+          },
+          "kcaltotales": {
+            "type": "number",
+            "format": "double"
+          },
+          "hidratostotales": {
+            "type": "number",
+            "format": "double"
+          },
+          "fibra": {
+            "type": "number",
+            "format": "double"
+          },
+          "sal": {
+            "type": "number",
+            "format": "double"
+          },
+          "azucar": {
+            "type": "number",
+            "format": "double"
+          },
+          "colesterol": {
+            "type": "number",
+            "format": "double"
+          },
+          "sodio": {
+            "type": "number",
+            "format": "double"
+          },
+          "potasio": {
+            "type": "number",
+            "format": "double"
+          },
+          "calcio": {
+            "type": "number",
+            "format": "double"
+          },
+          "hierro": {
+            "type": "number",
+            "format": "double"
+          },
+          "magnesio": {
+            "type": "number",
+            "format": "double"
+          },
+          "fosforo": {
+            "type": "number",
+            "format": "double"
+          },
+          "zinc": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaA": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaC": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaD": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaB6": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaB12": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaE": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaK": {
+            "type": "number",
+            "format": "double"
+          },
+          "tiamina": {
+            "type": "number",
+            "format": "double"
+          },
+          "riboflavina": {
+            "type": "number",
+            "format": "double"
+          },
+          "niacina": {
+            "type": "number",
+            "format": "double"
+          },
+          "acfolico": {
+            "type": "number",
+            "format": "double"
+          },
+          "pantotenico": {
+            "type": "number",
+            "format": "double"
+          },
+          "biotina": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaB12_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaC_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "sodio_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "potasio_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "calcio_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "hierro_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "magnesio_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "fosforo_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "zinc_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "vitaminaA_2": {
+            "type": "number",
+            "format": "double"
+          },
+          "cantidad": {
+            "type": "number",
+            "format": "double"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelPlatoPlanDieta": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "platoPlanDietas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelPlatoPlanDieta"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "PagedModelEntityModelUsuario": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "usuarios": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelUsuario"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
       "PagedModelEntityModelFiltroAlimentario": {
         "type": "object",
         "properties": {
@@ -41033,71 +40203,6 @@
           }
         }
       },
-      "EntityModelAntecedentesClinicos": {
-        "type": "object",
-        "properties": {
-          "fecha": {
-            "type": "string",
-            "format": "date"
-          },
-          "antecedente": {
-            "type": "string"
-          },
-          "observacion": {
-            "type": "string"
-          },
-          "descripcion": {
-            "type": "string"
-          },
-          "condicion": {
-            "type": "string"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "PagedModelEntityModelAntecedentesClinicos": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "antecedentesClinicoses": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelAntecedentesClinicos"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          },
-          "page": {
-            "$ref": "#/components/schemas/PageMetadata"
-          }
-        }
-      },
-      "CollectionModelEntityModelAntecedentesClinicos": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "antecedentesClinicoses": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/EntityModelAntecedentesClinicos"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
       "EntityModelIngrediente": {
         "type": "object",
         "properties": {
@@ -41148,16 +40253,354 @@
           }
         }
       },
-      "PagedModelEntityModelChat": {
+      "Producto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigoProducto": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "marca": {
+            "type": "string"
+          },
+          "categoria": {
+            "type": "string",
+            "enum": [
+              "SUPLEMENTOS_NUTRICIONALES",
+              "ALIMENTACION_DEPORTIVA",
+              "ROPA_DEPORTIVA",
+              "EQUIPAMIENTO_DEPORTIVO",
+              "LIBROS_NUTRICION",
+              "ACCESORIOS_COCINA",
+              "PRODUCTOS_DIETETICOS",
+              "COSMETICA_NATURAL",
+              "TECNOLOGIA_SALUD",
+              "OTROS"
+            ]
+          },
+          "subcategoria": {
+            "type": "string",
+            "enum": [
+              "PROTEINAS",
+              "AMINOACIDOS",
+              "VITAMINAS",
+              "TERMOGENICOS",
+              "PROBIOTICOS",
+              "OMEGA_3",
+              "CREATINA",
+              "PRE_ENTRENO",
+              "POST_ENTRENO",
+              "BARRITAS_ENERGETICAS",
+              "BEBIDAS_DEPORTIVAS",
+              "SNACKS_SALUDABLES",
+              "COMIDA_PREPARADA",
+              "CAMISETAS_DEPORTIVAS",
+              "PANTALONES_DEPORTIVOS",
+              "CALZADO_DEPORTIVO",
+              "ROPA_INTERIOR_DEPORTIVA",
+              "ACCESORIOS_DEPORTIVOS",
+              "PESAS_MANCUERNAS",
+              "BANDAS_ELASTICAS",
+              "ESTERILLAS_YOGA",
+              "EQUIPOS_CARDIO",
+              "ACCESORIOS_GIMNASIO",
+              "LIBROS_NUTRICION",
+              "GUIAS_EJERCICIO",
+              "RECETARIOS",
+              "MATERIAL_EDUCATIVO",
+              "BATIDORAS",
+              "BASCULA_COCINA",
+              "RECIPIENTES",
+              "UTENSILIOS_COCINA",
+              "PRODUCTOS_SIN_AZUCAR",
+              "PRODUCTOS_SIN_GLUTEN",
+              "PRODUCTOS_VEGANOS",
+              "ALIMENTOS_ORGANICOS",
+              "CREMAS_DEPORTIVAS",
+              "PROTECTORES_SOLARES",
+              "PRODUCTOS_NATURALES",
+              "BASCULA_CORPORAL",
+              "MONITORES_ACTIVIDAD",
+              "PULSOMETROS",
+              "APLICACIONES_MOVIL",
+              "OTROS"
+            ]
+          },
+          "precioVenta": {
+            "type": "number"
+          },
+          "precioCoste": {
+            "type": "number"
+          },
+          "tipoIva": {
+            "type": "number"
+          },
+          "stockActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stockMinimo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stockMaximo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unidadMedida": {
+            "type": "string"
+          },
+          "pesoGramos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dimensiones": {
+            "type": "string"
+          },
+          "codigoBarras": {
+            "type": "string"
+          },
+          "imagenUrl": {
+            "type": "string"
+          },
+          "informacionNutricional": {
+            "type": "string"
+          },
+          "ingredientes": {
+            "type": "string"
+          },
+          "modoUso": {
+            "type": "string"
+          },
+          "contraindicaciones": {
+            "type": "string"
+          },
+          "proveedor": {
+            "$ref": "#/components/schemas/Proveedor"
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "destacado": {
+            "type": "boolean"
+          },
+          "requiereReceta": {
+            "type": "boolean"
+          },
+          "aptoVegano": {
+            "type": "boolean"
+          },
+          "sinGluten": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaActualizacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "precioConIva": {
+            "type": "number"
+          }
+        }
+      },
+      "Proveedor": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nif": {
+            "type": "string"
+          },
+          "razonSocial": {
+            "type": "string"
+          },
+          "nombreComercial": {
+            "type": "string"
+          },
+          "direccion": {
+            "type": "string"
+          },
+          "codigoPostal": {
+            "type": "string"
+          },
+          "poblacion": {
+            "type": "string"
+          },
+          "provincia": {
+            "type": "string"
+          },
+          "pais": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "web": {
+            "type": "string"
+          },
+          "contactoNombre": {
+            "type": "string"
+          },
+          "contactoTelefono": {
+            "type": "string"
+          },
+          "contactoEmail": {
+            "type": "string"
+          },
+          "tipoProveedor": {
+            "type": "string",
+            "enum": [
+              "SUPLEMENTOS_DEPORTIVOS",
+              "ALIMENTACION_NATURAL",
+              "ROPA_DEPORTIVA",
+              "EQUIPAMIENTO_DEPORTIVO",
+              "EDITORIAL_LIBROS",
+              "TECNOLOGIA_SALUD",
+              "COSMETICA_NATURAL",
+              "UTENSILIOS_COCINA",
+              "MAYORISTA_GENERAL",
+              "FABRICANTE_DIRECTO",
+              "DISTRIBUIDOR_OFICIAL",
+              "OTROS"
+            ]
+          },
+          "condicionesPagoDias": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descuentoVolumen": {
+            "type": "number",
+            "format": "double"
+          },
+          "observaciones": {
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "fechaAlta": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaActualizacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "productos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Producto"
+            }
+          }
+        }
+      },
+      "EntityModelFactura": {
+        "type": "object",
+        "properties": {
+          "numeroFactura": {
+            "type": "string"
+          },
+          "fechaEmision": {
+            "type": "string",
+            "format": "date"
+          },
+          "fechaVencimiento": {
+            "type": "string",
+            "format": "date"
+          },
+          "baseImponible": {
+            "type": "number"
+          },
+          "tipoIva": {
+            "type": "number"
+          },
+          "importeIva": {
+            "type": "number"
+          },
+          "total": {
+            "type": "number"
+          },
+          "estado": {
+            "type": "string",
+            "enum": [
+              "BORRADOR",
+              "PENDIENTE",
+              "ENVIADA",
+              "PAGADA",
+              "VENCIDA",
+              "ANULADA",
+              "REGISTRADA_VERIFACTU",
+              "ERROR_VERIFACTU"
+            ]
+          },
+          "numeroRegistroVerifactu": {
+            "type": "string"
+          },
+          "hashVerifactu": {
+            "type": "string"
+          },
+          "fechaRegistroVerifactu": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requiereFacturae": {
+            "type": "boolean"
+          },
+          "rutaFacturaeXml": {
+            "type": "string"
+          },
+          "certificadoUtilizado": {
+            "type": "string"
+          },
+          "observaciones": {
+            "type": "string"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaModificacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "usuarioCreacion": {
+            "type": "string"
+          },
+          "usuarioModificacion": {
+            "type": "string"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelFactura": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "chats": {
+              "facturas": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelChat"
+                  "$ref": "#/components/schemas/EntityModelFactura"
                 }
               }
             }
@@ -41170,16 +40613,16 @@
           }
         }
       },
-      "CollectionModelMensaje": {
+      "CollectionModelLineaFactura": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "mensajes": {
+              "lineaFacturas": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/MensajeResponse"
+                  "$ref": "#/components/schemas/LineaFacturaResponse"
                 }
               }
             }
@@ -41189,16 +40632,564 @@
           }
         }
       },
-      "CollectionModelEntityModelChat": {
+      "EntityModelMedicionGeneral": {
+        "type": "object",
+        "properties": {
+          "id_paciente": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date"
+          },
+          "pesoideal": {
+            "type": "number",
+            "format": "double"
+          },
+          "pesoactual": {
+            "type": "number",
+            "format": "double"
+          },
+          "brazo": {
+            "type": "number",
+            "format": "double"
+          },
+          "icc": {
+            "type": "number",
+            "format": "double"
+          },
+          "porcentajegrasas": {
+            "type": "number",
+            "format": "double"
+          },
+          "imc": {
+            "type": "number",
+            "format": "double"
+          },
+          "tensionmin": {
+            "type": "number",
+            "format": "double"
+          },
+          "tensionmax": {
+            "type": "number",
+            "format": "double"
+          },
+          "cadera": {
+            "type": "number",
+            "format": "double"
+          },
+          "cintura": {
+            "type": "number",
+            "format": "double"
+          },
+          "muslo": {
+            "type": "number",
+            "format": "double"
+          },
+          "pantorrilla": {
+            "type": "number",
+            "format": "double"
+          },
+          "pecho": {
+            "type": "number",
+            "format": "double"
+          },
+          "abdomen": {
+            "type": "number",
+            "format": "double"
+          },
+          "cuello": {
+            "type": "number",
+            "format": "double"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelMedicionGeneral": {
         "type": "object",
         "properties": {
           "_embedded": {
             "type": "object",
             "properties": {
-              "chats": {
+              "medicionGenerals": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/EntityModelChat"
+                  "$ref": "#/components/schemas/EntityModelMedicionGeneral"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelEntityModelMedicionGeneral": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "medicionGenerals": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelMedicionGeneral"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelLineaFactura": {
+        "type": "object",
+        "properties": {
+          "numeroLinea": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "codigoServicio": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "cantidad": {
+            "type": "number"
+          },
+          "precioUnitario": {
+            "type": "number"
+          },
+          "descuento": {
+            "type": "number"
+          },
+          "importeBruto": {
+            "type": "number"
+          },
+          "importeDescuento": {
+            "type": "number"
+          },
+          "baseImponible": {
+            "type": "number"
+          },
+          "tipoIva": {
+            "type": "number"
+          },
+          "importeIva": {
+            "type": "number"
+          },
+          "totalLinea": {
+            "type": "number"
+          },
+          "tipoLinea": {
+            "type": "string",
+            "enum": [
+              "SERVICIO",
+              "PRODUCTO",
+              "DESCUENTO",
+              "RECARGO"
+            ]
+          },
+          "loteProducto": {
+            "type": "string"
+          },
+          "fechaCaducidad": {
+            "type": "string",
+            "format": "date"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelLineaFactura": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "lineaFacturas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelLineaFactura"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "EntityModelProducto": {
+        "type": "object",
+        "properties": {
+          "codigoProducto": {
+            "type": "string"
+          },
+          "nombre": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "marca": {
+            "type": "string"
+          },
+          "categoria": {
+            "type": "string",
+            "enum": [
+              "SUPLEMENTOS_NUTRICIONALES",
+              "ALIMENTACION_DEPORTIVA",
+              "ROPA_DEPORTIVA",
+              "EQUIPAMIENTO_DEPORTIVO",
+              "LIBROS_NUTRICION",
+              "ACCESORIOS_COCINA",
+              "PRODUCTOS_DIETETICOS",
+              "COSMETICA_NATURAL",
+              "TECNOLOGIA_SALUD",
+              "OTROS"
+            ]
+          },
+          "subcategoria": {
+            "type": "string",
+            "enum": [
+              "PROTEINAS",
+              "AMINOACIDOS",
+              "VITAMINAS",
+              "TERMOGENICOS",
+              "PROBIOTICOS",
+              "OMEGA_3",
+              "CREATINA",
+              "PRE_ENTRENO",
+              "POST_ENTRENO",
+              "BARRITAS_ENERGETICAS",
+              "BEBIDAS_DEPORTIVAS",
+              "SNACKS_SALUDABLES",
+              "COMIDA_PREPARADA",
+              "CAMISETAS_DEPORTIVAS",
+              "PANTALONES_DEPORTIVOS",
+              "CALZADO_DEPORTIVO",
+              "ROPA_INTERIOR_DEPORTIVA",
+              "ACCESORIOS_DEPORTIVOS",
+              "PESAS_MANCUERNAS",
+              "BANDAS_ELASTICAS",
+              "ESTERILLAS_YOGA",
+              "EQUIPOS_CARDIO",
+              "ACCESORIOS_GIMNASIO",
+              "LIBROS_NUTRICION",
+              "GUIAS_EJERCICIO",
+              "RECETARIOS",
+              "MATERIAL_EDUCATIVO",
+              "BATIDORAS",
+              "BASCULA_COCINA",
+              "RECIPIENTES",
+              "UTENSILIOS_COCINA",
+              "PRODUCTOS_SIN_AZUCAR",
+              "PRODUCTOS_SIN_GLUTEN",
+              "PRODUCTOS_VEGANOS",
+              "ALIMENTOS_ORGANICOS",
+              "CREMAS_DEPORTIVAS",
+              "PROTECTORES_SOLARES",
+              "PRODUCTOS_NATURALES",
+              "BASCULA_CORPORAL",
+              "MONITORES_ACTIVIDAD",
+              "PULSOMETROS",
+              "APLICACIONES_MOVIL",
+              "OTROS"
+            ]
+          },
+          "precioVenta": {
+            "type": "number"
+          },
+          "precioCoste": {
+            "type": "number"
+          },
+          "tipoIva": {
+            "type": "number"
+          },
+          "stockActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stockMinimo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "stockMaximo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unidadMedida": {
+            "type": "string"
+          },
+          "pesoGramos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dimensiones": {
+            "type": "string"
+          },
+          "codigoBarras": {
+            "type": "string"
+          },
+          "imagenUrl": {
+            "type": "string"
+          },
+          "informacionNutricional": {
+            "type": "string"
+          },
+          "ingredientes": {
+            "type": "string"
+          },
+          "modoUso": {
+            "type": "string"
+          },
+          "contraindicaciones": {
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "destacado": {
+            "type": "boolean"
+          },
+          "requiereReceta": {
+            "type": "boolean"
+          },
+          "aptoVegano": {
+            "type": "boolean"
+          },
+          "sinGluten": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaActualizacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "precioConIva": {
+            "type": "number"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelEntityModelLineaFactura": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "lineaFacturas": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelLineaFactura"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelProducto": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "productoes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelProducto"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "EntityModelProveedor": {
+        "type": "object",
+        "properties": {
+          "nif": {
+            "type": "string"
+          },
+          "razonSocial": {
+            "type": "string"
+          },
+          "nombreComercial": {
+            "type": "string"
+          },
+          "direccion": {
+            "type": "string"
+          },
+          "codigoPostal": {
+            "type": "string"
+          },
+          "poblacion": {
+            "type": "string"
+          },
+          "provincia": {
+            "type": "string"
+          },
+          "pais": {
+            "type": "string"
+          },
+          "telefono": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "web": {
+            "type": "string"
+          },
+          "contactoNombre": {
+            "type": "string"
+          },
+          "contactoTelefono": {
+            "type": "string"
+          },
+          "contactoEmail": {
+            "type": "string"
+          },
+          "tipoProveedor": {
+            "type": "string",
+            "enum": [
+              "SUPLEMENTOS_DEPORTIVOS",
+              "ALIMENTACION_NATURAL",
+              "ROPA_DEPORTIVA",
+              "EQUIPAMIENTO_DEPORTIVO",
+              "EDITORIAL_LIBROS",
+              "TECNOLOGIA_SALUD",
+              "COSMETICA_NATURAL",
+              "UTENSILIOS_COCINA",
+              "MAYORISTA_GENERAL",
+              "FABRICANTE_DIRECTO",
+              "DISTRIBUIDOR_OFICIAL",
+              "OTROS"
+            ]
+          },
+          "condicionesPagoDias": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descuentoVolumen": {
+            "type": "number",
+            "format": "double"
+          },
+          "observaciones": {
+            "type": "string"
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "fechaAlta": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaActualizacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelEntityModelProducto": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "productoes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelProducto"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "PagedModelEntityModelProveedor": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "proveedors": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelProveedor"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          },
+          "page": {
+            "$ref": "#/components/schemas/PageMetadata"
+          }
+        }
+      },
+      "CollectionModelProducto": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "productoes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/ProductoResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelEntityModelProveedor": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "proveedors": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/EntityModelProveedor"
                 }
               }
             }
@@ -41810,15 +41801,6 @@
               "type": "string"
             }
           },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
           "password": {
             "type": "string"
           },
@@ -41830,6 +41812,15 @@
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -41940,15 +41931,6 @@
               "type": "string"
             }
           },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
           "password": {
             "type": "string"
           },
@@ -41960,6 +41942,15 @@
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -42301,15 +42292,6 @@
               "type": "string"
             }
           },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
           "password": {
             "type": "string"
           },
@@ -42321,6 +42303,15 @@
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -42842,15 +42833,6 @@
           "sexo": {
             "type": "string"
           },
-          "accountNonExpired": {
-            "type": "boolean"
-          },
-          "accountNonLocked": {
-            "type": "boolean"
-          },
-          "credentialsNonExpired": {
-            "type": "boolean"
-          },
           "password": {
             "type": "string"
           },
@@ -42862,6 +42844,15 @@
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
+          },
+          "accountNonExpired": {
+            "type": "boolean"
+          },
+          "credentialsNonExpired": {
+            "type": "boolean"
+          },
+          "accountNonLocked": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -44494,12 +44485,12 @@
             "type": "number",
             "format": "double"
           },
+          "nutritionallyComplete": {
+            "type": "boolean"
+          },
           "totalMacronutrients": {
             "type": "number",
             "format": "double"
-          },
-          "nutritionallyComplete": {
-            "type": "boolean"
           }
         }
       },
@@ -46395,19 +46386,13 @@
       "PageProducto": {
         "type": "object",
         "properties": {
-          "totalElements": {
-            "type": "integer",
-            "format": "int64"
-          },
           "totalPages": {
             "type": "integer",
             "format": "int32"
           },
-          "first": {
-            "type": "boolean"
-          },
-          "last": {
-            "type": "boolean"
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
           },
           "size": {
             "type": "integer",
@@ -46426,12 +46411,18 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
           "numberOfElements": {
             "type": "integer",
             "format": "int32"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "empty": {
             "type": "boolean"
@@ -46538,19 +46529,13 @@
       "PageAlimentoDTO": {
         "type": "object",
         "properties": {
-          "totalElements": {
-            "type": "integer",
-            "format": "int64"
-          },
           "totalPages": {
             "type": "integer",
             "format": "int32"
           },
-          "first": {
-            "type": "boolean"
-          },
-          "last": {
-            "type": "boolean"
+          "totalElements": {
+            "type": "integer",
+            "format": "int64"
           },
           "size": {
             "type": "integer",
@@ -46569,12 +46554,18 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
+          },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
           "numberOfElements": {
             "type": "integer",
             "format": "int32"
-          },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
           },
           "empty": {
             "type": "boolean"
