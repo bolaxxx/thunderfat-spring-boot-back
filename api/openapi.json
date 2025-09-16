@@ -37412,25 +37412,25 @@
           "numeroColegiadoProfesional": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           }
         },
@@ -37545,25 +37545,25 @@
               "$ref": "#/components/schemas/PlanDieta"
             }
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           }
         },
@@ -37966,25 +37966,25 @@
           "sexo": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           },
           "_links": {
@@ -38054,25 +38054,25 @@
           "numeroColegiadoProfesional": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           },
           "_links": {
@@ -38124,25 +38124,6 @@
           }
         }
       },
-      "CollectionModelPaciente": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "pacientes": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/PacienteResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
       "CollectionModelRol": {
         "type": "object",
         "properties": {
@@ -38153,6 +38134,25 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/RolResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelPaciente": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "pacientes": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PacienteResponse"
                 }
               }
             }
@@ -38332,6 +38332,25 @@
           }
         }
       },
+      "CollectionModelAntecedentesClinicos": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "antecedentesClinicoses": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/AntecedentesClinicosResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
       "CollectionModelMedicionEspecifica": {
         "type": "object",
         "properties": {
@@ -38370,44 +38389,6 @@
           }
         }
       },
-      "CollectionModelMedicionGeneral": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "medicionGenerals": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/MedicionGeneralResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
-      "CollectionModelAntecedentesClinicos": {
-        "type": "object",
-        "properties": {
-          "_embedded": {
-            "type": "object",
-            "properties": {
-              "antecedentesClinicoses": {
-                "type": "array",
-                "items": {
-                  "$ref": "#/components/schemas/AntecedentesClinicosResponse"
-                }
-              }
-            }
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
       "CollectionModelAntecedenteTratamiento": {
         "type": "object",
         "properties": {
@@ -38418,6 +38399,25 @@
                 "type": "array",
                 "items": {
                   "$ref": "#/components/schemas/AntecedenteTratamientoResponse"
+                }
+              }
+            }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "CollectionModelMedicionGeneral": {
+        "type": "object",
+        "properties": {
+          "_embedded": {
+            "type": "object",
+            "properties": {
+              "medicionGenerals": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/MedicionGeneralResponse"
                 }
               }
             }
@@ -39061,24 +39061,6 @@
           }
         }
       },
-      "EntityModelFiltroAlimentario": {
-        "type": "object",
-        "properties": {
-          "nombre": {
-            "type": "string"
-          },
-          "descripcion": {
-            "type": "string"
-          },
-          "id_nutricionista": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "_links": {
-            "$ref": "#/components/schemas/Links"
-          }
-        }
-      },
       "CollectionModelDiaDieta": {
         "type": "object",
         "properties": {
@@ -39092,6 +39074,24 @@
                 }
               }
             }
+          },
+          "_links": {
+            "$ref": "#/components/schemas/Links"
+          }
+        }
+      },
+      "EntityModelFiltroAlimentario": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string"
+          },
+          "descripcion": {
+            "type": "string"
+          },
+          "id_nutricionista": {
+            "type": "integer",
+            "format": "int32"
           },
           "_links": {
             "$ref": "#/components/schemas/Links"
@@ -39699,25 +39699,25 @@
           "enabled": {
             "type": "boolean"
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           },
           "_links": {
@@ -41801,25 +41801,25 @@
               "type": "string"
             }
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           }
         },
@@ -41931,25 +41931,25 @@
               "type": "string"
             }
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           }
         },
@@ -42292,25 +42292,25 @@
               "type": "string"
             }
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           }
         },
@@ -42833,25 +42833,25 @@
           "sexo": {
             "type": "string"
           },
-          "password": {
-            "type": "string"
-          },
-          "username": {
-            "type": "string"
-          },
           "authorities": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GrantedAuthority"
             }
           },
-          "accountNonExpired": {
+          "password": {
+            "type": "string"
+          },
+          "username": {
+            "type": "string"
+          },
+          "accountNonLocked": {
             "type": "boolean"
           },
           "credentialsNonExpired": {
             "type": "boolean"
           },
-          "accountNonLocked": {
+          "accountNonExpired": {
             "type": "boolean"
           }
         },
@@ -46394,6 +46394,12 @@
             "type": "integer",
             "format": "int64"
           },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
           "size": {
             "type": "integer",
             "format": "int32"
@@ -46411,18 +46417,12 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
-          },
-          "first": {
-            "type": "boolean"
-          },
-          "last": {
-            "type": "boolean"
-          },
           "numberOfElements": {
             "type": "integer",
             "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
           },
           "empty": {
             "type": "boolean"
@@ -46439,9 +46439,6 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "paged": {
-            "type": "boolean"
-          },
           "pageNumber": {
             "type": "integer",
             "format": "int32"
@@ -46449,6 +46446,9 @@
           "pageSize": {
             "type": "integer",
             "format": "int32"
+          },
+          "paged": {
+            "type": "boolean"
           },
           "unpaged": {
             "type": "boolean"
@@ -46537,6 +46537,12 @@
             "type": "integer",
             "format": "int64"
           },
+          "first": {
+            "type": "boolean"
+          },
+          "last": {
+            "type": "boolean"
+          },
           "size": {
             "type": "integer",
             "format": "int32"
@@ -46554,18 +46560,12 @@
           "sort": {
             "$ref": "#/components/schemas/SortObject"
           },
-          "pageable": {
-            "$ref": "#/components/schemas/PageableObject"
-          },
-          "first": {
-            "type": "boolean"
-          },
-          "last": {
-            "type": "boolean"
-          },
           "numberOfElements": {
             "type": "integer",
             "format": "int32"
+          },
+          "pageable": {
+            "$ref": "#/components/schemas/PageableObject"
           },
           "empty": {
             "type": "boolean"

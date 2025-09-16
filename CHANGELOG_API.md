@@ -26,6 +26,14 @@ All notable changes to the ThunderFat API will be documented in this file.
 - SDK regenerated with latest changes
 
 
+## [0.1.0] - 2025-09-16
+
+### Changed
+- Version bump to 0.1.0 (minor release)
+- API specification updated
+- SDK regenerated with latest changes
+
+
 ## [0.1.0] - 2025-09-15
 
 ### Changed
