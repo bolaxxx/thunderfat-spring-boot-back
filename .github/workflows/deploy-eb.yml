@@ -15,6 +15,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
       
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -150,11 +153,32 @@ jobs:
           ]
           EOL
       
-      - name: List available solution stacks
+      - name: List and select available solution stacks
+        id: solution_stack
         if: steps.check_env.outputs.ENV_EXISTS == 'false'
         run: |
           echo "Available solution stacks:"
-          aws elasticbeanstalk list-available-solution-stacks --region eu-west-1 | grep -i corretto
+          STACKS=$(aws elasticbeanstalk list-available-solution-stacks --region eu-west-1 --output json)
+          echo "$STACKS" | grep -i corretto
+          
+          # Find the latest Corretto 21 stack
+          CORRETTO_STACK=$(echo "$STACKS" | jq -r '.SolutionStacks[]' | grep -i corretto | grep -i "21" | head -1)
+          echo "Found Corretto stack: $CORRETTO_STACK"
+          
+          # If no Corretto 21 stack found, try Corretto 17 as fallback
+          if [ -z "$CORRETTO_STACK" ]; then
+            CORRETTO_STACK=$(echo "$STACKS" | jq -r '.SolutionStacks[]' | grep -i corretto | grep -i "17" | head -1)
+            echo "Falling back to Corretto 17 stack: $CORRETTO_STACK"
+          fi
+          
+          # If still no Corretto stack found, use the first Java stack
+          if [ -z "$CORRETTO_STACK" ]; then
+            CORRETTO_STACK=$(echo "$STACKS" | jq -r '.SolutionStacks[]' | grep -i java | head -1)
+            echo "Falling back to any Java stack: $CORRETTO_STACK"
+          fi
+          
+          echo "STACK_NAME=${CORRETTO_STACK}" >> $GITHUB_OUTPUT
+          echo "Selected stack: ${CORRETTO_STACK}"
 
       - name: Create Elastic Beanstalk environment
         if: steps.check_env.outputs.ENV_EXISTS == 'false'
@@ -162,7 +186,7 @@ jobs:
           aws elasticbeanstalk create-environment \
             --application-name "ThunderFat-API" \
             --environment-name "thunderfat-api-prod" \
-            --solution-stack-name "64bit Amazon Linux 2 v3.5.8 running Corretto 21" \
+            --solution-stack-name "${{ steps.solution_stack.outputs.STACK_NAME }}" \
             --version-label "${{ steps.version_label.outputs.LABEL }}" \
             --option-settings file://eb-options.json \
             --region eu-west-1
