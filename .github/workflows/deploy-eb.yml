@@ -46,10 +46,26 @@ jobs:
       
       - name: Upload to S3
         run: |
-          aws s3 cp target/thunderfat-spring-boot-backend-${{ steps.get_version.outputs.VERSION }}.jar \
-            s3://thunderfat-deployments/
+          aws s3 cp target/thunderfat-spring-boot-backend-${{ steps.get_version.outputs.VERSION }}.jar s3://thunderfat-deployments/
       
-      - name: Deploy to Elastic Beanstalk
+      - name: Check if Elastic Beanstalk application exists
+        id: check_app
+        run: |
+          if aws elasticbeanstalk describe-applications --application-names "ThunderFat-API" --region eu-west-1 2>&1 | grep -q "ThunderFat-API"; then
+            echo "APP_EXISTS=true" >> $GITHUB_OUTPUT
+          else
+            echo "APP_EXISTS=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create Elastic Beanstalk application
+        if: steps.check_app.outputs.APP_EXISTS == 'false'
+        run: |
+          aws elasticbeanstalk create-application \
+            --application-name "ThunderFat-API" \
+            --description "Spring Boot Backend for ThunderFat nutrition management system" \
+            --region eu-west-1
+      
+      - name: Create application version
         run: |
           aws elasticbeanstalk create-application-version \
             --application-name "ThunderFat-API" \
@@ -57,7 +73,97 @@ jobs:
             --source-bundle S3Bucket="thunderfat-deployments",S3Key="thunderfat-spring-boot-backend-${{ steps.get_version.outputs.VERSION }}.jar" \
             --description "Automated deployment from GitHub Actions" \
             --region eu-west-1
-          
+      
+      - name: Check if environment exists
+        id: check_env
+        run: |
+          if aws elasticbeanstalk describe-environments --application-name "ThunderFat-API" --environment-names "thunderfat-api-prod" --region eu-west-1 2>&1 | grep -q "thunderfat-api-prod"; then
+            echo "ENV_EXISTS=true" >> $GITHUB_OUTPUT
+          else
+            echo "ENV_EXISTS=false" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: Create environment option settings file
+        run: |
+          cat > eb-options.json << 'EOL'
+          [
+            {
+              "Namespace": "aws:autoscaling:launchconfiguration",
+              "OptionName": "IamInstanceProfile",
+              "Value": "aws-elasticbeanstalk-ec2-role"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:application:environment",
+              "OptionName": "SPRING_PROFILES_ACTIVE",
+              "Value": "prod"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:environment",
+              "OptionName": "EnvironmentType",
+              "Value": "LoadBalanced"
+            },
+            {
+              "Namespace": "aws:autoscaling:asg",
+              "OptionName": "MinSize",
+              "Value": "1"
+            },
+            {
+              "Namespace": "aws:autoscaling:asg",
+              "OptionName": "MaxSize",
+              "Value": "2"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:application:environment",
+              "OptionName": "MYSQL_HOST",
+              "Value": "thunderfatboot.cl8caassgc3s.eu-north-1.rds.amazonaws.com"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:application:environment",
+              "OptionName": "MYSQL_PORT",
+              "Value": "3306"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:application:environment",
+              "OptionName": "MYSQL_DATABASE",
+              "Value": "thunderfatboot"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:application:environment",
+              "OptionName": "MYSQL_USERNAME",
+              "Value": "admin"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:application:environment",
+              "OptionName": "MYSQL_PASSWORD",
+              "Value": "meYEzOi7UovHYulQfdMU"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:application:environment",
+              "OptionName": "REDIS_HOST",
+              "Value": "clustercfg.thunderfat.filxxb.eun1.cache.amazonaws.com"
+            },
+            {
+              "Namespace": "aws:elasticbeanstalk:application:environment",
+              "OptionName": "REDIS_PORT",
+              "Value": "6379"
+            }
+          ]
+          EOL
+      
+      - name: Create Elastic Beanstalk environment
+        if: steps.check_env.outputs.ENV_EXISTS == 'false'
+        run: |
+          aws elasticbeanstalk create-environment \
+            --application-name "ThunderFat-API" \
+            --environment-name "thunderfat-api-prod" \
+            --solution-stack-name "64bit Amazon Linux 2023 v4.0.1 running Corretto 21" \
+            --version-label "${{ steps.version_label.outputs.LABEL }}" \
+            --option-settings file://eb-options.json \
+            --region eu-west-1
+      
+      - name: Update Elastic Beanstalk environment
+        if: steps.check_env.outputs.ENV_EXISTS == 'true'
+        run: |
           aws elasticbeanstalk update-environment \
             --application-name "ThunderFat-API" \
             --environment-name "thunderfat-api-prod" \
